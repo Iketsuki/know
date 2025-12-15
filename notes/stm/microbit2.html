@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f680; Mission&colon; The Smart Dice &#x1f3b2;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="-mission-the-smart-dice-">🚀 Mission: The Smart Dice 🎲</h2>
+<p><strong>Objective:</strong> To transform your <code>micro:bit</code> into a smart, interactive digital dice that can be activated by a gesture, and provide visual and audio feedback.</p>
+<p><strong>Tools &amp; Resources:</strong></p>
+<ul>
+<li>Your <code>micro:bit</code> device.</li>
+<li>The <code>micro:bit</code> Python Editor: <code>https://python.microbit.org/</code></li>
+<li>The <code>micro:bit</code> Python Reference: <code>https://python.microbit.org/v/3/reference</code> (Your primary source of answers!)</li>
+</ul>
+<hr>
+<h3 id="phase-1-the-basic-dice-review-and-launch">Phase 1: The Basic Dice (Review and Launch)</h3>
+<p>You have been provided with the starting code for a basic dice.</p>
+<p><strong>Concept Check:</strong></p>
+<ol>
+<li><strong>Input:</strong> What must you do to the <code>micro:bit</code>'s code for it to start running?</li>
+<li><strong>Output:</strong> What kind of output does this initial code produce? What specific hardware component is responsible for showing the number?</li>
+<li><strong>Core Components:</strong>
+<ul>
+<li>What does the <code>import random</code> line allow the code to do?</li>
+<li>What is the role of the <code>while True:</code> loop in this code? (Hint: Why does the code repeat?)</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="phase-2-activating-the-dice-with-a-gesture-input-sensor-challenge">Phase 2: Activating the Dice with a Gesture (Input Sensor Challenge)</h3>
+<p>The basic dice is annoying because it keeps rolling on its own! A real dice only rolls when you pick it up and shake it. We want the <code>micro:bit</code> to only roll when it senses a <strong>shake</strong>.</p>
+<p><strong>Mission Goal 2:</strong> <strong>Modify the code so the dice only rolls a new number when the <code>micro:bit</code> is shaken.</strong></p>
+<p><strong>Conceptual Clues:</strong></p>
+<ol>
+<li><strong>New Input:</strong> You need to use one of the <strong>on-board sensors</strong> to detect movement. Which part of the <code>micro:bit</code> is responsible for sensing motion? (Hint: Check the reference for sensors that detect acceleration or movement.)</li>
+<li><strong>Detection:</strong> How do you check if a specific <strong>gesture</strong> (like 'shake') has just occurred?</li>
+<li><strong>Control Structure:</strong> You will need an <code>if</code> statement to check for the gesture. The code to roll the dice (the <code>random.randint</code> and <code>display.show</code>) should only run <em>if</em> the shake is detected.</li>
+</ol>
+<p><strong>🛠️ Task:</strong> Use the <code>micro:bit</code> reference to find the tools that let you detect the <strong>'shake' gesture</strong> and implement this logic in your code.</p>
+<hr>
+<h3 id="phase-3-celebrate-the-roll-audio-output-challenge">Phase 3: Celebrate the Roll (Audio Output Challenge)</h3>
+<p>A good dice roll deserves some fanfare! Before the number is shown, we want the <code>micro:bit</code> to play a celebratory tune.</p>
+<p><strong>Mission Goal 3:</strong> <strong>Make the <code>micro:bit</code> play a short sound/jingle immediately before the new dice number is displayed.</strong></p>
+<p><strong>Conceptual Clues:</strong></p>
+<ol>
+<li><strong>New Tool:</strong> Playing music requires a specific <strong>module</strong> to be imported. What is the name of the module that handles sound and music? (Hint: Look for sections about music or sound in the reference.)</li>
+<li><strong>Playing a Tune:</strong> You need to find the specific command that tells the <code>micro:bit</code> to play a sequence of notes.</li>
+<li><strong>Speaker:</strong> What hardware component on the <code>micro:bit</code> is used to output the sound?</li>
+</ol>
+<p><strong>🛠️ Task:</strong> Use the <code>micro:bit</code> reference to find how to <strong>import the music module</strong> and then find a way to <strong>play a note sequence</strong> inside your <code>if accelerometer.was_gesture('shake'):</code> block.</p>
+<hr>
+<h3 id="phase-4-speak-the-score-conditional-audio-output-challenge">Phase 4: Speak the Score (Conditional Audio Output Challenge)</h3>
+<p>Now that the dice is shaken, and a number is displayed, let's make the <code>micro:bit</code> announce the result!</p>
+<p><strong>Mission Goal 4:</strong> <strong>Make the <code>micro:bit</code> say the number it rolled after it is displayed. Create different spoken announcements for different numbers (e.g., 'it is onee!', 'threeeeee', 'six, seven?').</strong></p>
+<p><strong>Conceptual Clues:</strong></p>
+<ol>
+<li><strong>Another New Tool:</strong> Saying words requires a different <strong>module</strong> than playing music. What is the name of the module that handles <strong>speech synthesis</strong>?</li>
+<li><strong>Spoken Output:</strong> What is the command that allows you to make the <code>micro:bit</code> speak a word or phrase?</li>
+<li><strong>Making Decisions:</strong> To say a <em>different</em> phrase for each number, you must use a set of <strong>conditional statements</strong> (<code>if</code>, <code>elif</code>). You will need to check the value of the variable holding the random number (<code>x</code>) and execute the correct <code>speak</code> command.</li>
+</ol>
+<p><strong>🛠️ Task:</strong> Find the <strong>speech module</strong> commands and use <code>if/elif</code> statements to make your <code>micro:bit</code> announce the rolled number with personality!</p>
+<hr>
+<h3 id="phase-5-the-button-backup-alternative-input-challenge">Phase 5: The Button Backup (Alternative Input Challenge)</h3>
+<p>Sometimes, you don't want to shake the device. Give the user an alternative way to roll the dice.</p>
+<p><strong>Mission Goal 5:</strong> <strong>Allow the user to roll the dice (triggering the music, display, and speech) by pressing either Button A or Button B, in addition to shaking it.</strong></p>
+<p><strong>Conceptual Clues:</strong></p>
+<ol>
+<li><strong>Alternative Input:</strong> Which part of the <code>micro:bit</code> is responsible for detecting a <strong>button press</strong>?</li>
+<li><strong>Detecting a Press:</strong> Find the command that checks if a specific button (like <code>button_a</code>) has been <strong>pressed</strong>.</li>
+<li><strong>Combining Conditions:</strong> You need your core dice-rolling code to run if EITHER the shake gesture is detected OR a button is pressed. This will require you to combine two separate conditions using a logical operator (<code>and</code>, <code>or</code>).</li>
+</ol>
+<p><strong>🛠️ Task:</strong> Find the <strong>button-checking</strong> commands and rewrite your main <code>if</code> statement to check for <strong>either a shake OR a button press</strong> to roll the dice.</p>
+
+            
+            
+        </body>
+        </html>

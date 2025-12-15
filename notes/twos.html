@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Worksheet&colon; Exploring the Circle of Bits</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="worksheet-exploring-the-circle-of-bits">Worksheet: Exploring the Circle of Bits</h1>
+<p><strong>Objective:</strong> Investigate how computers store numbers, how they &quot;wrap around&quot; (overflow), and how the same pattern of zeros and ones can mean different things.</p>
+<h3 id="part-1-the-unsigned-reality-vs-the-signed-visual">Part 1: The &quot;Unsigned&quot; Reality vs. The &quot;Signed&quot; Visual</h3>
+<p><em>Set the visualizer to <strong>4-Bit System</strong> and the mode to <strong>Intro</strong>.</em></p>
+<ol>
+<li>
+<p><strong>Pattern Spotting:</strong> Click the <strong>+1</strong> button to count up from 0. Watch the binary bits.</p>
+<ul>
+<li>What binary pattern represents the number 7? <code>________</code></li>
+<li>Click <strong>+1</strong> again. The tool shows <code>-8</code>.</li>
+<li><strong>Stop!</strong> If we were treating these 4 bits as a standard <strong>Unsigned Integer</strong> (just normal binary counting), what <em>should</em> come after 7 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mn>0111</mn><mn>2</mn></msub></mrow><annotation encoding="application/x-tex">0111_2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7944em;vertical-align:-0.15em;"></span><span class="mord">011</span><span class="mord"><span class="mord">1</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)?
+<ul>
+<li>Binary: <code>________</code></li>
+<li>Decimal: <code>________</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Hexadecimal Translation:</strong>
+Find the following values on the wheel. Write down the 4-bit Binary pattern you see, then translate that pattern into a single <strong>Hexadecimal</strong> digit.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Tool Value (Signed)</th>
+<th style="text-align:left">Binary Pattern (Visible)</th>
+<th style="text-align:left">Hexadecimal Digit (Calculated)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0</td>
+<td style="text-align:left"><code>0000</code></td>
+<td style="text-align:left"><code>0</code></td>
+</tr>
+<tr>
+<td style="text-align:left">-1</td>
+<td style="text-align:left"><code>1111</code></td>
+<td style="text-align:left"><code>F</code></td>
+</tr>
+<tr>
+<td style="text-align:left">-2</td>
+<td style="text-align:left"><code>________</code></td>
+<td style="text-align:left"><code>________</code></td>
+</tr>
+<tr>
+<td style="text-align:left">5</td>
+<td style="text-align:left"><code>________</code></td>
+<td style="text-align:left"><code>________</code></td>
+</tr>
+<tr>
+<td style="text-align:left">-8</td>
+<td style="text-align:left"><code>________</code></td>
+<td style="text-align:left"><code>________</code></td>
+</tr>
+</tbody>
+</table>
+<p><em>Critical Thinking:</em> Why is Hexadecimal useful for representing these 4-bit patterns, regardless of whether the number is positive or negative?</p>
+<hr>
+</li>
+</ol>
+<hr>
+<h3 id="part-2-cracking-the-code-2s-complement">Part 2: Cracking the Code (2's Complement)</h3>
+<p><em>Switch to the <strong>Sign</strong> tab.</em></p>
+<ol start="3">
+<li>
+<p><strong>The MSB Rule:</strong>
+Toggle the bits in the &quot;Explorative Lab&quot; (or click different numbers on the wheel).</p>
+<ul>
+<li>What is the <strong>first bit</strong> (Most Significant Bit) for every positive number? <code>___</code></li>
+<li>What is the <strong>first bit</strong> for every negative number? <code>___</code></li>
+</ul>
+</li>
+<li>
+<p><strong>The Conversion Challenge:</strong>
+You want to find the binary for <strong>-3</strong>.</p>
+<ul>
+<li><strong>Step A:</strong> Write positive 3 in binary (4-bit): <code>________</code></li>
+<li><strong>Step B:</strong> Flip all the bits (0→1, 1→0): <code>________</code></li>
+<li><strong>Step C:</strong> Add 1 to the result of Step B: <code>________</code></li>
+<li><strong>Step D:</strong> Check the tool. Does your result match the binary for -3? [ ] Yes [ ] No</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="part-3-the-limits-of-storage-range">Part 3: The Limits of Storage (Range)</h3>
+<p><em>Switch to the <strong>Range</strong> tab.</em></p>
+<ol start="5">
+<li>
+<p><strong>Observation:</strong></p>
+<ul>
+<li>What is the maximum positive number in a 4-bit system? <code>___</code></li>
+<li>What is the most negative number in a 4-bit system? <code>___</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Prediction (High Order Thinking):</strong>
+Change the config to a <strong>5-Bit System</strong>. Do not look at the values yet.</p>
+<ul>
+<li>Calculate the new Maximum Positive value (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">2^{n-1} - 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1</span></span></span></span>): <code>________</code></li>
+<li>Calculate the new Most Negative value (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><msup><mn>2</mn><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">-2^{n-1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8974em;vertical-align:-0.0833em;"></span><span class="mord">−</span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span></span></span></span>): <code>________</code></li>
+<li><em>Now check the tool to verify.</em></li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="part-4-overflow--the-wheel">Part 4: Overflow &amp; The &quot;Wheel&quot;</h3>
+<p><em>Switch to the <strong>Add</strong> tab. Ensure you are back on <strong>4-bits</strong>.</em></p>
+<ol start="7">
+<li>
+<p><strong>Visualizing Math:</strong>
+Set the calculation to: <strong>5 + 2</strong>.</p>
+<ul>
+<li>Result: <code>7</code></li>
+<li>Did the arrow cross the &quot;break&quot; at the bottom of the circle? [ ] Yes [ ] No</li>
+</ul>
+</li>
+<li>
+<p><strong>Forcing the Error (Overflow):</strong>
+Set the calculation to: <strong>5 + 4</strong>.</p>
+<ul>
+<li>Mathematically, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>+</mo><mn>4</mn><mo>=</mo><mn>9</mn></mrow><annotation encoding="application/x-tex">5 + 4 = 9</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">9</span></span></span></span>.</li>
+<li>What result does the tool give? <code>________</code></li>
+<li><strong>Why?</strong> Explain using the &quot;Wheel&quot; visualization. Why did the answer &quot;wrap around&quot; to a negative number?</li>
+</ul>
+<hr>
+</li>
+<li>
+<p><strong>Unsigned vs Signed Overflow:</strong>
+Look at the binary addition for the problem above (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0101</mn><mo>+</mo><mn>0100</mn><mo>=</mo><mn>1001</mn></mrow><annotation encoding="application/x-tex">0101 + 0100 = 1001</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">0101</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0100</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1001</span></span></span></span>).</p>
+<ul>
+<li>In <strong>Signed</strong> arithmetic (the tool), <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1001</mn></mrow><annotation encoding="application/x-tex">1001</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1001</span></span></span></span> is -7 (Overflow occurred).</li>
+<li>In <strong>Unsigned</strong> arithmetic, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1001</mn></mrow><annotation encoding="application/x-tex">1001</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1001</span></span></span></span> is <code>________</code>. Did overflow occur if we treat these as unsigned numbers? (Hint: Can a 4-bit unsigned system hold the number 9?)</li>
+</ul>
+<hr>
+</li>
+</ol>
+<hr>
+<h3 id="part-5-master-challenge-assessment">Part 5: Master Challenge (Assessment)</h3>
+<p><strong>Scenario:</strong> You are programming a car's odometer (mileage counter) using a 4-bit variable.</p>
+<ol>
+<li>
+<p><strong>The Crash:</strong>
+The odometer reads <code>0111</code> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>7</mn></mrow><annotation encoding="application/x-tex">7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">7</span></span></span></span> miles). You drive 1 more mile.</p>
+<ul>
+<li>If the system is <strong>Signed</strong>, what does the odometer read now? <code>_______</code></li>
+<li>If the system is <strong>Unsigned</strong>, what does the odometer read now? <code>_______</code></li>
+</ul>
+</li>
+<li>
+<p><strong>The Bug Fix:</strong>
+Your boss wants the car to track up to 20 miles.</p>
+<ul>
+<li>Can you do this with 4 bits? Explain why or why not.</li>
+<li>What is the minimum number of bits you need? <code>_______</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Hex Translation:</strong>
+If your odometer reads <code>1101</code>:</p>
+<ul>
+<li>What is the decimal value if Signed? <code>_______</code></li>
+<li>What is the decimal value if Unsigned? <code>_______</code></li>
+<li>What is the Hexadecimal representation? <code>_______</code></li>
+</ul>
+</li>
+</ol>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
