@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Worksheet 01&colon; Introduction to Python Game Programming</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="worksheet-01-introduction-to-python-game-programming">Worksheet 01: Introduction to Python Game Programming</h1>
+<p><strong>Name:</strong> ____________________________  <strong>Class:</strong> ________________ (<em>_______</em>)</p>
+<h3 id="section-1-scaffolding--understanding-modules">Section 1: Scaffolding – Understanding Modules</h3>
+<p><em>Pay attention to the presentation and fill in the blanks.</em></p>
+<ol>
+<li>
+<p>Python modules are programs written by other programmers that we can __________ in our own programs.</p>
+</li>
+<li>
+<p>The <strong>random</strong> module is a standard module used for things like generating a __________ number.</p>
+</li>
+<li>
+<p>To generate a random number between 1 and 32, we use the function: <code>randint(____, ____)</code>.</p>
+</li>
+<li>
+<p>In this course, we will use two special modules for game development: <strong>pygame</strong> and <strong>__________</strong>.</p>
+</li>
+</ol>
+<hr>
+<h3 id="section-2-discovery--file-organization">Section 2: Discovery – File Organization</h3>
+<p><em>Look at the files on your computer and the presentation. Map out where everything goes.</em></p>
+<p>To make the game work, you must arrange your files in specific folders:</p>
+<ul>
+<li>
+<p><strong>Main Folder:</strong> Contains your Python code file named <code>__________</code>.</p>
+</li>
+<li>
+<p><strong>__________ Folder:</strong> Contains image files like <code>monster.____</code>.</p>
+</li>
+<li>
+<p><strong>__________ Folder:</strong> Contains audio files like <code>monsterdie.____</code>.</p>
+</li>
+</ul>
+<p><strong>Discovery Question:</strong> Why do you think PGZero requires images and sounds to be in specifically named folders?</p>
+<hr>
+<hr>
+<h3 id="section-3-game-logic--functions">Section 3: Game Logic &amp; Functions</h3>
+<p><em>Complete the sentences using the technical terms from the slides.</em></p>
+<ol>
+<li>
+<p><strong>Basic Config:</strong> To set the size of the game window, we use the variables <code>__________</code> and <code>__________</code>.</p>
+</li>
+<li>
+<p><strong>Actors:</strong> In a game, characters or objects are called <strong>Actors</strong> or <strong>__________</strong>.</p>
+</li>
+<li>
+<p><strong>Redrawing:</strong> The <code>__________</code> function is called by PGZero whenever the game window needs to be refreshed, such as after a mouse click.</p>
+</li>
+<li>
+<p><strong>Collision:</strong> To check if a user clicked on a monster, we use the command <code>monster1.______________(pos)</code>.</p>
+</li>
+</ol>
+<hr>
+<h3 id="section-4-discovery--variable-scope">Section 4: Discovery – Variable Scope</h3>
+<p><em>Read the section on &quot;Variables and Functions&quot; and answer the following.</em></p>
+<ol>
+<li>
+<p>A variable defined <strong>inside</strong> a function is called a __________ variable and is destroyed once the function finishes.</p>
+</li>
+<li>
+<p>A variable defined <strong>outside</strong> a function is called a __________ variable.</p>
+</li>
+<li>
+<p>To change a variable that exists outside your function (like <code>living_monsters</code>), you must use the keyword <code>__________</code> inside your function first.</p>
+</li>
+</ol>
+<p><strong>Experiment:</strong> What happens to the game if you forget to use the <code>global</code> keyword when updating the monster count?</p>
+<hr>
+<hr>
+<h3 id="section-5-modification-challenge">Section 5: Modification Challenge</h3>
+<p><em>Play around with the code and try to &quot;discover&quot; how to change the game.</em></p>
+<ul>
+<li>
+<p><strong>Change the sprite:</strong> Find a new image. What is the recommended size for the monster sprite? __________.</p>
+</li>
+<li>
+<p><strong>Change the sound:</strong> What file format must your new sound effects use? __________.</p>
+</li>
+<li>
+<p><strong>Game Goal:</strong> What happens in the code when the number of <code>living_monsters</code> reaches 0? ____________________.</p>
+</li>
+</ul>
+
+            
+            
+        </body>
+        </html>

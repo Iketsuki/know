@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&ast;&ast;Worksheet&colon; Mastering the XLOOKUP Function&ast;&ast;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h3 id="worksheet-mastering-the-xlookup-function"><strong>Worksheet: Mastering the XLOOKUP Function</strong></h3>
+<p><strong>Instructions for Students:</strong>
+Work with a partner. Read the supplementary notes on the <code>XLOOKUP</code> function to help you answer the questions below. The goal is to write the correct <code>XLOOKUP</code> formula for each task. Use the <code>XLOOKUP</code> function to find data. Unlike the old <code>VLOOKUP</code>, <code>XLOOKUP</code> only needs three main parts: <strong>What</strong> you are looking for, <strong>Where</strong> to find it, and <strong>What</strong> to bring back.</p>
+<h4 id="reference-data"><strong>Reference Data</strong></h4>
+<p><code>=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode])</code></p>
+<p>Use the following spreadsheet data from your notes to complete the tasks.</p>
+<p><strong>Table 1: Student Information</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>A (Class)</strong></th>
+<th><strong>B (No.)</strong></th>
+<th><strong>C (Name)</strong></th>
+<th><strong>D (Score)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td><strong>Class</strong></td>
+<td><strong>Number</strong></td>
+<td><strong>Name</strong></td>
+<td><strong>Score</strong></td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>1B</td>
+<td>9</td>
+<td>Ben</td>
+<td>-2.5</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>1A</td>
+<td>15</td>
+<td>Ada</td>
+<td>7.45</td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td>1A</td>
+<td>16</td>
+<td>Amy</td>
+<td>8.9</td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>1B</td>
+<td>22</td>
+<td>Benedict</td>
+<td>4.75</td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>1A</td>
+<td>24</td>
+<td>Cole</td>
+<td>5.3</td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td>1C</td>
+<td>34</td>
+<td>Carmen</td>
+<td>5.3</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="tasks"><strong>Tasks</strong></h3>
+<h4 id="part-1-basic-lookups"><strong>Part 1: Basic Lookups</strong></h4>
+<p>Your first task is to find information about students using their name or class number.</p>
+<ol>
+<li>Write a formula to find the <strong>Class</strong> of the student named <strong>&quot;Ben&quot;</strong>.
+<br><br></li>
+<li>Write a formula to find the <strong>Name</strong> of the student whose <strong>Class Number</strong> is <strong>22</strong>.
+<br><br></li>
+<li>Write a formula to find the <strong>Reward</strong> for someone who achieved <strong>&quot;Rank B&quot;</strong>.
+<br><br></li>
+</ol>
+<h4 id="part-2-handling-missing-information-if_not_found"><strong>Part 2: Handling Missing Information (<code>if_not_found</code>)</strong></h4>
+<p>Sometimes, the value you are looking for does not exist.</p>
+<ol>
+<li>Imagine you use the formula <code>=XLOOKUP(20, B2:B7, C2:C7)</code> to find the name of a student with Class Number 20. According to your notes, what result will you get?
+<br><br></li>
+<li>Write a new formula that will display the message <strong>&quot;Student Not Found&quot;</strong> if you search for a student with Class Number 20.
+<br><br></li>
+</ol>
+<div style="page-break-after: always;"></div>
+<h4 id="part-3-finding-the-right-rank-match_mode"><strong>Part 3: Finding the Right Rank (<code>match_mode</code>)</strong></h4>
+<p>A teacher needs to assign ranks based on scores. Use the table below and the <code>[match_mode]</code> option to find the correct rank. A student gets the rank if their score is greater than or equal to the score listed.</p>
+<p><strong>Table 3: Rank Thresholds</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>F (Rank)</strong></th>
+<th><strong>G (Min Score)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>Rank A</td>
+<td>8</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Rank B</td>
+<td>4</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Rank C</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>Ada scored <strong>7.45</strong>. Write a formula that finds the correct rank for her score by looking for the next smaller item.
+<br><br></li>
+<li>A new student scored <strong>9.5</strong>. Write a formula to find their rank. What rank do they get?
+<br><br></li>
+</ol>
+<h4 id="part-4-searching-with-wildcards-match_mode"><strong>Part 4: Searching with Wildcards (<code>match_mode</code>)</strong></h4>
+<p>Now, let's find students using only parts of their names. Remember to set <code>[match_mode]</code> to <code>2</code> for wildcard searches.</p>
+<ol>
+<li>Write a formula to find the first student whose name <strong>starts with &quot;C&quot;</strong>.
+<br><br></li>
+<li>Write a formula to find the first student whose name <strong>ends with &quot;en&quot;</strong>.
+<br><br></li>
+<li>Write a formula to find the first student whose name contains the letter <strong>&quot;m&quot;</strong>.
+<br><br></li>
+</ol>
+<hr>
+<h3 id="answer-key"><strong>Answer Key</strong></h3>
+<details>
+  <summary>Click to view</summary>
+<h4 id="part-1-basic-lookups-1"><strong>Part 1: Basic Lookups</strong></h4>
+<ol>
+<li><code>=XLOOKUP(&quot;Ben&quot;, C2:C7, A2:A7)</code> -&gt; Result: <code>1B</code></li>
+<li><code>=XLOOKUP(22, B2:B7, C2:C7)</code> -&gt; Result: <code>Benedict</code></li>
+<li><code>=XLOOKUP(&quot;Rank B&quot;, H6:I6, H7:I7)</code> -&gt; Result: <code>Pen</code></li>
+</ol>
+<h4 id="part-2-handling-missing-information-if_not_found-1"><strong>Part 2: Handling Missing Information (<code>if_not_found</code>)</strong></h4>
+<ol>
+<li>The result will be an <code>#N/A</code> error.</li>
+<li><code>=XLOOKUP(20, B2:B7, C2:C7, &quot;Student Not Found&quot;)</code></li>
+</ol>
+<h4 id="part-3-finding-the-right-rank-match_mode-1"><strong>Part 3: Finding the Right Rank (<code>match_mode</code>)</strong></h4>
+<ol>
+<li><code>=XLOOKUP(7.45, G1:G4, F1:F4, , -1)</code> -&gt; Result: <code>Rank B</code></li>
+<li><code>=XLOOKUP(9.5, G1:G4, F1:F4, , -1)</code> -&gt; Result: <code>Rank A</code></li>
+</ol>
+<h4 id="part-4-searching-with-wildcards-match_mode-1"><strong>Part 4: Searching with Wildcards (<code>match_mode</code>)</strong></h4>
+<ol>
+<li><code>=XLOOKUP(&quot;C*&quot;, C2:C7, C2:C7, , 2)</code> -&gt; Result: <code>Cole</code></li>
+<li><code>=XLOOKUP(&quot;*en&quot;, C2:C7, C2:C7, , 2)</code> -&gt; Result: <code>Ben</code></li>
+<li><code>=XLOOKUP(&quot;*m*&quot;, C2:C7, C2:C7, , 2)</code> -&gt; Result: <code>Amy</code></li>
+</ol>
+</details>
+<hr>
+<h3 id="-tip">💡 Tip:</h3>
+<p><code>XLOOKUP</code> is superior to <code>VLOOKUP</code> because:</p>
+<ol>
+<li>It can look to the <strong>left</strong> (finding Class by Name).</li>
+<li>It doesn't break if you <strong>insert a new column</strong>.</li>
+<li>It handles errors (<code>#N/A</code>) automatically without extra functions.</li>
+</ol>
+
+            
+            
+        </body>
+        </html>

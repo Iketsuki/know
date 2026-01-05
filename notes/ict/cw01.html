@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Excel Formula &amp; Reference Worksheet &lpar;Student Version&rpar;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="excel-formula--reference-worksheet-student-version">Excel Formula &amp; Reference Worksheet (Student Version)</h2>
+<h3 id="part-1-column-summary-calculations-formulas-1-2-3-4-10">Part 1: Column Summary Calculations (Formulas 1, 2, 3, 4, 10)</h3>
+<p>These formulas analyze the entire <strong>English</strong> column (range <strong>C2:C11</strong>). Write the formula in the cell indicated below the data table.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Q No.</th>
+<th style="text-align:left">Calculation</th>
+<th style="text-align:left">Description</th>
+<th style="text-align:left">Cell to Fill</th>
+<th style="text-align:left">Excel Formula to Enter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>1.</strong></td>
+<td style="text-align:left"><strong>MAX</strong></td>
+<td style="text-align:left">Find the maximum (highest) score in English.</td>
+<td style="text-align:left"><strong>C13</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>2.</strong></td>
+<td style="text-align:left"><strong>MIN</strong></td>
+<td style="text-align:left">Find the minimum (lowest) score in English.</td>
+<td style="text-align:left"><strong>C14</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>3.</strong></td>
+<td style="text-align:left"><strong>SUM</strong></td>
+<td style="text-align:left">Find the total sum of all English scores.</td>
+<td style="text-align:left"><strong>C15</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>4.</strong></td>
+<td style="text-align:left"><strong>AVERAGE</strong></td>
+<td style="text-align:left">Find the average English score.</td>
+<td style="text-align:left"><strong>C16</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>10.</strong></td>
+<td style="text-align:left"><strong>2nd highest mark</strong></td>
+<td style="text-align:left">Find the second highest score in English.</td>
+<td style="text-align:left"><strong>C17</strong></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="part-2-student-level-calculations-autofill-formulas-5-6-7-8">Part 2: Student-Level Calculations (Autofill Formulas 5, 6, 7, 8)</h3>
+<p>For the cells below, write the formula you would enter in <strong>Row 2</strong> that can be <strong>autofilled</strong> down to Row 11. These formulas use <strong>Relative Referencing</strong> to calculate results for each student.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Q No.</th>
+<th style="text-align:left">Calculation</th>
+<th style="text-align:left">Description</th>
+<th style="text-align:left">Cell to Fill (Row 2)</th>
+<th style="text-align:left">Formula to Enter (Autofill to Row 11)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>5.</strong></td>
+<td style="text-align:left"><strong>average %</strong></td>
+<td style="text-align:left">Calculate the average score for the student across all subjects (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C2</mtext></mrow><annotation encoding="application/x-tex">\text{C2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">C2</span></span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>I2</mtext></mrow><annotation encoding="application/x-tex">\text{I2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">I2</span></span></span></span></span>).</td>
+<td style="text-align:left"><strong>J2</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>6.</strong></td>
+<td style="text-align:left"><strong>weighted</strong></td>
+<td style="text-align:left">Calculate the Total Score (Sum) for the student across all subjects (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C2</mtext></mrow><annotation encoding="application/x-tex">\text{C2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">C2</span></span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>I2</mtext></mrow><annotation encoding="application/x-tex">\text{I2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">I2</span></span></span></span></span>).</td>
+<td style="text-align:left"><strong>K2</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>7.</strong></td>
+<td style="text-align:left"><strong>pass?</strong></td>
+<td style="text-align:left">Check if the student <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Passed</mtext></mrow><annotation encoding="application/x-tex">\text{Passed}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">Passed</span></span></span></span></span> or <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>Failed</mtext></mrow><annotation encoding="application/x-tex">\text{Failed}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">Failed</span></span></span></span></span>. A student passes if their <strong>average % (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>J2</mtext></mrow><annotation encoding="application/x-tex">\text{J2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">J2</span></span></span></span></span>)</strong> is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>70</mtext></mrow><annotation encoding="application/x-tex">\text{70}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord text"><span class="mord">70</span></span></span></span></span> or above.</td>
+<td style="text-align:left"><strong>L2</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>8.</strong></td>
+<td style="text-align:left"><strong>number of pass in overall</strong></td>
+<td style="text-align:left">Count the number of subjects where the student scored <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>70</mtext></mrow><annotation encoding="application/x-tex">\text{70}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord text"><span class="mord">70</span></span></span></span></span> or above (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>C2</mtext></mrow><annotation encoding="application/x-tex">\text{C2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">C2</span></span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>I2</mtext></mrow><annotation encoding="application/x-tex">\text{I2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">I2</span></span></span></span></span>).</td>
+<td style="text-align:left"><strong>M2</strong></td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="part-3-lookup-function-formula-9">Part 3: Lookup Function (Formula 9)</h3>
+<p>This formula teaches <strong>Absolute Referencing</strong> (for the range) and the <strong>VLOOKUP</strong> function.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Q No.</th>
+<th style="text-align:left">Calculation</th>
+<th style="text-align:left">Description</th>
+<th style="text-align:left">Lookup Value Cell</th>
+<th style="text-align:left">Formula to Enter</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>9.</strong></td>
+<td style="text-align:left"><strong>weighted (VLOOKUP)</strong></td>
+<td style="text-align:left">Find the <strong>weighted</strong> score (column <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>K</mtext></mrow><annotation encoding="application/x-tex">\text{K}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">K</span></span></span></span></span>) for the student with <strong>Class # 5</strong>. Assume the lookup value (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>5</mtext></mrow><annotation encoding="application/x-tex">\text{5}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord text"><span class="mord">5</span></span></span></span></span>) is entered in cell <strong>Q6</strong>. The table array to look up is <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>B2</mtext></mrow><annotation encoding="application/x-tex">\text{B2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">B2</span></span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>K11</mtext></mrow><annotation encoding="application/x-tex">\text{K11}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">K11</span></span></span></span></span>.</td>
+<td style="text-align:left"><strong>Q6</strong> (contains 5)</td>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f3a8; Mission 3&colon; The Designer&apos;s Touch</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="-mission-3-the-designers-touch">🎨 Mission 3: The Designer's Touch</h2>
+<p><strong>Objective:</strong> To move away from simple numbers and design your own custom dice patterns using the LED grid and <strong>Python Lists</strong>.</p>
+<hr>
+<h3 id="phase-8-creative-design-level-create">Phase 8: Creative Design (Level: Create)</h3>
+<p><strong>Goal:</strong> Draw your own unique patterns for the numbers 1 to 6.</p>
+<p>On a <code>micro:bit</code>, the LED grid is a 5x5 square. Each light can have a brightness from <strong>0</strong> (off) to <strong>9</strong> (brightest).</p>
+<p><strong>Instructions:</strong></p>
+<ol>
+<li>Use the grids below to plan your design.</li>
+<li>Put a <strong>9</strong> where you want a light to be ON.</li>
+<li>Put a <strong>0</strong> where you want a light to be OFF.</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th><strong>Face 1</strong> (One)</th>
+<th><strong>Face 2</strong> (Two)</th>
+<th><strong>Face 3</strong> (Three)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th><strong>Face 4</strong> (Four)</th>
+<th><strong>Face 5</strong> (Five)</th>
+<th><strong>Face 6</strong> (Six)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+<tr>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+<td><code>0 0 0 0 0</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="phase-9-organizing-with-lists-level-apply">Phase 9: Organizing with Lists (Level: Apply)</h3>
+<p><strong>Goal:</strong> Put all 6 designs into one &quot;List&quot; so the computer can find them easily.</p>
+<ul>
+<li><strong>The Concept (Lists):</strong> A List is like a bookshelf. Each shelf has a number (an <strong>index</strong>).</li>
+<li><strong>Important:</strong> In Python, we start counting at <strong>0</strong>.</li>
+<li><code>dice_list[0]</code> is your 1st image.</li>
+<li><code>dice_list[5]</code> is your 6th image.</li>
+</ul>
+<p><strong>🛠️ Task:</strong> Look at the <code>Image()</code> section in the reference. Create a list called <code>all_faces</code> and put your 6 designs inside it using square brackets <code>[ ]</code>.</p>
+<hr>
+<h3 id="-lab-check-mission-3">🧪 Lab Check: Mission 3</h3>
+<p><strong>Fill in the blanks:</strong></p>
+<ol>
+<li>To create an image in Python, I use the command <code>Image(&quot;____:____:____:____:____&quot;)</code>. Each colon <code>:</code> separates a new <strong>____</strong> of lights.</li>
+<li>If I want to show my 3rd design from a list named <code>all_faces</code>, I would write: <code>display.show(all_faces[___])</code>. (Remember to count starting from ____!).</li>
+<li>A List starts with a <strong>square bracket</strong> <code>____</code> and each item inside is separated by a <strong>_____</strong> <code>,</code>.</li>
+<li>Why is a List better than making 6 separate variables?
+Answer: ___________________________________________________________</li>
+</ol>
+<hr>
+<h3 id="-final-challenge-the-total-package">🏁 Final Challenge: The Total Package</h3>
+<p>Combine everything you have learned!</p>
+<ol>
+<li><strong>Import</strong> all 4 modules (microbit, random, music, speech).</li>
+<li><strong>Create</strong> your <code>all_faces</code> list.</li>
+<li><strong>Set</strong> the starting volume.</li>
+<li><strong>If Shaken:</strong> Play music  Pick a random index (0-5)  Show the image from your list  Say the number.</li>
+<li><strong>If Button A/B:</strong> Change the volume variable and use <code>music.set_volume()</code>.</li>
+</ol>
+<p><strong>Next Step:</strong> Challenges</p>
+<ol>
+<li>more numbers available in the dice</li>
+<li>more visual when control volume or in other second_number</li>
+</ol>
+
+            
+            
+        </body>
+        </html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f34e; Teacher Version&colon; The Talking Smart Dice</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="-teacher-version-the-talking-smart-dice">🍎 Teacher Version: The Talking Smart Dice</h2>
+<p>This version includes the <strong>Answer Key</strong> and the <strong>Pedagogical Rationale</strong> behind each phase, mapped to Bloom’s Taxonomy.</p>
+<hr>
+<h3 id="phase-1-remember-knowledge-retrieval">Phase 1: Remember (Knowledge Retrieval)</h3>
+<p><strong>Objective:</strong> Recall basic syntax and hardware functions.</p>
+<ul>
+<li><strong>1. Library:</strong> <code>import random</code></li>
+<li><strong>2. Output Hardware:</strong> <code>display</code></li>
+<li><strong>3. Control Flow:</strong> <code>while</code></li>
+<li><strong>4. Range:</strong> <code>1</code> and <code>6</code></li>
+</ul>
+<blockquote>
+<p><strong>Teacher Tip:</strong> Ensure students understand that <code>import</code> must happen before the loop begins.</p>
+</blockquote>
+<hr>
+<h3 id="phase-2-understand-sensors--input">Phase 2: Understand (Sensors &amp; Input)</h3>
+<p><strong>Objective:</strong> Explain how the accelerometer translates physical motion into digital logic.</p>
+<ul>
+<li><strong>1. Sensor:</strong> <code>accelerometer</code></li>
+<li><strong>2. Gesture:</strong> <code>shake</code></li>
+<li><strong>3. Logic Gate:</strong> <code>if</code></li>
+<li><strong>4. Logic Check:</strong> <strong>do nothing</strong> (The loop continues, but the code inside the <code>if</code> is skipped).</li>
+</ul>
+<hr>
+<h3 id="phase-3-apply-module-integration">Phase 3: Apply (Module Integration)</h3>
+<p><strong>Objective:</strong> Implement external libraries to control hardware components (the speaker).</p>
+<ul>
+<li><strong>1. Library:</strong> <code>import music</code></li>
+<li><strong>2. Hardware:</strong> <code>speaker</code> (Internal on V2)</li>
+<li><strong>3. Command:</strong> <code>music.play()</code></li>
+<li><strong>4. Sequence:</strong> <strong>before</strong> (Creates &quot;suspense&quot; before the number is revealed).</li>
+</ul>
+<hr>
+<h3 id="phase-4-analyze-conditionals--variables">Phase 4: Analyze (Conditionals &amp; Variables)</h3>
+<p><strong>Objective:</strong> Use multi-way branching to create a dynamic user experience.</p>
+<ul>
+<li><strong>1. Library:</strong> <code>speech</code></li>
+<li><strong>2. Command:</strong> <code>speech.say()</code></li>
+<li><strong>3. Multi-way Branch:</strong> <code>elif</code></li>
+<li><strong>4. Operator:</strong> <code>==</code> (Common error: students often use a single <code>=</code>, which is for assignment, not comparison).</li>
+</ul>
+<hr>
+<h3 id="phase-5-create-logical-operators">Phase 5: Create (Logical Operators)</h3>
+<p><strong>Objective:</strong> Synthesize multiple input methods into a single trigger.</p>
+<ul>
+<li><strong>1. Hardware:</strong> <code>button_b</code></li>
+<li><strong>2. Logical Connector:</strong> <code>or</code></li>
+<li><strong>3. Logic Operator:</strong> <code>or</code></li>
+<li><strong>4. Final Goal:</strong> <code>or</code> / <code>or</code> (e.g., <code>if accelerometer.was_gesture('shake') or button_a.is_pressed():</code>)</li>
+</ul>
+
+            
+            
+        </body>
+        </html>

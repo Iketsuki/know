@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f3b2; Mission&colon; The Talking Smart Dice</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="-mission-the-talking-smart-dice">🎲 Mission: The Talking Smart Dice</h1>
+<p><strong>Goal:</strong> Turn your micro:bit into a smart dice that rolls when shaken, plays music, and speaks the result.</p>
+<hr>
+<p>💡 Scaffolding: How to Build Your Code</p>
+<p>Follow this structure to organize your logic. Think of it like building a tower—the foundations (imports) must come first!</p>
+<ol>
+<li>The Setup (Imports): Tell the micro:bit which &quot;tools&quot; you need (random, music, and speech).</li>
+<li>The Loop: Use while True: to keep the micro:bit &quot;listening&quot; for your movement.</li>
+<li>The Trigger: Use an if statement combined with or to check for a shake or a button press.</li>
+<li>The Action:
+<ol>
+<li>Pick a random number between 1 and 6.</li>
+<li>Play a melody.</li>
+<li>Show the number on the LED screen.</li>
+</ol>
+</li>
+<li>The Personality: Use if/elif statements to check what number was rolled and have the speech module say a custom phrase for that number.</li>
+</ol>
+<p>Starter code:</p>
+<pre><code class="language-python"><span class="hljs-comment"># Imports go at the top </span>
+<span class="hljs-keyword">from</span> microbit <span class="hljs-keyword">import</span> * 
+<span class="hljs-keyword">import</span> random 
+ <span class="hljs-comment"># step one </span>
+<span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>: 
+    roll = random.randint(<span class="hljs-number">1</span>,<span class="hljs-number">6</span>) 
+    display.show(roll) 
+    sleep(<span class="hljs-number">2000</span>)
+</code></pre>
+<hr>
+<h3 id="phase-1-the-basics">Phase 1: (The Basics)</h3>
+<p><em>Before we add new features, let’s review how the basic dice works.</em></p>
+<ol>
+<li>To get a random number, we must <code>import __________</code> at the very top of our code.</li>
+<li>The numbers are shown on the <strong>5x5 grid</strong> of red lights called the <code>__________</code>.</li>
+<li>To make the code run forever and wait for us, we use a <code>__________ True:</code> loop.</li>
+<li>The command <code>random.randint(1, 6)</code> picks a number between _ and _.</li>
+</ol>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="phase-2-adding-motion">Phase 2: (Adding Motion)</h3>
+<p><em>The dice currently rolls constantly. We want it to roll only when we move the micro:bit.</em></p>
+<ol>
+<li>The sensor that detects movement and tilt is called the <code>__________</code>.</li>
+<li>To check if the device was moved quickly, we check for a gesture called a <code>__________</code>.</li>
+<li>To make the dice roll <em>only</em> when moved, we put our code inside an <code>_____</code> statement.</li>
+<li><strong>Logic Check:</strong> If the micro:bit is &quot;still,&quot; the dice should ( do nothing / keep rolling ).</li>
+</ol>
+<hr>
+<h3 id="phase-3-adding-sound">Phase 3: (Adding Sound)</h3>
+<p><em>Let’s give the dice a &quot;voice&quot; using music.</em></p>
+<ol>
+<li>To use music, you must add <code>import __________</code> at the top of your script.</li>
+<li>Sound comes out of the built-in <code>__________</code> on the back of the micro:bit.</li>
+<li>To play a built-in melody like 'JUMP_UP', you use the command <code>music.__________</code>.</li>
+<li>You should put the music command ( before / after ) the number appears on the screen so we hear it first.</li>
+</ol>
+<hr>
+<h3 id="phase-4-talking-dice">Phase 4: (Talking Dice)</h3>
+<p><em>We want the micro:bit to speak the number it rolled. Different numbers should have different &quot;personalities.&quot;</em></p>
+<ol>
+<li>The module used to make the micro:bit speak English words is called <code>__________</code>.</li>
+<li>If the random number variable is <code>x</code>, we use the command <code>speech.__________(&quot;Hello&quot;)</code> to hear it.</li>
+<li>To give different numbers different sounds, we use <strong>Conditional Logic</strong>:</li>
+</ol>
+<ul>
+<li><code>if x == 1:</code> -&gt; Say &quot;You got a tiny one!&quot;</li>
+<li><code>__________ x == 6:</code> -&gt; Say &quot;BULLSEYE! SIX!&quot;</li>
+<li><code>else:</code> -&gt; Say the number normally.</li>
+</ul>
+<ol start="4">
+<li>In Python, we use a double equals sign <code>_____</code> to check if a variable matches a number.</li>
+</ol>
+<hr>
+<h3 id="phase-5-the-backup-button">Phase 5: (The Backup Button)</h3>
+<p><em>Sometimes shaking is too much work. Let’s add a button backup.</em></p>
+<ol>
+<li>The two physical inputs on the front are <code>button_a</code> and <code>__________</code>.</li>
+<li>We want the dice to roll if we <strong>Shake it</strong> <code>_____</code> if we <strong>Press Button A</strong>.</li>
+<li>The keyword used to join two choices together so that <em>either</em> one works is <code>__________</code>.</li>
+<li><strong>Final Logic Goal:</strong> If (Shake) <code>____</code> (Button A is pressed) <code>____</code> (Button B is pressed): <strong>Roll Dice!</strong></li>
+</ol>
+
+            
+            
+        </body>
+        </html>

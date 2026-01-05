@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f321;&#xfe0f; The Smart Weather Assistant</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="️-the-smart-weather-assistant">🌡️ The Smart Weather Assistant</h2>
+<p><strong>Objective:</strong> To use the <strong>Temperature Sensor</strong> to help you decide what to wear and how to feel about the weather!</p>
+<hr>
+<h3 id="phase-1-the-temperature-switch-level-apply">Phase 1: The Temperature Switch (Level: Apply)</h3>
+<p><strong>Goal:</strong> Make the <code>micro:bit</code> speak and tell you if it is &quot;Cold&quot; or &quot;Not Cold&quot; when you press Button A.</p>
+<ul>
+<li><strong>The Concept:</strong> We use a &quot;threshold&quot; (a limit number). For example, if the temperature is below <strong>18°C</strong>, it is cold.</li>
+<li><strong>The Logic:</strong> * <strong>IF</strong> the temperature is less than 18  Speak &quot;This is cold!&quot;</li>
+<li><strong>ELSE</strong> (if it is 18 or higher)  Speak &quot;It is not cold.&quot;</li>
+</ul>
+<h4 id="-lab-check-1-fill-in-the-blanks">🧪 Lab Check 1: Fill in the Blanks</h4>
+<ol>
+<li>In Python, the symbol for &quot;Less Than&quot; is <code>___</code>.</li>
+<li>If I want the micro:bit to do something only when I press Button A, I start with: <code>if button_a.________________():</code>.</li>
+</ol>
+<hr>
+<h3 id="phase-2-the-clothing-assistant-level-analyze">Phase 2: The Clothing Assistant (Level: Analyze)</h3>
+<p><strong>Goal:</strong> Give better advice! Use <code>if</code>, <code>elif</code>, and <code>else</code> to suggest clothes when you press Button B.</p>
+<ul>
+<li><strong>The Logic:</strong> * <strong>IF</strong> temp &lt; 15: &quot;Wear warm clothes!&quot;</li>
+<li><strong>ELIF</strong> temp &lt; 25: &quot;Nice weather!&quot;</li>
+<li><strong>ELSE</strong>: &quot;Bring a fan!&quot;</li>
+</ul>
+<h4 id="-lab-check-2-fill-in-the-blanks">🧪 Lab Check 2: Fill in the Blanks</h4>
+<ol>
+<li>I use <code>if</code> for the first check, and <code>__________</code> for the second check.</li>
+<li>If the temperature is <strong>30°C</strong>, which advice will the micro:bit give? ______________________.</li>
+<li>Complete the logic:</li>
+</ol>
+<pre><code class="language-python"><span class="hljs-keyword">if</span> ________:
+    speech.say(<span class="hljs-string">&quot;Wear warm clothes&quot;</span>)
+____ ________:
+    speech.say(<span class="hljs-string">&quot;Nice weather&quot;</span>)
+____:
+    speech.say(<span class="hljs-string">&quot;Bring a fan&quot;</span>)
+
+</code></pre>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="phase-3-getting-real-data-level-evaluate">Phase 3: Getting Real Data (Level: Evaluate)</h3>
+<p><strong>Goal:</strong> Instead of using a fake number, use the real sensor to get the temperature.</p>
+<ul>
+<li><strong>The Concept:</strong> We need to &quot;save&quot; the sensor reading into a variable box so we can use it for our <code>if</code> statements.</li>
+<li><strong>The Code Logic:</strong> <code>current_temp = temperature()</code></li>
+</ul>
+<h4 id="-lab-check-3-fill-in-the-blanks">🧪 Lab Check 3: Fill in the Blanks</h4>
+<ol>
+<li>The <code>temperature()</code> sensor on the micro:bit measures heat in degrees <strong>Celsius</strong> (True/False): __________.</li>
+<li>Why is it better to save the temperature in a <strong>variable</strong> like <code>t = temperature()</code> at the start of the loop?
+Answer: ___________________________________________________________</li>
+<li>To see the temperature number on the screen, I use the command <code>display.__________(t)</code>.</li>
+</ol>
+<hr>
+<h3 id="-mission-3-challenge">🏁 Mission 3 Challenge</h3>
+<p>Can you build the Weather Assistant?</p>
+<ol>
+<li><strong>Press Button A:</strong> Get the <code>temperature()</code>, show the number, and then say &quot;Cold&quot; or &quot;Not Cold.&quot;</li>
+<li><strong>Press Button B:</strong> Check the temperature and give clothing advice (&quot;Wear clothes&quot;, &quot;Nice weather&quot;, or &quot;Bring a fan&quot;).</li>
+</ol>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="-the-weather-master-challenge">🏆 The Weather Master Challenge</h3>
+<p><strong>Goal:</strong> Use the <strong>LED Display</strong> as a visual thermometer to help people who cannot hear the speech.</p>
+<p><strong>The Task:</strong> Instead of just speaking, make the <code>micro:bit</code> show a picture (Icon) for each temperature level.</p>
+<ul>
+<li><strong>If it is Cold:</strong> Show a <strong>SQUARE</strong> (like a block of ice).</li>
+<li><strong>If it is Nice:</strong> Show a <strong>HAPPY</strong> face.</li>
+<li><strong>If it is Hot:</strong> Show a <strong>SUN</strong> icon (or a small dot in the middle for a &quot;Sweat&quot; drop).</li>
+</ul>
+<h4 id="️-thinking-like-an-engineer">🛠️ Thinking Like an Engineer:</h4>
+<ol>
+<li>Which command from the <strong>Display</strong> section of your reference shows a built-in image? (Hint: <code>Image.NAME</code>).</li>
+<li>Where should you place the <code>display.show()</code> command so it matches the correct <code>if/elif</code> advice?</li>
+</ol>
+<hr>
+<h3 id="-advanced-lab-check-thinking-ahead">🧪 Advanced Lab Check: Thinking Ahead</h3>
+<p><strong>Fill in the blanks to solve these &quot;Pro&quot; problems:</strong></p>
+<ol>
+<li><strong>The Ghost Temperature:</strong> If I put <code>t = temperature()</code> <em>outside</em> the <code>while True:</code> loop, will the temperature number update when I move to a warmer room?
+Answer: ____________. (Hint: Does code outside the loop run more than once?)</li>
+<li><strong>Double Sensors:</strong> I want the <code>micro:bit</code> to say &quot;It's bright and hot!&quot; only if the <strong>Temperature</strong> is &gt; 25 AND the <strong>Light Level</strong> is &gt; 100.
+In Python, the word for checking two conditions at the same time is <code>_______</code>.</li>
+<li><strong>Accuracy:</strong> Sometimes the <code>micro:bit</code> temperature sensor is a bit too warm because it is near the CPU. If the sensor is always 3 degrees too high, how would you fix the math in your code?
+<code>t = temperature() - ___</code></li>
+</ol>
+<hr>
+<h3 id="-design-your-own-weather-icons">🎨 Design Your Own Weather Icons</h3>
+<p>If you don't like the built-in images, use the grids below to design your own &quot;Hot&quot; and &quot;Cold&quot; icons.</p>
+<table>
+<thead>
+<tr>
+<th><strong>&quot;Too Cold&quot; Icon</strong></th>
+<th><strong>&quot;Perfect&quot; Icon</strong></th>
+<th><strong>&quot;Too Hot&quot; Icon</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(Design here)</code></td>
+<td><code>(Design here)</code></td>
+<td><code>(Design here)</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="-final-mission-check">🏁 Final Mission Check</h3>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> Does Button A tell you the temperature?</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> Does Button B give you advice?</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> <strong>Bonus:</strong> Does the screen show an icon for the weather?</li>
+</ul>
+
+            
+            
+        </body>
+        </html>

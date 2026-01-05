@@ -38,6 +38,7 @@ The basic dice is annoying because it keeps rolling on its own! A real dice only
 **🛠️ Task:** Use the `micro:bit` reference to find the tools that let you detect the **'shake' gesture** and implement this logic in your code.
 
 ---
+<div style="page-break-after: always;"></div>
 
 ### Phase 3: Celebrate the Roll (Audio Output Challenge)
 
@@ -70,6 +71,7 @@ Now that the dice is shaken, and a number is displayed, let's make the `micro:bi
 **🛠️ Task:** Find the **speech module** commands and use `if/elif` statements to make your `micro:bit` announce the rolled number with personality!
 
 ---
+<div style="page-break-after: always;"></div>
 
 ### Phase 5: The Button Backup (Alternative Input Challenge)
 
