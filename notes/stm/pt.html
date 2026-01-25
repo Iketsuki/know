@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1fa99; Practical Test&colon; The Digital Coin Flipper</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="-practical-test-the-digital-coin-flipper">🪙 Practical Test: The Digital Coin Flipper</h2>
+<p><strong>Objective:</strong> Use your skills to create a digital &quot;Coin Flipper.&quot; Instead of rolling a 1–6 dice, your <code>micro:bit</code> will choose between <strong>Heads</strong> or <strong>Tails</strong>.</p>
+<p><strong>Important Instructions:</strong></p>
+<ul>
+<li><strong>Rename your file:</strong> Before you start, save your work as <code>CoinFlip_ClassClassNumber.py</code> (or <code>.hex</code>).</li>
+<li><strong>Example:</strong> <code>CoinFlip_2A05.py</code></li>
+</ul>
+<hr>
+<h3 id="-the-project-requirements">📋 The Project Requirements</h3>
+<p>Your program must include the following <strong>4 Features</strong>:</p>
+<h4 id="1-the-trigger-input">1. The Trigger (Input)</h4>
+<p>The coin should only flip when you <strong>shake</strong> the <code>micro:bit</code>.</p>
+<ul>
+<li><em>Hint:</em> Which sensor detects a shake?</li>
+</ul>
+<h4 id="2-the-random-choice-logic">2. The Random Choice (Logic)</h4>
+<p>The computer must pick a random number.</p>
+<ul>
+<li>Since a coin has only 2 sides, your <code>random.randint</code> should be between <strong>1 and 2</strong>.</li>
+<li>Let <strong>1 = Heads</strong> and <strong>2 = Tails</strong>.</li>
+</ul>
+<h4 id="3-visual--audio-feedback-output">3. Visual &amp; Audio Feedback (Output)</h4>
+<p>When the coin is &quot;flipping&quot; (before the result shows):</p>
+<ul>
+<li>Play a short <strong>music</strong> note or melody.</li>
+<li><strong>Challenge:</strong> Can you make the screen show a loading animation or flash?</li>
+</ul>
+<h4 id="4-the-result-conditionals">4. The Result (Conditionals)</h4>
+<ul>
+<li><strong>IF</strong> the result is Heads: Show a custom <strong>Image</strong> (like a large 'H') and <strong>speak</strong> &quot;Heads!&quot;</li>
+<li><strong>IF</strong> the result is Tails: Show a custom <strong>Image</strong> (like a large 'T') and <strong>speak</strong> &quot;Tails!&quot;</li>
+</ul>
+<h4 id="5-bonus-additional-features">5. Bonus (Additional Features)</h4>
+<p>Think of more fancy features (e.g. volume button/ more visuals/ animation/ game functions).</p>
+<p>Describe your additional feature implemented below:</p>
+<hr>
+<br>
+<hr>
+<h3 id="-practical-lab-check-planning-your-code">🧪 Practical Lab Check: Planning your Code</h3>
+<p><strong>Fill in the blanks to plan your logic before you code:</strong></p>
+<ol>
+<li>To choose between two options, I will use the code: <code>result = random._____________(__, __)</code>.</li>
+<li>I need to use an <code>if</code> statement to check the result.
+<code>result == 1:</code> means the coin is __________.
+<code>result == 2:</code> means the coin is __________.</li>
+<li>To make the <code>micro:bit</code> talk, I must remember to put <code>import __________</code> at the very top of my script.</li>
+<li>Write the code to show a simple &quot;T&quot; for Tails using coordinates or a string:
+<code>tails_image = Image(&quot;_____:_____:_____:_____:_____&quot;)</code></li>
+</ol>
+<hr>
+<h3 id="️-programming-workspace">🛠️ Programming Workspace</h3>
+<p>Use the <a href="https://python.microbit.org/">micro:bit Python Editor</a> to write your code.</p>
+<hr>
+<h3 id="-rubric-how-you-will-be-graded">✅ Rubric (How you will be graded)</h3>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Points</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Correct Filename</strong></td>
+<td>5</td>
+<td>[   ]</td>
+</tr>
+<tr>
+<td><strong>Shake Sensor</strong></td>
+<td>10</td>
+<td>[   ]</td>
+</tr>
+<tr>
+<td><strong>Random Logic</strong></td>
+<td>10</td>
+<td>[   ]</td>
+</tr>
+<tr>
+<td><strong>Sound/Speech</strong></td>
+<td>10</td>
+<td>[   ]</td>
+</tr>
+<tr>
+<td><strong>Custom Images</strong></td>
+<td>15</td>
+<td>[   ]</td>
+</tr>
+<tr>
+<td><strong>Bonus</strong></td>
+<td>5</td>
+<td>[   ]</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>50</strong></td>
+<td>[   ]</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>Once you have finished, show your teacher. <strong>Good luck!</strong></p>
+
+            
+            
+        </body>
+        </html>

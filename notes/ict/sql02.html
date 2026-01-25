@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f680; SQL Mission Part 2&colon; The Data Master</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="-sql-mission-part-2-the-data-master">🚀 SQL Mission Part 2: The Data Master</h1>
+<p><strong>Names:</strong> ___________________________ &amp; ___________________________</p>
+<p>Welcome to Part 2! Now we move from just finding rows to <strong>calculating</strong> answers and <strong>grouping</strong> data together.</p>
+<hr>
+<h2 id="-section-1-aggregates-the-stat-crunchers">🔢 Section 1: Aggregates (The &quot;Stat-Crunchers&quot;)</h2>
+<p><em>Aggregate functions take many rows and turn them into <strong>one single number</strong>.</em></p>
+<p><strong>Syntax Summary:</strong></p>
+<blockquote>
+<p><code>SELECT FUNCTION(column_name) AS AliasName FROM Table;</code>
+<em>Functions: <code>COUNT</code>, <code>SUM</code>, <code>AVG</code> (Average), <code>MIN</code> (Lowest), <code>MAX</code> (Highest)</em></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Goal</th>
+<th>SQL Code (Write it here!)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>36</strong></td>
+<td><strong>Count</strong> the total number of employees as 'TotalEmp'.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>37</strong></td>
+<td>Calculate the <strong>Sum</strong> of all salaries as 'TotalSalary'.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>38</strong></td>
+<td>Find the <strong>Average</strong> salary as 'AvgSalary'.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>39</strong></td>
+<td>Find the <strong>Lowest</strong> and <strong>Highest</strong> salary in one query.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>40</strong></td>
+<td>Count how many <strong>unique</strong> CountryCodes exist.</td>
+<td><code>________________________________</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="️-section-2-grouping-the-organizer">🏘️ Section 2: Grouping (The &quot;Organizer&quot;)</h2>
+<p><em><code>GROUP BY</code> puts rows with the same value into &quot;buckets&quot; so you can calculate stats for each bucket.</em></p>
+<p><strong>Syntax Summary:</strong></p>
+<blockquote>
+<p><code>SELECT column, AGG_FUNCTION(col) FROM Table GROUP BY column;</code></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Goal</th>
+<th>SQL Code (Write it here!)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>41</strong></td>
+<td>Count how many cities are in <strong>each</strong> CountryCode.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>42</strong></td>
+<td>Find the average salary for <strong>each</strong> <code>group_id</code>.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>44</strong></td>
+<td>Find the <strong>Max Population</strong> in each District.</td>
+<td><code>________________________________</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+<h2 id="️-section-3-having-the-group-filter">⚖️ Section 3: HAVING (The &quot;Group Filter&quot;)</h2>
+<p><em><code>WHERE</code> filters rows. <code>HAVING</code> filters groups. You use <code>HAVING</code> after the <code>GROUP BY</code>.</em></p>
+<p><strong>The Difference Rule:</strong></p>
+<ul>
+<li><strong>WHERE</strong>: Filters <strong>before</strong> the math.</li>
+<li><strong>HAVING</strong>: Filters <strong>after</strong> the math (on the result of <code>SUM</code>, <code>AVG</code>, etc.).</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Goal</th>
+<th>SQL Code (Write it here!)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>43</strong></td>
+<td>Show <code>group_ids</code> where the average salary is <strong>over 3000</strong>.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>37</strong></td>
+<td>Show CountryCodes where the average population is <strong>under 150k</strong>.</td>
+<td><code>________________________________</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-section-4-integrated-mastery-the-boss-levels">🏆 Section 4: Integrated Mastery (The &quot;Boss&quot; Levels)</h2>
+<p><em>Combine everything: Filters, Math, Grouping, and Sorting!</em></p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Goal</th>
+<th>SQL Code (Write it here!)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>46</strong></td>
+<td>Find the avg salary per group, but <strong>only</strong> for employees whose names start with 'A'.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>51</strong></td>
+<td>Calculate 'Efficiency' (<code>salary/months</code>). Show Name and Efficiency. <strong>Sort</strong> by Efficiency (High to Low).</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>54</strong></td>
+<td>Find employees hired in <strong>January</strong> (Month 1). Sort by hire_date.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>55</strong></td>
+<td><strong>THE FINAL BOSS:</strong> Show Group ID and Total Salary ('GroupSum'). Only show groups where GroupSum &lt; 5000. Order by GroupSum.</td>
+<td><code>SELECT ________________________</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="-mission-complete">🎓 Mission Complete!</h3>
+<p><strong>Check your logic:</strong></p>
+<ol>
+<li>Does <code>GROUP BY</code> come before or after <code>WHERE</code>?</li>
+<li>Does <code>ORDER BY</code> always come at the very end?</li>
+<li>Did you use <code>AS</code> to name your new calculation columns?</li>
+</ol>
+
+            
+            
+        </body>
+        </html>

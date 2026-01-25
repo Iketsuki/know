@@ -1,0 +1,171 @@
+// Web App for Student Grade Lookup
+// This function handles GET requests to display the web app
+function doGet() {
+  return HtmlService.createTemplateFromFile('GradeWebApp')
+      .evaluate()
+      .setTitle('Student Grade Lookup')
+      .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+// *** NEW FUNCTION: Get the authorized user's email ***
+function getAuthorizedEmail() {
+  // Returns the email of the person accessing the web app.
+  return Session.getActiveUser().getEmail().toLowerCase();
+}
+
+// This function now handles grade lookup using the authorized email passed from the client
+function doPost(e) {
+  // The client-side will call a *new* function. The old doPost can be removed
+  // or modified to simply return an error if it's hit, but we'll leave it as is 
+  // with a placeholder to prevent errors if the client-side code still tries to use it.
+  return ContentService
+      .createTextOutput(JSON.stringify({ error: "Use of POST is deprecated. Grades are loaded automatically on page load." }))
+      .setMimeType(ContentService.MimeType.JSON);
+}
+
+// *** MODIFIED getStudentGrades to be called directly by the client ***
+// It is renamed (or a new function created) to reflect its direct call purpose.
+// ... (omitted previous functions doGet, getAuthorizedEmail, doPost)
+
+// *** MODIFIED getStudentGrades to ensure grade order ***
+function getStudentGrades(identifier) {
+  try {
+    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const sheet = ss.getSheetByName("GBt1");
+    const data = sheet.getDataRange().getValues();
+    
+    if (data.length < 2) {
+      return { error: "No data found in spreadsheet" };
+    }
+    
+    const headers = data[0];
+    
+    // Find email and ClassNo columns (Logic remains the same)
+    let emailCol = -1;
+    let classNoCol = -1;
+    
+    for (let i = 0; i < headers.length; i++) {
+      const header = headers[i].toString().toLowerCase();
+      if (header.includes('email')) {
+        emailCol = i;
+      }
+      if (header.includes('class') || header.includes('no') || header.includes('classno')) {
+        classNoCol = i;
+      }
+    }
+    
+    if (emailCol === -1 && classNoCol === -1) {
+      return { error: "Could not find email or class number column" };
+    }
+    
+    // *** FULL MARKS LOGIC (Remains the same) ***
+    let fullMarksRow = -1;
+    const fullMarksIdentifier = 't350@carmelss.edu.hk';
+    const expectedMarks = {};
+
+    for (let i = 1; i < data.length; i++) {
+        const rowEmail = data[i][emailCol] ? data[i][emailCol].toString().toLowerCase() : '';
+        if (rowEmail === fullMarksIdentifier) {
+            fullMarksRow = i;
+            // Extract expected marks based on headers
+            for (let j = 0; j < headers.length; j++) {
+                const header = headers[j];
+                const value = data[fullMarksRow][j];
+
+                if (!(header.toString().toLowerCase().includes('email') ||
+                    header.toString().toLowerCase().includes('name') ||
+                    header.toString().toLowerCase().includes('class'))) {
+                    expectedMarks[header] = (value === '' || value === null || value === undefined) ? "N/A" : value;
+                }
+            }
+            break; 
+        }
+    }
+
+    if (fullMarksRow === -1) {
+        Logger.log("Full Marks row (t350@carmelss.edu.hk) not found.");
+    }
+    // *** END FULL MARKS LOGIC ***
+    
+    // Find the student row (Logic remains the same)
+    let studentRow = -1;
+    const searchIdentifier = identifier.toLowerCase(); 
+
+    for (let i = 1; i < data.length; i++) {
+      const rowEmail = data[i][emailCol] ? data[i][emailCol].toString().toLowerCase() : '';
+      const rowClassNo = data[i][classNoCol] ? data[i][classNoCol].toString() : '';
+      
+      if ((emailCol !== -1 && rowEmail === searchIdentifier) ||
+          (classNoCol !== -1 && rowClassNo === searchIdentifier)) {
+        studentRow = i;
+        break;
+      }
+    }
+    
+    if (studentRow === -1) {
+      return { error: "Your student record was not found using your authorized email address: " + identifier };
+    }
+    
+    // --- UPDATED LOGIC STARTS HERE ---
+    
+    // Build student and grade data based on header tags
+    const studentData = {};
+    const gradeSections = {}; // New: Using sections for grades
+    
+    for (let i = 0; i < headers.length; i++) {
+      const header = headers[i].toString();
+      const value = data[studentRow][i];
+      const lowerHeader = header.toLowerCase();
+      
+      // 1. [hide] columns are skipped
+      if (lowerHeader.startsWith('[hide]')) {
+        continue;
+      
+      // 2. [info] columns are added to studentData
+      } else if (lowerHeader.startsWith('[info')) {
+        const cleanHeader = header.replace(/\[info[^\]]*\]\s*/, '');
+        studentData[cleanHeader] = value;
+      
+      // Legacy support for basic student info columns, in case they are not tagged
+      } else if (lowerHeader.includes('email') || lowerHeader.includes('name') || lowerHeader.includes('class')) {
+        studentData[header] = value;
+
+      // 3. All other columns are treated as grades
+      } else {
+        const sectionMatch = header.match(/\[([^\]]+)\]/);
+        let sectionName = 'Other'; // Default section for untagged grades
+        let assignmentName = header;
+
+        if (sectionMatch && sectionMatch[1]) {
+            // Use the matched tag (e.g., "A1") as the section name
+            sectionName = sectionMatch[1];
+            // Remove the tag from the assignment name
+            assignmentName = header.replace(/\[[^\]]+\]\s*/, '').trim();
+        }
+
+        // Initialize the section array if it's the first time we see it
+        if (!gradeSections[sectionName]) {
+          gradeSections[sectionName] = [];
+        }
+        
+        const studentGrade = (value === '' || value === null || value === undefined) ? "MISSING" : value;
+        
+        // Add the grade to the correct section
+        gradeSections[sectionName].push({
+            assignment: assignmentName,
+            studentGrade: studentGrade,
+            fullMark: expectedMarks[header] || "N/A" // Look up full mark using the original header
+        });
+      }
+    }
+    
+    return {
+      success: true,
+      studentInfo: studentData,
+      gradeSections: gradeSections // Return the new sections object
+    };
+    
+  } catch (error) {
+    return { error: "An error occurred: " + error.toString() };
+  }
+}

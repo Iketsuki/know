@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f3e0; Mission&colon; The Intelligent Nightstand</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="-mission-the-intelligent-nightstand">🏠 Mission: The Intelligent Nightstand</h2>
+<p><strong>Objective:</strong> Build a smart device that wakes you up, gives you weather advice, and can be turned ON or OFF like a real alarm clock.</p>
+<hr>
+<h3 id="phase-1-the-triple-condition-alarm-level-apply">Phase 1: The Triple-Condition Alarm (Level: Apply)</h3>
+<p><strong>Goal:</strong> The alarm should only start if three things are true:</p>
+<ol>
+<li>It is <strong>Bright</strong> (&gt; 100).</li>
+<li>The alarm is <strong>Active</strong> (ON).</li>
+<li>You are <strong>not</strong> awake yet.</li>
+</ol>
+<h4 id="-lab-check-1-fill-in-the-blanks">🧪 Lab Check 1: Fill in the Blanks</h4>
+<ol>
+<li>In Python, if I want to check if a variable is &quot;Not True,&quot; I use the word <code>________</code>.
+Example: <code>if not awake:</code></li>
+<li>The symbol for &quot;Greater Than&quot; is <code>___</code>.</li>
+<li>To play the built-in &quot;Ba-Ding&quot; sound, I use: <code>music.play(music.________)</code>.</li>
+</ol>
+<hr>
+<h3 id="phase-2-stopping--speaking-level-analyze">Phase 2: Stopping &amp; Speaking (Level: Analyze)</h3>
+<p><strong>Goal:</strong> Once the alarm is ringing, you must stop it using a <strong>Loud Sound</strong> or <strong>Button A</strong>. Then, the micro:bit should report the temperature.</p>
+<h4 id="-lab-check-2-fill-in-the-blanks">🧪 Lab Check 2: Fill in the Blanks</h4>
+<ol>
+<li>After I press the button to wake up, I must change the &quot;awake&quot; box to <code>________</code>.</li>
+<li>The <code>temperature()</code> command gives a number. To make <code>speech.say</code> read it, I must change the number to a <strong>String</strong> using: <code>str(________)</code>.</li>
+<li>To tell the user what to do next, we use: <code>speech.say(&quot;Click ____ for advice&quot;)</code>.</li>
+</ol>
+<hr>
+<h3 id="phase-3-the-advice-menu-level-evaluate">Phase 3: The Advice Menu (Level: Evaluate)</h3>
+<p><strong>Goal:</strong> Use Button B to ask for clothing advice. This part only works after you are awake!</p>
+<h4 id="-lab-check-3-fill-in-the-blanks">🧪 Lab Check 3: Fill in the Blanks</h4>
+<ol>
+<li>If the temperature <code>t</code> is 12, which logic runs? <code>if t &lt; 15</code> or <code>elif t &lt; 25</code>?
+Answer: <code>________________</code></li>
+<li>If it is 30 degrees, the <code>else:</code> code will tell the user to &quot;Bring a __________.&quot;</li>
+</ol>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="phase-4-the-alarm-toggle-level-create">Phase 4: The Alarm Toggle (Level: Create)</h3>
+<p><strong>Goal:</strong> Use Button A to turn the alarm system ON or OFF (Toggle).</p>
+<ul>
+<li><strong>The Concept:</strong> A &quot;Toggle&quot; changes a variable to its opposite.</li>
+<li><strong>The Logic:</strong> <code>alarm_active = not alarm_active</code></li>
+</ul>
+<h4 id="-lab-check-4-fill-in-the-blanks">🧪 Lab Check 4: Fill in the Blanks</h4>
+<ol>
+<li>If <code>alarm_active</code> is True, then <code>not alarm_active</code> is __________.</li>
+<li>We show an &quot;<strong>O</strong>&quot; on the screen for ON and an &quot;<strong>X</strong>&quot; for __________.</li>
+<li>We use <code>sleep(1000)</code> after the toggle so the micro:bit doesn't switch ON/OFF too fast. 1000 milliseconds = ___ second.</li>
+</ol>
+<hr>
+<h3 id="phase-5-resetting-for-tomorrow-level-synthesis">Phase 5: Resetting for Tomorrow (Level: Synthesis)</h3>
+<p><strong>Goal:</strong> When the room is dark and quiet, the micro:bit should automatically set <code>awake = False</code> so it can wake you up again tomorrow.</p>
+<h4 id="-lab-check-5-fill-in-the-blanks">🧪 Lab Check 5: Fill in the Blanks</h4>
+<ol>
+<li>To check the microphone's volume level (0-255) as a number, I use: <code>microphone.________________()</code>.</li>
+<li>If light is &lt; 50 AND sound is &lt; 50, the micro:bit shows the <code>Image.____________</code> icon.</li>
+</ol>
+<hr>
+<h3 id="-final-practical-challenge-the-nightstand-master">🏆 Final Practical Challenge: The Nightstand Master</h3>
+<p><strong>Combine all your code!</strong></p>
+<ol>
+<li><strong>Rename your file:</strong> <code>SmartAlarm_Class_No.py</code></li>
+<li><strong>Setup:</strong> Create your <code>alarm_active</code> and <code>awake</code> variables at the top.</li>
+<li><strong>The Loop:</strong> Use a <code>while</code> loop to check for Light, Alarm State, and Awake State.</li>
+<li><strong>Interaction:</strong> Program Button A to toggle the alarm and Button B to give advice.</li>
+<li><strong>Auto-Reset:</strong> Make the micro:bit &quot;go to sleep&quot; (awake = False) when the room is dark and quiet.</li>
+</ol>
+<hr>
+<h3 id="-final-check">🏁 Final Check</h3>
+<ul class="contains-task-list">
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> Can you turn the alarm OFF (X) and ON (O) using Button A?</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> Does the alarm only ring when the light is bright?</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> Does it tell you the temperature immediately when you stop the alarm?</li>
+<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> Does Button B give you weather advice?</li>
+</ul>
+
+            
+            
+        </body>
+        </html>

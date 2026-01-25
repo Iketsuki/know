@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Worksheet&colon; Advanced Python Game Features</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="worksheet-advanced-python-game-features">Worksheet: Advanced Python Game Features</h1>
+<p><strong>Name:</strong> ____________________________  <strong>Class:</strong> ________________</p>
+<h3 id="section-1-working-with-lists-arrays">Section 1: Working with Lists (Arrays)</h3>
+<p><em>Fill in the blanks using the information about Python lists.</em></p>
+<ol>
+<li>
+<p>A <strong>List</strong> is a special data structure that allows a programmer to create many variables without giving them individual __________.</p>
+</li>
+<li>
+<p>Each individual position in a list starts from the index number __________.</p>
+</li>
+<li>
+<p>To add a new item to the end of an existing list, we use the method: <code>.____________()</code>.</p>
+</li>
+<li>
+<p>Lists are powerful because they allow programmers to handle a large number of variables efficiently using __________.</p>
+</li>
+<li>
+<p>If we want to create 10 monsters, we first create an empty list called <code>monsters = []</code>, then use a loop to create a <code>temp_monster</code> and __________ it to the list.</p>
+</li>
+</ol>
+<hr>
+<h3 id="section-2-the-update-function--movement">Section 2: The <code>update()</code> Function &amp; Movement</h3>
+<p><em>Explore how the game loop handles changes over time.</em></p>
+<ol>
+<li>
+<p>While the <code>draw()</code> function refreshes the window, the <strong><code>update()</code></strong> function is responsible for changing the game state.</p>
+</li>
+<li>
+<p>The <code>update()</code> function is called automatically __________ times every second.</p>
+</li>
+<li>
+<p>To make a monster move, we must change its <strong>(x, y) __________</strong> inside the <code>update()</code> function.</p>
+</li>
+</ol>
+<hr>
+<h3 id="section-3-creating-a-countdown-timer">Section 3: Creating a Countdown Timer</h3>
+<p><em>Follow the logic for adding a time limit to your game.</em></p>
+<ol>
+<li>
+<p>To track remaining time, create a variable (e.g., <code>TIME</code>) and set it to a starting value like __________ seconds.</p>
+</li>
+<li>
+<p>Since <code>update()</code> runs 60 times per second, each call represents approximately <strong>0.0167 seconds</strong>.</p>
+</li>
+<li>
+<p>To decrease the timer, you should deduct __________ from the <code>TIME</code> variable every time <code>update()</code> is called.</p>
+</li>
+<li>
+<p>Because <code>TIME</code> is defined outside the function, you must use the keyword <code>__________</code> inside <code>update()</code> before modifying it.</p>
+</li>
+</ol>
+<div style="page-break-after: always;"></div>
+<hr>
+<h3 id="section-4-discovery--displaying-text">Section 4: Discovery – Displaying Text</h3>
+<p><em>Look at the &quot;Show the time on the screen&quot; section and answer below.</em></p>
+<ol>
+<li>
+<p>To display text (like the countdown or score) on the screen, we use the built-in object called <strong><code>__________</code></strong>.</p>
+</li>
+<li>
+<p>Text display commands should be placed inside the <code>__________()</code> function so they are visible to the player.</p>
+</li>
+</ol>
+<p><strong>Challenge Question:</strong> In your <code>draw()</code> function, the logic for 10 monsters should be: &quot;If the monster is <strong>not __________</strong>, then draw it on the screen&quot;.</p>
+<hr>
+<h3 id="section-5-my-game-plan">Section 5: My Game Plan</h3>
+<p>Briefly list two features you want to add to your finished game (e.g., background music, a start button, or penalty points).</p>
+<ol>
+<li>
+<hr>
+</li>
+<li>
+<hr>
+</li>
+</ol>
+
+            
+            
+        </body>
+        </html>

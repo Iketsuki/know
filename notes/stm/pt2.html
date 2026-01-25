@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x23f1;&#xfe0f; Practical Test&colon; The 7-Second Challenge</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="️-practical-test-the-7-second-challenge">⏱️ Practical Test: The 7-Second Challenge</h2>
+<p><strong>Objective:</strong> Create a game where players try to stop a timer exactly at <strong>7 seconds</strong>. You will learn how the <code>micro:bit</code> keeps track of time using &quot;Running Time.&quot;</p>
+<p><strong>Instructions:</strong></p>
+<ul>
+<li><strong>Rename your file:</strong> <code>7SecGame_Class_ClassNumber.py</code></li>
+<li><strong>Target:</strong> Stop the timer as close to <strong>7.000 seconds</strong> as possible!</li>
+</ul>
+<hr>
+<h3 id="-the-concept-what-is-running_time">🧠 The Concept: What is <code>running_time()</code>?</h3>
+<p>The <code>micro:bit</code> has an internal stopwatch that starts the moment you turn it on.</p>
+<ul>
+<li>The command <code>running_time()</code> tells you how many <strong>milliseconds</strong> have passed.</li>
+<li><strong>1000 milliseconds = 1 second.</strong></li>
+<li>To turn milliseconds into seconds, we use math: <code>running_time() / 1000</code>.</li>
+<li><a href="https://www.online-stopwatch.com/split-timer/full-screen/">https://www.online-stopwatch.com/split-timer/full-screen/</a></li>
+</ul>
+<hr>
+<h3 id="phase-1-planning-the-game-level-apply">Phase 1: Planning the Game (Level: Apply)</h3>
+<p>To calculate how long your game lasted, you need two &quot;snapshots&quot; of time:</p>
+<ol>
+<li><strong>The Start:</strong> When you press Button A.</li>
+<li><strong>The End:</strong> When you press Button B.</li>
+<li><strong>The Result:</strong> <code>End Time - Start Time = Total Time</code>.</li>
+</ol>
+<h4 id="-lab-check-1-fill-in-the-blanks">🧪 Lab Check 1: Fill in the Blanks</h4>
+<ol>
+<li>If the <code>micro:bit</code> has been on for 5 seconds, <code>running_time()</code> will return the number __________.</li>
+<li>If I press Button A at <strong>3000ms</strong> and Button B at <strong>8000ms</strong>, how many seconds passed? __________ seconds.</li>
+<li>Why do we set <code>start_time = 0</code> at the very top of the code before the loop?
+Answer: ___________________________________________________________</li>
+</ol>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="phase-2-building-the-features-level-analyze">Phase 2: Building the Features (Level: Analyze)</h3>
+<p><strong>Mission Requirements:</strong></p>
+<ol>
+<li><strong>Start (Button A):</strong> When pressed, &quot;save&quot; the current time into the <code>start_time</code> variable. Show a &quot;GO&quot; icon or a checkmark.</li>
+<li><strong>Stop (Button B):</strong> When pressed:</li>
+</ol>
+<ul>
+<li>Calculate the <code>total_time</code> (End - Start).</li>
+<li>Show the result on the LED screen using <code>display.scroll()</code>.</li>
+</ul>
+<ol start="3">
+<li><strong>The Judge (Conditionals):</strong> * <strong>IF</strong> the time is exactly 7 seconds (or between 6.9 and 7.1): Show a <strong>HAPPY</strong> face and speak &quot;You win!&quot;</li>
+</ol>
+<ul>
+<li><strong>ELSE:</strong> Show a <strong>SAD</strong> face and speak &quot;Try again!&quot;</li>
+</ul>
+<h4 id="-lab-check-2-fill-in-the-blanks">🧪 Lab Check 2: Fill in the Blanks</h4>
+<ol>
+<li>To calculate the total time in seconds, the math is: <code>(running_time() - start_time) / ____</code>.</li>
+<li>To check if the player won, I use an <code>if</code> statement: <code>if total_time == ____:</code>.</li>
+<li>To make the game more exciting, I should add a <code>music.play()</code> sound when the button is __________.</li>
+</ol>
+<hr>
+<h3 id="️-programming-workspace">🛠️ Programming Workspace</h3>
+<p><strong>Task:</strong> Complete the code. Remember to use <code>import speech</code> and <code>import music</code> at the top!</p>
+<pre><code class="language-python"><span class="hljs-comment"># Imports go at the top</span>
+<span class="hljs-keyword">from</span> microbit <span class="hljs-keyword">import</span> *
+
+<span class="hljs-comment"># Code in a &#x27;while True:&#x27; loop repeats forever</span>
+start_time = <span class="hljs-number">0</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+    <span class="hljs-keyword">if</span> button_a.was_pressed():
+        start_time = running_time()
+        <span class="hljs-comment"># display.scroll(start_time/1000)    </span>
+
+        <span class="hljs-comment"># 2. Calculate the elapsed time</span>
+        <span class="hljs-comment"># 3. Show the time on the screen</span>
+        <span class="hljs-comment"># 4. Use IF/ELSE to check if it is 7 seconds</span>
+
+</code></pre>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="-practical-test-rubric">✅ Practical Test Rubric</h3>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Points</th>
+<th>Check</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Correct Filename</strong> (<code>7SecGame_Class_No.py</code>)</td>
+<td>5</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><strong>Start Logic:</strong> Button A saves <code>running_time()</code></td>
+<td>10</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><strong>Stop Logic:</strong> Button B calculates and scrolls time</td>
+<td>10</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><strong>Winning Logic:</strong> Different output for 7 seconds</td>
+<td>15</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><strong>Audio:</strong> Uses speech or music feedback</td>
+<td>10</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><strong>TOTAL</strong></td>
+<td><strong>50</strong></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>Next Step:</strong> Would you like me to provide the <strong>Answer Key</strong> for the Lab Checks or a <strong>Sample Solution</strong> for the 7-Second Game?</p>
+
+            
+            
+        </body>
+        </html>

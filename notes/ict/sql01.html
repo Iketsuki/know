@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f575;&#xfe0f;&zwj;&male;&#xfe0f; SQL Mission Part 1&colon; Data Detectives</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="️️-sql-mission-part-1-data-detectives">🕵️‍♂️ SQL Mission Part 1: Data Detectives</h1>
+<p><strong>Names:</strong> ___________________________ &amp; ___________________________</p>
+<h2 id="-section-1-the-basics-the-show-me-tools">🧭 Section 1: The Basics (The &quot;Show Me&quot; Tools)</h2>
+<p><em>To get data, we use <code>SELECT</code> (what columns?) and <code>FROM</code> (which table?).</em></p>
+<p><strong>Syntax Summary:</strong></p>
+<blockquote>
+<p><code>SELECT</code> ( column_name , _______ ) <code>FROM</code> ( _______ );
+<em>Tip: Use <code>*</code> to show ALL columns.</em></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Goal</th>
+<th>SQL Code (Write it here!)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>Show <strong>all columns</strong> for every row in the <code>CITY</code> table.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>Show only the <strong>NAME</strong> and <strong>POPULATION</strong> for all cities.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>Show a list of <strong>unique</strong> (no duplicates) districts.</td>
+<td><code>SELECT ________ DISTRICT FROM CITY;</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-section-2-filtering-the-finding-tools">🔍 Section 2: Filtering (The &quot;Finding&quot; Tools)</h2>
+<p><em>Use <code>WHERE</code> to filter your results. Use <code>AND</code> or <code>OR</code> to add more rules.</em></p>
+<p><strong>Syntax Summary:</strong></p>
+<blockquote>
+<p><code>SELECT * FROM Table WHERE column</code> ( <code>=</code> , <code>!=</code> , <code>&lt;</code> , <code>&gt;</code> ) <code>value</code>;
+<em>Note: For text, use single quotes like 'USA'. For numbers, use no quotes.</em></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Goal</th>
+<th>SQL Code (Write it here!)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>4</strong></td>
+<td>Find cities in <strong>'USA'</strong> with a population over <strong>100,000</strong>.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td>Find employees in <strong>Group 1</strong> OR those with a salary under <strong>1500</strong>.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td>Find all cities that are <strong>NOT</strong> in the 'USA'.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>7</strong></td>
+<td>Find employees whose <code>group_id</code> is <strong>1, 2, or 3</strong>.</td>
+<td><code>WHERE group_id IN (__, __, __);</code></td>
+</tr>
+<tr>
+<td><strong>8</strong></td>
+<td>Find cities with a population <strong>between</strong> 100k and 200k.</td>
+<td><code>WHERE POPULATION _______ 100000 ____ 200000;</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<div style="page-break-after: always;"></div>
+<h2 id="-section-3-the-empty--hidden-data">👻 Section 3: The &quot;Empty&quot; &amp; &quot;Hidden&quot; Data</h2>
+<p><em>Sometimes data is missing (<code>NULL</code>) or we only know part of a name (<code>LIKE</code>).</em></p>
+<p><strong>Syntax Summary:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Goal</th>
+<th style="text-align:left">Symbol/Keyword</th>
+<th style="text-align:left">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Missing Data</td>
+<td style="text-align:left"><code>IS NULL</code></td>
+<td style="text-align:left"><code>WHERE col IS NULL</code></td>
+</tr>
+<tr>
+<td style="text-align:left">Starts with...</td>
+<td style="text-align:left"><code>LIKE 'A%'</code></td>
+<td style="text-align:left"><code>%</code> means many letters.</td>
+</tr>
+<tr>
+<td style="text-align:left">Specific length</td>
+<td style="text-align:left"><code>LIKE 'R___'</code></td>
+<td style="text-align:left"><code>_</code> means <strong>one</strong> letter.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Goal</th>
+<th>SQL Code (Write it here!)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>9</strong></td>
+<td>Find cities where the <code>DISTRICT</code> is <strong>missing</strong> (NULL).</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>11</strong></td>
+<td>Find cities <strong>starting</strong> with the letter <strong>'A'</strong>.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>12</strong></td>
+<td>Find employees with a <strong>4-letter</strong> name starting with <strong>'R'</strong>.</td>
+<td><code>WHERE name LIKE 'R___';</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-section-4-intermediate-cleaning-the-make-it-pretty-tools">🧹 Section 4: Intermediate Cleaning (The &quot;Make it Pretty&quot; Tools)</h2>
+<p><em>Use functions to change how text and numbers look.</em></p>
+<p><strong>Syntax Summary:</strong></p>
+<ul>
+<li><code>UPPER(col)</code>: Makes text BIG.</li>
+<li><code>LEN(col)</code>: Counts the letters.</li>
+<li><code>TRIM(col)</code>: Removes extra empty spaces.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Goal</th>
+<th>SQL Code (Write it here!)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>15</strong></td>
+<td>Show employee names in all <strong>UPPERCASE</strong>.</td>
+<td><code>SELECT ________(name) FROM Employee;</code></td>
+</tr>
+<tr>
+<td><strong>14</strong></td>
+<td>Show the city name and the <strong>length</strong> (number of letters) of the name.</td>
+<td><code>SELECT NAME, ____(NAME) FROM CITY;</code></td>
+</tr>
+<tr>
+<td><strong>17</strong></td>
+<td>Select city names but <strong>trim</strong> (remove) the empty spaces around them.</td>
+<td><code>________________________________</code></td>
+</tr>
+<tr>
+<td><strong>13</strong></td>
+<td>Show the <strong>top 3</strong> highest-paid employees.</td>
+<td><code>ORDER BY salary ____ LIMIT 3;</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3 id="-stop">🛑 STOP!</h3>
+<ul>
+<li>Did you remember the semicolon <code>;</code> at the end?</li>
+<li>Did you use <code>' '</code> for text?</li>
+</ul>
+
+            
+            
+        </body>
+        </html>
