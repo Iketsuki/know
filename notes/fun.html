@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Function</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-query-placeholder {
+  border: 1px dashed var(--vscode-editorLineNumber-foreground);
+  background-color: var(--vscode-textBlockQuote-background);
+  color: var(--vscode-foreground);
+  padding: 0.75em 1em;
+  margin: 1em 0;
+  opacity: 0.8;
+}
+
+.foam-query-placeholder pre {
+  background-color: var(--vscode-textPreformat-background);
+  padding: 0.4em 0.6em;
+  margin: 0.5em 0;
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="function">Function</h2>
+<h3 id="1-quick-check-prerequisite-knowledge">1. Quick Check: Prerequisite Knowledge</h3>
+<p>Before we build a &quot;machine,&quot; do you remember the parts?</p>
+<ul>
+<li><strong>Variables:</strong> Storing data (e.g., <code>x = 5</code>).</li>
+<li><strong>Data Types:</strong> Integers (<code>10</code>) and Strings (<code>&quot;Hello&quot;</code>).</li>
+<li><strong>Indentation:</strong> The &quot;space&quot; at the start of a line that shows code belongs together.</li>
+</ul>
+<h3 id="2-definition-fill-in-the-blanks">2. Definition: Fill in the Blanks</h3>
+<blockquote>
+<p>A Python <strong>function</strong> is a reusable block of code. It only runs when you ________ it. You can pass data, known as ________, into it. A function can ________ data as a result.</p>
+</blockquote>
+<p><em>(Answers: call, parameters, return)</em></p>
+<hr>
+<h3 id="3-thinking-process-how-to-build-a-function">3. Thinking Process: How to Build a Function</h3>
+<p>When you see a problem, follow these three steps:</p>
+<ol>
+<li><strong>Identify the Input:</strong> What data does the function need? (These go in the <code>()</code>).</li>
+<li><strong>Define the Action:</strong> What math or logic happens inside?</li>
+<li><strong>Specify the Output:</strong> What should the function give back? (Use <code>return</code>).</li>
+</ol>
+<p><strong>Example: The &quot;Double It&quot; Machine</strong></p>
+<ul>
+<li><strong>Input:</strong> A number (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi></mrow><annotation encoding="application/x-tex">n</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">n</span></span></span></span>).</li>
+<li><strong>Action:</strong> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>n</mi><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">n \times 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">n</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span>.</li>
+<li><strong>Output:</strong> The result.</li>
+</ul>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">double_number</span>(<span class="hljs-params">n</span>):
+    result = n * <span class="hljs-number">2</span>
+    <span class="hljs-keyword">return</span> result
+</code></pre>
+<div style="page-break-after: always;"></div>
+<hr>
+<h3 id="4-practice-1-scaffolding-easy">4. Practice 1: Scaffolding (Easy)</h3>
+<p>Complete the function to add two numbers together.</p>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">add_numbers</span>(<span class="hljs-params">a, b</span>):
+    <span class="hljs-comment"># Your code here</span>
+    answer = ___ + ___
+    <span class="hljs-keyword">return</span> ______
+
+<span class="hljs-comment"># Test it:</span>
+<span class="hljs-built_in">print</span>(add_numbers(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>)) 
+</code></pre>
+<hr>
+<h3 id="5-practice-2-advancing-applying">5. Practice 2: Advancing (Applying)</h3>
+<p>Create a function called <code>make_full_name</code>. It should take a <code>first_name</code> and a <code>last_name</code>, combine them with a space, and return the result.</p>
+<p><strong>Goal:</strong> <code>make_full_name(&quot;Bruce&quot;, &quot;Wayne&quot;)</code> should return <code>&quot;Bruce Wayne&quot;</code>.</p>
+<hr>
+<h3 id="6-exercise-set-the-challenge-loop">6. Exercise Set: The Challenge Loop</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Task</th>
+<th style="text-align:left">Level</th>
+<th style="text-align:left">Goal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>The Calculator</strong></td>
+<td style="text-align:left">Basic</td>
+<td style="text-align:left">Create a function <code>subtract(a, b)</code> that returns <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mo>−</mo><mi>b</mi></mrow><annotation encoding="application/x-tex">a - b</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">a</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">b</span></span></span></span>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>The Messenger</strong></td>
+<td style="text-align:left">Intermediate</td>
+<td style="text-align:left">Create a function that takes a name and returns <code>&quot;Hello, [name]!&quot;</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>The Converter</strong></td>
+<td style="text-align:left">Advanced</td>
+<td style="text-align:left">Create a function <code>to_seconds(minutes)</code> that converts minutes to seconds (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>m</mi><mi>i</mi><mi>n</mi><mi>u</mi><mi>t</mi><mi>e</mi><mi>s</mi><mo>×</mo><mn>60</mn></mrow><annotation encoding="application/x-tex">minutes \times 60</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7429em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">min</span><span class="mord mathnormal">u</span><span class="mord mathnormal">t</span><span class="mord mathnormal">es</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">60</span></span></span></span>).</td>
+</tr>
+</tbody>
+</table>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            <script async type="text/javascript">
+/* From extension foam.foam-vscode */
+/**
+ * Handles in-preview scroll-to-fragment for Foam block anchors.
+ *
+ * Block anchor elements have ids prefixed with '__' (e.g. id="__myblock").
+ *
+ * Two cases:
+ *
+ * 1. Same-document links ([[#^blockid]] → href="#__blockid"):
+ *    VS Code's click handler returns early for '#'-prefixed hrefs, relying on
+ *    browser-native hash navigation. In VS Code's webview this doesn't reliably
+ *    scroll to arbitrary elements (only headings work via the sync mechanism).
+ *    We intercept the click ourselves and call scrollIntoView directly.
+ *
+ * 2. Cross-document links ([[note#^blockid]] → href="/note.md#__blockid"):
+ *    VS Code opens the new note's preview. We stash the fragment in
+ *    sessionStorage before the navigation happens, and read it when the target
+ *    note's preview script runs (either on initial load or via the
+ *    vscode.markdown.updateContent event for in-place re-renders).
+ */
+
+const BLOCK_ANCHOR_PREFIX = '__';
+const FRAGMENT_STORAGE_KEY = 'foam-block-anchor-fragment';
+
+function scrollToBlockAnchor(fragment) {
+  if (!fragment || !fragment.startsWith(BLOCK_ANCHOR_PREFIX)) {
+    return false;
+  }
+  const el = document.getElementById(fragment);
+  if (el) {
+    el.scrollIntoView();
+    return true;
+  }
+  return false;
+}
+
+function getFragmentFromSettings() {
+  try {
+    const dataEl = document.getElementById('vscode-markdown-preview-data');
+    if (!dataEl) {
+      return null;
+    }
+    const settings = JSON.parse(dataEl.getAttribute('data-settings') ?? '{}');
+    const state = JSON.parse(dataEl.getAttribute('data-state') ?? '{}');
+    return settings.fragment ?? state.fragment ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function getPendingFragment() {
+  try {
+    const f = sessionStorage.getItem(FRAGMENT_STORAGE_KEY);
+    if (f) {
+      sessionStorage.removeItem(FRAGMENT_STORAGE_KEY);
+    }
+    return f;
+  } catch {
+    return null;
+  }
+}
+
+function tryScrollFromContext() {
+  scrollToBlockAnchor(getFragmentFromSettings() ?? getPendingFragment());
+}
+
+// Case 1 & 2: intercept all block anchor link clicks (window capture phase runs
+// before VS Code's document-level handler).
+window.addEventListener(
+  'click',
+  e => {
+    const a = e.target.closest('a[href]');
+    if (!a) {
+      return;
+    }
+    const href = a.getAttribute('href');
+    if (!href) {
+      return;
+    }
+
+    const hashIndex = href.lastIndexOf('#');
+    if (hashIndex === -1) {
+      return;
+    }
+
+    const fragment = href.slice(hashIndex + 1); // fragment without '#'
+    if (!fragment.startsWith(BLOCK_ANCHOR_PREFIX)) {
+      return;
+    }
+
+    const pathPart = href.slice(0, hashIndex);
+
+    if (!pathPart) {
+      // Same-document link: scroll directly and suppress default navigation.
+      if (scrollToBlockAnchor(fragment)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    } else {
+      // Cross-document link: stash the fragment so the target note's preview
+      // script can pick it up on load or on the updateContent event.
+      try {
+        sessionStorage.setItem(FRAGMENT_STORAGE_KEY, fragment);
+      } catch {
+        // sessionStorage unavailable — silently ignore.
+      }
+    }
+  },
+  true
+);
+
+// On (re)load: scroll to any pending block anchor fragment. markdown.previewScripts
+// execute after VS Code has appended the rendered content, so the element is in DOM.
+tryScrollFromContext();
+
+// Also handle in-place re-renders triggered by live editing or cross-document
+// navigation that reuses the same webview panel.
+window.addEventListener('vscode.markdown.updateContent', tryScrollFromContext);
+
+</script>
+
+        </body>
+        </html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>HW 16&colon; The &quot;List Mystery&quot; Continued</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-query-placeholder {
+  border: 1px dashed var(--vscode-editorLineNumber-foreground);
+  background-color: var(--vscode-textBlockQuote-background);
+  color: var(--vscode-foreground);
+  padding: 0.75em 1em;
+  margin: 1em 0;
+  opacity: 0.8;
+}
+
+.foam-query-placeholder pre {
+  background-color: var(--vscode-textPreformat-background);
+  padding: 0.4em 0.6em;
+  margin: 0.5em 0;
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="hw-16-the-list-mystery-continued">HW 16: The &quot;List Mystery&quot; Continued</h2>
+<h3 id="question-1-the-score-keeper">Question 1: The Score Keeper</h3>
+<p><em>What happens when we try to update a score?</em></p>
+<pre><code class="language-python">score = <span class="hljs-number">0</span>
+names = [<span class="hljs-string">&quot;Player1&quot;</span>]
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">update_game</span>(<span class="hljs-params">s, n</span>):
+    s = s + <span class="hljs-number">10</span>
+    n[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;Winner&quot;</span>
+
+update_game(score, names)
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Q1 Score:&quot;</span>, score) 
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Q1 Names:&quot;</span>, names)
+</code></pre>
+<p><strong>Output Q1:</strong>
+Score: <code>__________</code>
+Names: <code>__________</code></p>
+<hr>
+<h3 id="question-2-the-list-replacement-trap">Question 2: The List Replacement Trap</h3>
+<p><em>Look closely at Version A vs Version B. Does <code>list = ...</code> work the same as <code>list[0] = ...</code>?</em></p>
+<pre><code class="language-python">items_a = [<span class="hljs-string">&quot;Milk&quot;</span>]
+items_b = [<span class="hljs-string">&quot;Bread&quot;</span>]
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">version_a</span>(<span class="hljs-params">my_list</span>):
+    my_list[<span class="hljs-number">0</span>] = <span class="hljs-string">&quot;Eggs&quot;</span> <span class="hljs-comment"># Changing an item</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">version_b</span>(<span class="hljs-params">my_list</span>):
+    my_list = [<span class="hljs-string">&quot;Juice&quot;</span>, <span class="hljs-string">&quot;Water&quot;</span>] <span class="hljs-comment"># Replacing the whole list</span>
+
+version_a(items_a)
+version_b(items_b)
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Q2 A:&quot;</span>, items_a)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Q2 B:&quot;</span>, items_b)
+</code></pre>
+<p><strong>Output Q2:</strong>
+A: <code>__________</code>
+B: <code>__________</code></p>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="question-3-the-multiple-bridge-challenge">Question 3: The &quot;Multiple Bridge&quot; Challenge</h3>
+<p><em>Can you trace the value of <code>x</code> and <code>y</code> through two different functions?</em></p>
+<pre><code class="language-python">x = <span class="hljs-number">10</span>
+y = [<span class="hljs-number">10</span>]
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">boost_value</span>(<span class="hljs-params">val</span>):
+    val = val + <span class="hljs-number">90</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">boost_list</span>(<span class="hljs-params">lst</span>):
+    <span class="hljs-keyword">global</span> x
+    x = <span class="hljs-number">50</span> 
+    lst[<span class="hljs-number">0</span>] = lst[<span class="hljs-number">0</span>] + <span class="hljs-number">90</span>
+
+boost_value(x)
+boost_list(y)
+
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Q3 x:&quot;</span>, x)
+<span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Q3 y:&quot;</span>, y)
+</code></pre>
+<p><strong>Output Q3:</strong>
+x: <code>__________</code>
+y: <code>__________</code></p>
+<hr>
+<h3 id="quick-summary-for-your-notes">Quick Summary for your Notes:</h3>
+<ul>
+<li><strong>Numbers &amp; Strings:</strong> Are &quot;Immutable&quot; (Cannot be changed by a function unless you use <code>global</code>).</li>
+<li><strong>Lists:</strong> Are &quot;Mutable&quot; (A function can change an <strong>item</strong> inside <code>list[0]</code>, but it cannot replace the <strong>whole list</strong> <code>list = [...]</code> without <code>global</code>).
+<strong>Hint</strong> If you see <code>list[index] = ...</code>, the change usually &quot;sticks&quot; to the outside world. If you see <code>variable = ...</code>, it usually stays &quot;secret&quot; inside the function unless the word <code>global</code> is there!</li>
+</ul>
+
+            
+            <script async type="text/javascript">
+/* From extension foam.foam-vscode */
+/**
+ * Handles in-preview scroll-to-fragment for Foam block anchors.
+ *
+ * Block anchor elements have ids prefixed with '__' (e.g. id="__myblock").
+ *
+ * Two cases:
+ *
+ * 1. Same-document links ([[#^blockid]] → href="#__blockid"):
+ *    VS Code's click handler returns early for '#'-prefixed hrefs, relying on
+ *    browser-native hash navigation. In VS Code's webview this doesn't reliably
+ *    scroll to arbitrary elements (only headings work via the sync mechanism).
+ *    We intercept the click ourselves and call scrollIntoView directly.
+ *
+ * 2. Cross-document links ([[note#^blockid]] → href="/note.md#__blockid"):
+ *    VS Code opens the new note's preview. We stash the fragment in
+ *    sessionStorage before the navigation happens, and read it when the target
+ *    note's preview script runs (either on initial load or via the
+ *    vscode.markdown.updateContent event for in-place re-renders).
+ */
+
+const BLOCK_ANCHOR_PREFIX = '__';
+const FRAGMENT_STORAGE_KEY = 'foam-block-anchor-fragment';
+
+function scrollToBlockAnchor(fragment) {
+  if (!fragment || !fragment.startsWith(BLOCK_ANCHOR_PREFIX)) {
+    return false;
+  }
+  const el = document.getElementById(fragment);
+  if (el) {
+    el.scrollIntoView();
+    return true;
+  }
+  return false;
+}
+
+function getFragmentFromSettings() {
+  try {
+    const dataEl = document.getElementById('vscode-markdown-preview-data');
+    if (!dataEl) {
+      return null;
+    }
+    const settings = JSON.parse(dataEl.getAttribute('data-settings') ?? '{}');
+    const state = JSON.parse(dataEl.getAttribute('data-state') ?? '{}');
+    return settings.fragment ?? state.fragment ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function getPendingFragment() {
+  try {
+    const f = sessionStorage.getItem(FRAGMENT_STORAGE_KEY);
+    if (f) {
+      sessionStorage.removeItem(FRAGMENT_STORAGE_KEY);
+    }
+    return f;
+  } catch {
+    return null;
+  }
+}
+
+function tryScrollFromContext() {
+  scrollToBlockAnchor(getFragmentFromSettings() ?? getPendingFragment());
+}
+
+// Case 1 & 2: intercept all block anchor link clicks (window capture phase runs
+// before VS Code's document-level handler).
+window.addEventListener(
+  'click',
+  e => {
+    const a = e.target.closest('a[href]');
+    if (!a) {
+      return;
+    }
+    const href = a.getAttribute('href');
+    if (!href) {
+      return;
+    }
+
+    const hashIndex = href.lastIndexOf('#');
+    if (hashIndex === -1) {
+      return;
+    }
+
+    const fragment = href.slice(hashIndex + 1); // fragment without '#'
+    if (!fragment.startsWith(BLOCK_ANCHOR_PREFIX)) {
+      return;
+    }
+
+    const pathPart = href.slice(0, hashIndex);
+
+    if (!pathPart) {
+      // Same-document link: scroll directly and suppress default navigation.
+      if (scrollToBlockAnchor(fragment)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    } else {
+      // Cross-document link: stash the fragment so the target note's preview
+      // script can pick it up on load or on the updateContent event.
+      try {
+        sessionStorage.setItem(FRAGMENT_STORAGE_KEY, fragment);
+      } catch {
+        // sessionStorage unavailable — silently ignore.
+      }
+    }
+  },
+  true
+);
+
+// On (re)load: scroll to any pending block anchor fragment. markdown.previewScripts
+// execute after VS Code has appended the rendered content, so the element is in DOM.
+tryScrollFromContext();
+
+// Also handle in-place re-renders triggered by live editing or cross-document
+// navigation that reuses the same webview panel.
+window.addEventListener('vscode.markdown.updateContent', tryScrollFromContext);
+
+</script>
+
+        </body>
+        </html>

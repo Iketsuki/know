@@ -76,8 +76,8 @@ Now, let's find students using only parts of their names. Remember to set `[matc
 ---
 ### **Answer Key**
 
-<details>
-  <summary>Click to view</summary>
+<!-- <details>
+  <summary>Click to view</summary> -->
 
 #### **Part 1: Basic Lookups**
 1.  `=XLOOKUP("Ben", C2:C7, A2:A7)` -> Result: `1B`
@@ -96,7 +96,7 @@ Now, let's find students using only parts of their names. Remember to set `[matc
 1.  `=XLOOKUP("C*", C2:C7, C2:C7, , 2)` -> Result: `Cole`
 2.  `=XLOOKUP("*en", C2:C7, C2:C7, , 2)` -> Result: `Ben`
 3.  `=XLOOKUP("*m*", C2:C7, C2:C7, , 2)` -> Result: `Amy`
-</details>
+<!-- </details> -->
 
 ---
 

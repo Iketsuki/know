@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Question 1&colon; Inventory Management &lpar;SQL&rpar;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h3 id="question-1-inventory-management-sql">Question 1: Inventory Management (SQL)</h3>
+<p>A retail store uses a table <code>PRODUCT</code> to manage its stock.</p>
+<p>Table: PRODUCT</p>
+<table>
+<thead>
+<tr>
+<th>Field name</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PID</td>
+<td>Product ID (Primary Key)</td>
+<td>P882</td>
+</tr>
+<tr>
+<td>PNAME</td>
+<td>Product Name</td>
+<td>Wireless Mouse</td>
+</tr>
+<tr>
+<td>CATEGORY</td>
+<td>Type: EL-Electronics, HO-Home, FD-Food</td>
+<td>EL</td>
+</tr>
+<tr>
+<td>PRICE</td>
+<td>Unit Price ($)</td>
+<td>150</td>
+</tr>
+<tr>
+<td>STOCK</td>
+<td>Current quantity in warehouse</td>
+<td>12</td>
+</tr>
+<tr>
+<td>SUPP_EMAIL</td>
+<td>Supplier contact email</td>
+<td><a href="mailto:tech@supp.com">tech@supp.com</a></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Write SQL statements for the following:</strong></p>
+<p><strong>(a)</strong> List the names (<code>PNAME</code>) and prices of all 'Electronics' (EL) products with a price between 100 and 500 inclusive. (2 marks)</p>
+<pre><code>
+
+</code></pre>
+<p><strong>(b)</strong> List the product IDs and names of products where the supplier's email ends with '@gmail.com'. (2 marks)</p>
+<pre><code>
+
+
+</code></pre>
+<p><strong>(c)</strong> Calculate the total value (Price  Stock) of all 'Food' (FD) products. (2 marks)</p>
+<pre><code>
+
+
+</code></pre>
+<p><strong>(d)</strong> Find the average price of products for each category, but only display categories where the average price is higher than 50. (3 marks)</p>
+<div style="page-break-after: always;"></div>
+<h3 id="question-2-employee-attendance-database--spreadsheet">Question 2: Employee Attendance (Database &amp; Spreadsheet)</h3>
+<p>A company uses a table <code>ATTENDANCE</code> to track staff work hours.
+Table: ATTENDANCE</p>
+<table>
+<thead>
+<tr>
+<th>EMP_ID</th>
+<th>ENAME</th>
+<th>HOURS_WORKED</th>
+<th>LATE_COUNT</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E01</td>
+<td>Sam Lau</td>
+<td>40</td>
+<td>0</td>
+</tr>
+<tr>
+<td>E02</td>
+<td>Ivy Cheung</td>
+<td>38</td>
+<td>2</td>
+</tr>
+<tr>
+<td>E03</td>
+<td>Ben Kwok</td>
+<td>42</td>
+<td>5</td>
+</tr>
+<tr>
+<td>E04</td>
+<td>Ada Wong</td>
+<td>35</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>(a)</strong> State the <strong>Primary Key</strong> of the <code>ATTENDANCE</code> table and explain its required properties in a database. (2 marks)
+<br></p>
+<p><strong>(b)</strong> What is the output of the following SQL statement? (1 mark)</p>
+<pre><code>SELECT COUNT(ENAME) 
+FROM ATTENDANCE 
+WHERE HOURS_WORKED &lt; 40 AND LATE_COUNT &gt; 0
+</code></pre>
+<p><br><br>
+<strong>(c)</strong> The company uses a spreadsheet to calculate bonuses based on performance. The teacher enters a formula in cell <strong>E2</strong> and then <strong>copies it down</strong> to the range <strong>E3:E100</strong>.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+<th>D</th>
+<th>E</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>ID</td>
+<td>Name</td>
+<td>Hours</td>
+<td>Late</td>
+<td>Bonus</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>E01</td>
+<td>Sam Lau</td>
+<td>40</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>E02</td>
+<td>Ivy Cheung</td>
+<td>38</td>
+<td>2</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>...</strong></td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<td><strong>101</strong></td>
+<td><strong>Target</strong></td>
+<td></td>
+<td>40</td>
+<td>0</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>i)</strong> The bonus is <strong>500</strong> if the employee's <code>Hours</code> is at least the target in <strong>C101</strong> AND their <code>Late</code> count is exactly the target in <strong>D101</strong>. Otherwise, the bonus is <strong>0</strong>. Complete the formula for cell <strong>E2</strong>, ensuring it can be copied down correctly: (3 marks)</p>
+<p><code>=IF(AND(C2 &gt;=</code> __________, <code>D2 =</code> __________ <code>), 500, 0)</code></p>
+<p><strong>ii)</strong> In the database table, <code>HOURS_WORKED</code> is set to a <strong>Numeric</strong> data type. If a clerk accidentally enters &quot;Forty&quot; (text) into this field, what will happen? (1 mark)
+<br><br>
+<strong>iii)</strong> It is suggested to use the employee's <code>ENAME</code> as the Primary Key instead of <code>EMP_ID</code>. Give one reason why this is a poor database design choice. (1 mark)</p>
+<div style="page-break-after: always;"></div>
+<h2 id="answer-key--explanations">Answer Key &amp; Explanations</h2>
+<h3 id="question-3-sql">Question 3 (SQL)</h3>
+<ul>
+<li>
+<p><strong>(a)</strong> <code>SELECT PNAME, PRICE FROM PRODUCT WHERE CATEGORY = 'EL' AND PRICE BETWEEN 100 AND 500;</code></p>
+</li>
+<li>
+<p><strong>Explanation:</strong> Uses <code>AND</code> to combine the category filter with a range filter.</p>
+</li>
+<li>
+<p><strong>(b)</strong> <code>SELECT PID, PNAME FROM PRODUCT WHERE SUPP_EMAIL LIKE '%@gmail.com';</code></p>
+</li>
+<li>
+<p><strong>Explanation:</strong> The <code>%</code> wildcard matches any characters before the specific string.</p>
+</li>
+<li>
+<p><strong>(c)</strong> <code>SELECT SUM(PRICE * STOCK) FROM PRODUCT WHERE CATEGORY = 'FD';</code></p>
+</li>
+<li>
+<p><strong>Explanation:</strong> SQL allows arithmetic expressions inside aggregate functions like <code>SUM</code>.</p>
+</li>
+<li>
+<p><strong>(d)</strong> <code>SELECT CATEGORY, AVG(PRICE) FROM PRODUCT GROUP BY CATEGORY HAVING AVG(PRICE) &gt; 50;</code></p>
+</li>
+<li>
+<p><strong>Explanation:</strong> <code>GROUP BY</code> organizes the data by category so <code>AVG</code> can calculate per group; <code>HAVING</code> filters the group results.</p>
+</li>
+</ul>
+<hr>
+<h2 id="answer-key--explanations-1">Answer Key &amp; Explanations</h2>
+<h3 id="a-primary-key">(a) Primary Key</h3>
+<ul>
+<li>
+<p><strong>Answer</strong>: <code>EMP_ID</code>.  Not Null, Unique.</p>
+</li>
+<li>
+<p><strong>Explanation</strong>: Its purpose is to uniquely identify each record in the table and ensure no two employees have the same ID.</p>
+</li>
+</ul>
+<h3 id="b-sql-output">(b) SQL Output</h3>
+<ul>
+<li><strong>Answer</strong>: 2</li>
+<li></li>
+</ul>
+<p><strong>Explanation</strong>: These are the only employees who worked fewer than 40 hours AND had a late count greater than 0. ---&gt; <code>Ivy Cheung</code>, <code>Ada Wong</code>.</p>
+<h3 id="c-spreadsheet-and-data-logic">(c) Spreadsheet and Data Logic</h3>
+<ul>
+<li>
+<p><strong>i) Formula</strong>: <code>=IF(AND(C2 &gt;= $C$101, D2 = $D$101), 500, 0)</code></p>
+</li>
+<li>
+<p><strong>Explanation</strong>: Absolute addressing (<code>$</code>) is required for <code>C101</code> and <code>D101</code> so that the reference to the target values remains fixed when the formula is copied down to other rows.</p>
+</li>
+<li>
+<p><strong>ii) Data Type Error</strong>: A <strong>Data Type Mismatch</strong> error will occur, or the system will reject the input because &quot;Forty&quot; is text and the field requires a number.</p>
+</li>
+<li>
+<p><strong>iii) Reason</strong>: Names are not necessarily <strong>unique</strong> (two employees could have the same name) and names are more likely to change over time compared to a unique ID.</p>
+</li>
+</ul>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>

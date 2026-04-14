@@ -28,7 +28,7 @@
 * Calculation ($60 + (-40)$):
     $$\begin{array}{r} 00111100 \\ + 11011000 \\ \hline (1)00010100 \end{array}$$
 * Result: $\text{Binary: } \mathbf{00010100}, \quad \text{Decimal: } \mathbf{20}$
-    * [cite_start]*Explanation: The extra 9th bit (carry) is ignored[cite: 16].*
+    * *Explanation: The extra 9th bit (carry) is ignored.*
 
 **C2: $15_{10} - 120_{10} = -105_{10}$**
 
@@ -51,11 +51,11 @@
 
 | Addition (Decimal) | Expected Decimal Result | Binary (4-bit TC) | Final Binary Result | Overflow? (Yes/No) |
 | :---: | :---: | :---: | :---: | :---: |
-| $6 + 3$ | $9$ | $0110 + 0011$ | $1001$ | [cite_start]**Yes** [cite: 18, 19] |
-| $-5 + (-4)$ | $-9$ | $1011 + 1100$ | $(1)0111$ | [cite_start]**Yes** [cite: 18, 20] |
+| $6 + 3$ | $9$ | $0110 + 0011$ | $1001$ | **Yes** |
+| $-5 + (-4)$ | $-9$ | $1011 + 1100$ | $(1)0111$ | **Yes**  |
 | $2 + 5$ | $7$ | $0010 + 0101$ | $0111$ | **No** |
 
 **Overflow Explanation:**
 
-* [cite_start]**$6 + 3$:** Adding two positive numbers results in a negative number ($1001$, which is $-7$)[cite: 19]. The expected result $9$ is outside the range $[-8, 7]$. [cite_start]**Overflow occurs**[cite: 18].
-* [cite_start]**$-5 + (-4)$:** Adding two negative numbers results in a positive number ($0111$, which is $7$)[cite: 20]. The expected result $-9$ is outside the range $[-8, 7]$. [cite_start]**Overflow occurs**[cite: 18].
+* **$6 + 3$:** Adding two positive numbers results in a negative number ($1001$, which is $-7$). The expected result $9$ is outside the range $[-8, 7]$. **Overflow occurs**.
+* **$-5 + (-4)$:** Adding two negative numbers results in a positive number ($0111$, which is $7$). The expected result $-9$ is outside the range $[-8, 7]$. **Overflow occurs**.
