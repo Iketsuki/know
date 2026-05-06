@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Vertical Line",
+    "skill": "Loops",
+    "difficulty": "Beginner",
+    "question": "Print 3 vertical stars using a for loop.",
+    "initialCode": "# Fill in the blank to loop 3 times\nfor i in range(___):\n    print(\"*\")\n",
+    "expectedOutput": "*\n*\n*"
+  },
+  {
+    "id": 2,
+    "title": "Horizontal Line (concat)",
+    "skill": "Loops, Strings",
+    "difficulty": "Beginner",
+    "question": "Build a horizontal line of 3 stars using string concatenation.",
+    "initialCode": "msg = \"\"\nfor i in range(___):\n    msg += \"*\"\nprint(msg)\n",
+    "expectedOutput": "***"
+  },
+  {
+    "id": 3,
+    "title": "Growing Triangle",
+    "skill": "Loops, String Math",
+    "difficulty": "Intermediate",
+    "question": "Print a growing triangle using string multiplication (height 3).",
+    "initialCode": "for i in range(1, ___):\n    print(\"*\" * i)\n",
+    "expectedOutput": "*\n**\n***"
+  }
+]

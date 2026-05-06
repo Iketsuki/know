@@ -1,0 +1,111 @@
+[
+    
+    {
+        "id": 1, "title": "The Basic Star", "skill": "Linear", "difficulty": "Beginner",
+        "question": "Print a single star.",
+        "initialCode": "# Fill in the blank\nprint('___')\n",
+        "expectedOutput": "*"
+    },
+    {
+        "id": 2, "title": "Vertical Line", "skill": "Loop", "difficulty": "Beginner",
+        "question": "Print 3 vertical stars using a for loop.",
+        "initialCode": "# Fill in the blank to loop 3 times\nfor i in range(___):\n    print(\"*\")\n",
+        "expectedOutput": "*\n*\n*"
+    },
+    {
+        "id": 3, "title": "Horizontal Line", "skill": "String Concat", "difficulty": "Beginner",
+        "question": "Build a horizontal line of 3 stars using string concatenation.",
+        "initialCode": "msg = \"\"\nfor i in range(___):\n    msg += \"___\"\nprint(msg)\n",
+        "expectedOutput": "***"
+    },
+    {
+        "id": 4, "title": "Fixed Grid (Nested)", "skill": "Nested Loops", "difficulty": "Intermediate",
+        "question": "Print a 2-row, 3-column grid of stars using nested loops and the `end` parameter.",
+        "initialCode": "for i in range(___):\n    for j in range(___):\n        print(\"*\", end=\"\")\n    print()\n",
+        "expectedOutput": "***\n***"
+    },
+    {
+        "id": 5, "title": "Fixed Grid (Rows)", "skill": "Row Building", "difficulty": "Intermediate",
+        "question": "Print a 3-row, 2-column grid by building a string for each row.",
+        "initialCode": "for i in range(___):\n    row = \"\"\n    for j in range(___):\n        row += \"___\"\n    print(row)\n",
+        "expectedOutput": "**\n**\n**"
+    },
+    {
+        "id": 6, "title": "Growing Pattern 1", "skill": "String Math", "difficulty": "Intermediate",
+        "question": "Print a growing triangle using string multiplication.",
+        "initialCode": "for i in range(___, ___):\n    print(\"*\" * ___)\n",
+        "expectedOutput": "*\n**\n***"
+    },
+    {
+        "id": 7, "title": "Growing Pattern 2", "skill": "Dynamic Nesting", "difficulty": "Intermediate",
+        "question": "Print the same growing triangle, but use a dynamic inner loop.",
+        "initialCode": "for i in range(___, ___):\n    # The inner loop stops at 'i'\n    for j in range(___):\n        print(\"*\", end=\"\")\n    print()\n",
+        "expectedOutput": "*\n**\n***"
+    },
+    {
+        "id": 8, "title": "Shrinking Pattern", "skill": "String Math", "difficulty": "Intermediate",
+        "question": "Print an upside-down triangle.",
+        "initialCode": "for i in range(___, ___):\n    # Math trick: 3, 2, 1...\n    row = \"*\" * (___ - ___)\n    print(row)\n",
+        "expectedOutput": "***\n**\n*"
+    },
+    {
+        "id": 9, "title": "Diagonal Line", "skill": "Whitespace", "difficulty": "Intermediate",
+        "question": "Print a diagonal line using spaces to push the star to the right.",
+        "initialCode": "for i in range(___):\n    spaces = \" \" * ___\n    print(spaces + \"*\")\n",
+        "expectedOutput": "*\n *\n  *"
+    },
+    {
+        "id": 10, "title": "Right-Aligned Triangle", "skill": "Whitespace", "difficulty": "Intermediate",
+        "question": "Print a right-aligned growing triangle.",
+        "initialCode": "for i in range(___):\n    s = \" \" * (___ - ___)\n    stars = \"*\" * (___ + ___)\n    print(___ + ___)\n",
+        "expectedOutput": "  *\n **\n***"
+    },
+    {
+        "id": 11, "title": "Alternating Lines", "skill": "Modulo %", "difficulty": "Advanced",
+        "question": "Print alternating lines of * and # using the modulo operator.",
+        "initialCode": "for i in range(___):\n    if ___:\n        print(\"*\")\n    else:\n        print(\"___\")\n",
+        "expectedOutput": "*\n#\n*\n#"
+    },
+    {
+        "id": 12, "title": "Checkerboard", "skill": "Nested Modulo", "difficulty": "Advanced",
+        "question": "Print a 3x3 checkerboard pattern using grid coordinates (i+j).",
+        "initialCode": "for i in range(3):\n    for j in range(___):\n        if (___) ___ ___ == 0:\n            print(\"*\", end=\"\")\n        else:\n            print(\"___\", end=\"\")\n    print()\n",
+        "expectedOutput": "*#*\n#*#\n*#*"
+    },
+    {
+        "id": 13, "title": "Expanding Alternating", "skill": "Variables", "difficulty": "Advanced",
+        "question": "Print expanding rows with alternating characters (* for odd rows, # for even rows).",
+        "initialCode": "for i in range(___, ___):\n    if ___:\n        char = \"*\"\n    else:\n        char = \"#\"\n    print(char * ___)\n",
+        "expectedOutput": "*\n##\n***\n####"
+    },
+    {
+        "id": 14, "title": "Hollow Square", "skill": "Complex Logic", "difficulty": "Mastery",
+        "question": "Print a 3x3 hollow square. The border is *, the inside is a space.",
+        "initialCode": "for i in range(___):\n    for j in range(___):\n        # Check if we are on the edge (first/last row or column)\n        if ___ or ___ or ___ or ___:\n            print(\"*\", end=\"\")\n        else:\n            print(\" \", end=\"\")\n    print()\n",
+        "expectedOutput": "***\n* *\n***"
+    },
+    {
+        "id": 15, "title": "Diagonal Box", "skill": "Complex Logic", "difficulty": "Mastery",
+        "question": "Print a 3x3 box with a diagonal line of '#' and '*' everywhere else.",
+        "initialCode": "for i in range(___):\n    for j in range(___):\n        # Diagonal is where row index equals column index\n        if ___ == ___:\n            print(\"#\", end=\"\")\n        else:\n            print(\"*\", end=\"\")\n    print()\n",
+        "expectedOutput": "#**\n*#*\n**#"
+    },
+    {
+        "id": 16, "title": "Number Block", "skill": "Types", "difficulty": "Mastery",
+        "question": "Print 1 on row 1, 22 on row 2, 333 on row 3. (Convert number to string to multiply!)",
+        "initialCode": "for i in range(1, 4):\n    # str(i) makes it a string so we can multiply it\n    print(str(i) * ___)\n",
+        "expectedOutput": "1\n22\n333"
+    },
+    {
+        "id": 17, "title": "Number Ascend", "skill": "Nested Logic", "difficulty": "Mastery",
+        "question": "Print ascending numbers in a triangle.",
+        "initialCode": "for i in range(___, ___):\n    for j in range(___, ___):\n        print(j, end=\"\")\n    print()\n",
+        "expectedOutput": "1\n12\n123"
+    },
+    {
+        "id": 18, "title": "The Pyramid", "skill": "Final Boss", "difficulty": "Mastery",
+        "question": "Build a centered pyramid pattern using spaces and stars.",
+        "initialCode": "for i in range(___, ___):\n    spaces = \" \" * (___ - ___)\n    stars = \"*\" * (___ * ___ - ___)\n    print(spaces + stars)\n",
+        "expectedOutput": "  *\n ***\n*****"
+    }
+]        

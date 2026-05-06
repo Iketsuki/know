@@ -1,0 +1,110 @@
+[
+    {
+        "id": 1,
+        "title": "Simple Function: greet()",
+        "skill": "Functions",
+        "difficulty": "Beginner",
+        "question": "Define a function `greet()` that prints 'Hello'. Call it once.",
+        "initialCode": "def greet():\n    # Fill in the blank\n    ___\n\n# call it\ngreet()\n",
+        "expectedOutput": "Hello"
+    },
+    {
+        "id": 2,
+        "title": "Function with Parameter",
+        "skill": "Functions",
+        "difficulty": "Beginner",
+        "question": "Define `greet(name)` that prints 'Hello, <name>' and call it with 'Ava'.",
+        "initialCode": "def greet(name):\n    # Fill in the blank\n    ___\n\n# example\ngreet(\"Ava\")\n",
+        "expectedOutput": "Hello, Ava"
+    },
+    {
+        "id": 3,
+        "title": "Return Value: add()",
+        "skill": "Functions",
+        "difficulty": "Beginner",
+        "question": "Write `add(a, b)` that returns the sum. Print add(3,4).",
+        "initialCode": "def add(a, b):\n    # return the sum\n    ___\n\nprint(add(3, 4))\n",
+        "expectedOutput": "7"
+    },
+    {
+        "id": 4,
+        "title": "Loop inside Function: print_stars(n)",
+        "skill": "Loops, Functions",
+        "difficulty": "Beginner",
+        "question": "Create `print_stars(n)` that prints a horizontal line of `n` stars using a for-loop. Call with n=5.",
+        "initialCode": "def print_stars(n):\n    for i in range(___):\n        print(\"*\", end=\"\")\n    print()\n\nprint_stars(5)\n",
+        "expectedOutput": "*****"
+    },
+    {
+        "id": 5,
+        "title": "Sum using loop: sum_n(n)",
+        "skill": "Loops, Functions",
+        "difficulty": "Intermediate",
+        "question": "Write `sum_n(n)` that returns the sum of 1..n using a loop. Print sum_n(5).",
+        "initialCode": "def sum_n(n):\n    total = 0\n    for i in range(1, ___):\n        total += i\n    return total\n\nprint(sum_n(5))\n",
+        "expectedOutput": "15"
+    },
+    {
+        "id": 6,
+        "title": "Factorial (loop)",
+        "skill": "Loops, Functions",
+        "difficulty": "Intermediate",
+        "question": "Write `fact(n)` that returns n! using a for-loop. Print fact(4).",
+        "initialCode": "def fact(n):\n    result = 1\n    for i in range(1, ___):\n        result = ___ \n    return result\n\nprint(fact(4))\n",
+        "expectedOutput": "24"
+    },
+    {
+        "id": 7,
+        "title": "Grid Printer: print_grid(rows, cols)",
+        "skill": "Nested Loops, Functions",
+        "difficulty": "Intermediate",
+        "question": "Implement `print_grid(r, c)` that prints `r` rows and `c` columns of '*' (no spaces). Call with (2,3).",
+        "initialCode": "def print_grid(r, c):\n    for i in range(___):\n        for j in range(___):\n            print(\"*\", end=\"\")\n        print()\n\nprint_grid(2, 3)\n",
+        "expectedOutput": "***\n***"
+    },
+    {
+        "id": 8,
+        "title": "Right-Aligned Triangle Function",
+        "skill": "Loops, String Math",
+        "difficulty": "Intermediate",
+        "question": "Write `right_triangle(n)` that prints a right-aligned triangle of height n. Call with n=3.",
+        "initialCode": "def right_triangle(n):\n    for i in range(1, ___):\n        spaces = \" \" * (n - i)\n        stars = \"*\" * i\n        print(spaces + stars)\n\nright_triangle(3)\n",
+        "expectedOutput": "  *\n **\n***"
+    },
+    {
+        "id": 9,
+        "title": "Find Max in List",
+        "skill": "Loops, Lists, Functions",
+        "difficulty": "Intermediate",
+        "question": "Write `my_max(lst)` that returns the maximum using a loop. Test with [3,7,2].",
+        "initialCode": "def my_max(lst):\n    m = lst[___]\n    for ___:\n        if ___:\n            m = ___\n    return ___\n\nprint(my_max([3, 7, 2]))\n",
+        "expectedOutput": "7"
+    },
+    {
+        "id": 10,
+        "title": "Count Vowels",
+        "skill": "Strings, Loops, Functions",
+        "difficulty": "Intermediate",
+        "question": "Write `count_vowels(s)` returning number of vowels. Test with 'code'.",
+        "initialCode": "def count_vowels(s):\n    vowels = \"aeiou\"\n    count = 0\n    for ___:\n        if ___ in vowels:\n            count += ___\n    return count\n\nprint(count_vowels(\"code\"))\n",
+        "expectedOutput": "2"
+    },
+    {
+        "id": 11,
+        "title": "Call a Function N Times",
+        "skill": "Loops, Functions",
+        "difficulty": "Beginner",
+        "question": "Write `repeat(msg, n)` that calls `print(msg)` n times using a loop. Call repeat('Hi', 3).",
+        "initialCode": "def repeat(msg, n):\n    for i in range(___):\n        print(msg)\n\nrepeat(\"Hi\", 3)\n",
+        "expectedOutput": "Hi\nHi\nHi"
+    },
+    {
+        "id": 12,
+        "title": "Build List with Function",
+        "skill": "Loops, Lists, Functions",
+        "difficulty": "Intermediate",
+        "question": "Write `make_list(n)` that returns ['1','2',...,'n'] as strings. Print make_list(4).",
+        "initialCode": "def make_list(n):\n    out = []\n    for i in range(1, ___):\n        out.append(___(___))\n    return out\n\nprint(make_list(4))\n",
+        "expectedOutput": "['1', '2', '3', '4']"
+    }
+]

@@ -1,0 +1,1375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Learning Hub</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            font-family: 'Calibri', 'Segoe UI', 'Helvetica Neue', sans-serif;
+            line-height: 1.25;
+            padding: 20px;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        /* Tabs Styling */
+        .tabs-container {
+            display: flex;
+            border-bottom: 2px solid #dee2e6;
+            margin-bottom: 30px;
+        }
+        .tab-btn {
+            padding: 12px 24px;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-bottom: none;
+            margin-right: 5px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #6c757d;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s ease;
+        }
+        .tab-btn:hover {
+            background: #e9ecef;
+        }
+        .tab-btn.active {
+            background: #ffffff;
+            color: #0056b3;
+            border-top: 3px solid #0056b3;
+            margin-bottom: -2px; /* Covers the bottom border */
+        }
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Standard Schema Styling */
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            text-decoration: underline;
+        }
+        p { margin-bottom: 10px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 5px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 2px 4px; 
+            text-align: left;
+            vertical-align: top;
+        }
+        th { background-color: #eeeeee; }
+        .key-info {
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        
+        /* Questions Styling */
+        .questions-section {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 2px solid #ccc;
+        }
+        .question-block {
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #eee;
+        }
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        .question-label {
+            font-weight: bold;
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+        .question-text { font-weight: bold; }
+        .sql-input {
+            width: 100%;
+            height: 60px;
+            font-family: monospace;
+            padding: 8px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+        }
+        .buttons-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+        .check-btn, .similar-btn, .restore-btn {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: 'Calibri', 'Segoe UI', sans-serif;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: opacity 0.2s;
+        }
+        .check-btn {
+            background-color: #f0f0f0;
+            border: 1px solid #aaa;
+            color: #333;
+        }
+        .check-btn:hover:not(:disabled) { background-color: #e0e0e0; }
+        .similar-btn {
+            background-color: #e6f2ff;
+            color: #0056b3;
+            border: 1px solid #b3d7ff;
+        }
+        .similar-btn:hover:not(:disabled) { background-color: #cce5ff; }
+        .restore-btn {
+            background-color: #f8f9fa;
+            color: #495057;
+            border: 1px solid #ced4da;
+        }
+        .restore-btn:hover:not(:disabled) { background-color: #e2e6ea; }
+        .check-btn:disabled, .similar-btn:disabled, .restore-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .feedback {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Drawer Styling */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999; display: none;
+        }
+        .overlay.active { display: block; }
+        .drawer {
+            position: fixed; top: 0; right: -650px; width: 600px; max-width: 95vw; height: 100%;
+            background: white; z-index: 1000; box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            transition: right 0.3s ease; display: flex; flex-direction: column;
+        }
+        .drawer.active { right: 0; }
+        .drawer-header {
+            padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;
+            background: #f8f9fa;
+        }
+        .drawer-header h2 { margin: 0; text-decoration: none; font-size: 1.4rem; color: #2c3e50; }
+        .drawer-header-actions { display: flex; align-items: center; gap: 15px; }
+        .pdf-btn {
+            background-color: #6c757d; color: white; border: none; padding: 4px 8px;
+            font-size: 0.9rem; border-radius: 4px; cursor: pointer; font-weight: bold; transition: background 0.2s;
+        }
+        .pdf-btn:hover { background-color: #5a6268; }
+        .pdf-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        .close-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; line-height: 1;}
+        .drawer-content { padding: 15px; overflow-y: auto; flex-grow: 1; }
+        .progress-btn {
+            background-color: #28a745; color: white; border: none; padding: 8px 16px;
+            font-size: 1rem; border-radius: 5px; cursor: pointer; font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background-color 0.2s;
+        }
+        .progress-btn:hover { background-color: #218838; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .header-container h1 { margin-bottom: 0; }
+        .history-item {
+            background: #f8f9fa; border: 1px solid #dee2e6; padding: 8px 10px; border-radius: 5px; margin-bottom: 10px;
+        }
+        .history-item.correct { border-left: 4px solid #28a745; }
+        .history-item.incorrect { border-left: 4px solid #dc3545; }
+        .history-meta { font-size: 0.8rem; color: #6c757d; margin-bottom: 3px; }
+        .history-q { font-weight: bold; margin-bottom: 3px; font-size: 0.95rem;}
+        .history-a { font-family: monospace; background: #e9ecef; padding: 3px; border-radius: 3px; margin-bottom: 3px; word-break: break-all;}
+        .history-f { font-size: 0.9rem; }
+        .advice-box {
+            background: #e6f2ff; border: 1px solid #b3d7ff; padding: 10px; border-radius: 5px; margin-bottom: 15px;
+        }
+        .generate-advice-btn {
+            width: 100%; background: #0056b3; color: white; border: none; padding: 8px;
+            border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 15px;
+        }
+        .generate-advice-btn:hover:not(:disabled) { background: #004494; }
+        .generate-advice-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Fill-in-the-blank Styling */
+        .sql-blank {
+            border: none;
+            border-bottom: 1px solid #333;
+            background: transparent;
+            font-family: monospace;
+            font-size: 1rem;
+            padding: 2px 5px;
+            outline: none;
+            color: #0056b3;
+            font-weight: bold;
+        }
+        .sql-blank:focus {
+            border-bottom: 2px solid #0056b3;
+            background-color: #e6f2ff;
+        }
+
+        /* Student Info Modal Styling */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 2000; display: none;
+            justify-content: center; align-items: center;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal-box {
+            background: white; padding: 30px; border-radius: 8px; width: 400px;
+            max-width: 90vw; box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .modal-box h2 { margin-top: 0; margin-bottom: 20px; font-size: 1.4rem; border-bottom: 2px solid #eee; padding-bottom: 10px; color:#2c3e50;}
+        .modal-form-group { margin-bottom: 15px; }
+        .modal-form-group label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.95rem; }
+        .modal-form-group input { width: 100%; padding: 10px; border: 1px solid #ced4da; border-radius: 4px; box-sizing: border-box; font-size: 1rem; }
+        .modal-btn {
+            width: 100%; background: #0056b3; color: white; border: none; padding: 12px;
+            border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-top: 10px;
+        }
+        .modal-btn:hover { background: #004494; }
+
+        /* Display Info Styling */
+        .student-display-info {
+            font-size: 1rem; color: #495057; font-weight: bold;
+            background: #e9ecef; padding: 8px 15px; border-radius: 20px;
+            display: inline-flex; align-items: center; gap: 10px; margin-top: 10px;
+        }
+
+        /* PDF Export Styling */
+        .pdf-mode, .pdf-mode * {
+            font-size: 11pt !important;
+            line-height: 1.15 !important;
+        }
+        .pdf-mode h2, .pdf-mode h2 *, .pdf-mode h3, .pdf-mode h3 * {
+            font-size: 14pt !important;
+            margin-top: 3px !important;
+            margin-bottom: 6px !important;
+            color: #2c3e50 !important;
+        }
+        .pdf-mode .history-meta, .pdf-mode .history-meta * {
+            font-size: 10pt !important;
+        }
+        .pdf-mode .history-item {
+            padding: 6px !important;
+            margin-bottom: 6px !important;
+        }
+        .pdf-mode .history-a {
+            font-size: 10.5pt !important; /* Slightly smaller for code */
+        }
+        .pdf-mode .hide-in-pdf {
+            display: none !important; /* Hide elements in PDF */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div style="display: flex; flex-direction: column; align-items: flex-start;">
+            <h1 style="margin-bottom: 0;">Interactive Database Learning Hub</h1>
+            <div id="page-student-info" class="student-display-info" style="display: none;">
+                <span id="display-sinfo"></span>
+            </div>
+        </div>
+        <button class="progress-btn" onclick="openDrawer()">📊 Progress Report</button>
+    </div>
+
+    <div class="tabs-container">
+        <button class="tab-btn" onclick="switchTab(event, 'school')">2018</button>
+        <button class="tab-btn active" onclick="switchTab(event, 'bus')">2019</button>
+        <button class="tab-btn" onclick="switchTab(event, 'video')">2020</button>
+        <button class="tab-btn" onclick="switchTab(event, 'comp')">2021</button>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 0: SCHOOL (2018)                       -->
+    <!-- ========================================== -->
+    <div id="tab-school" class="tab-content">
+        <p>
+            Mr Li works in the IT Division of a school. He uses three database tables <strong>STUDENT</strong>, <strong>PARENT</strong> and <strong>ALUMNUS</strong> to store information on current students, parents and alumni respectively.
+        </p>
+
+        <div style="margin-top: 20px; font-weight: bold;">STUDENT</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>SID</td><td>Character</td><td>Identity card number of the student</td><td>S123456</td></tr>
+                <tr><td>SNAME</td><td>Character</td><td>Name of the student</td><td>May Lee</td></tr>
+                <tr><td>FID</td><td>Character</td><td>Identity card number of the father</td><td>A123456</td></tr>
+                <tr><td>MID</td><td>Character</td><td>Identity card number of the mother</td><td>B345678</td></tr>
+                <tr><td>SL</td><td>Character</td><td>Secondary level</td><td>S6</td></tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 20px; font-weight: bold;">PARENT</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>PID</td><td>Character</td><td>Identity card number of the parent</td><td>A123456</td></tr>
+                <tr><td>PNAME</td><td>Character</td><td>Name of the parent</td><td>John Lee</td></tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 20px; font-weight: bold;">ALUMNUS</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>AID</td><td>Character</td><td>Identity card number of the alumnus</td><td>C123456</td></tr>
+                <tr><td>ANAME</td><td>Character</td><td>Name of the alumnus</td><td>Jane Hui</td></tr>
+                <tr><td>GRAD</td><td>Integer</td><td>Year of graduation</td><td>1986</td></tr>
+            </tbody>
+        </table>
+
+        <div class="questions-section">
+            <p>Write SQL commands to complete tasks (a) to (c) below.</p>
+            
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(a)</div>
+                    <div class="question-text" id="text-school-1">List the names of the students and their fathers' names.</div>
+                </div>
+                <textarea id="input-school-1" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-school-1" class="check-btn" onclick="checkAnswerWithAI('school', 1)">Check Answer</button>
+                    <button id="btn-similar-school-1" class="similar-btn" onclick="generateSimilarQuestion('school', 1)">Generate Similar Question</button>
+                    <button id="btn-restore-school-1" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('school', 1)">Restore Original</button>
+                </div>
+                <div id="feedback-school-1" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(b)</div>
+                    <div class="question-text" id="text-school-2">List the number of the students in each level.</div>
+                </div>
+                <textarea id="input-school-2" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-school-2" class="check-btn" onclick="checkAnswerWithAI('school', 2)">Check Answer</button>
+                    <button id="btn-similar-school-2" class="similar-btn" onclick="generateSimilarQuestion('school', 2)">Generate Similar Question</button>
+                    <button id="btn-restore-school-2" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('school', 2)">Restore Original</button>
+                </div>
+                <div id="feedback-school-2" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(c)</div>
+                    <div class="question-text" id="text-school-3">List the names of the parents who are not alumni of the school.</div>
+                </div>
+                <textarea id="input-school-3" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-school-3" class="check-btn" onclick="checkAnswerWithAI('school', 3)">Check Answer</button>
+                    <button id="btn-similar-school-3" class="similar-btn" onclick="generateSimilarQuestion('school', 3)">Generate Similar Question</button>
+                    <button id="btn-restore-school-3" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('school', 3)">Restore Original</button>
+                </div>
+                <div id="feedback-school-3" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: BUS COMPANY (2019)                  -->
+    <!-- ========================================== -->
+    <div id="tab-bus" class="tab-content active">
+        <p>
+            A bus company uses three database tables <strong>BROUTE</strong>, <strong>EMPLOYEE</strong> and <strong>DRIVER</strong> 
+            to store information on buses, employees and drivers. <strong>DRIVER</strong> only stores information on the 
+            drivers and the bus routes they can drive.
+        </p>
+
+        <div style="margin-top: 20px; font-weight: bold;">BROUTE</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>BID</td><td>Character</td><td>The bus route</td><td>1A</td></tr>
+                <tr><td>BNO</td><td>Integer</td><td>Number of buses on this bus route</td><td>20</td></tr>
+            </tbody>
+        </table>
+        <p class="key-info">Primary Key: BID</p>
+
+        <div style="margin-top: 20px; font-weight: bold;">EMPLOYEE</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>EID</td><td>Character</td><td>Identity code of the employee</td><td>A00038</td></tr>
+                <tr><td>ENAME</td><td>Character</td><td>Name of the employee</td><td>John Li</td></tr>
+                <tr><td>SALARY</td><td>Integer</td><td>Salary of the employee</td><td>20000</td></tr>
+                <tr><td>DSER</td><td>Date</td><td>First day of work</td><td>21/3/2010</td></tr>
+            </tbody>
+        </table>
+        <p class="key-info">Primary Key: EID</p>
+
+        <div style="margin-top: 20px; font-weight: bold;">DRIVER</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>EID</td><td>Character</td><td>Identity code of the employee</td><td>A00038</td></tr>
+                <tr><td>BID</td><td>Character</td><td>The bus route that the employee can drive</td><td>1A</td></tr>
+            </tbody>
+        </table>
+        <p class="key-info" style="line-height: 1.6;">Primary key: EID + BID<br>Foreign key: EID , BID</p>
+
+        <div class="questions-section">
+            <p>Write SQL commands to complete tasks (a) to (d) below.</p>
+            
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(a)</div>
+                    <div class="question-text" id="text-bus-1">List the names and identity codes of the employees who can drive bus route '1A' in descending order of their salary.</div>
+                </div>
+                <textarea id="input-bus-1" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-bus-1" class="check-btn" onclick="checkAnswerWithAI('bus', 1)">Check Answer</button>
+                    <button id="btn-similar-bus-1" class="similar-btn" onclick="generateSimilarQuestion('bus', 1)">Generate Similar Question</button>
+                    <button id="btn-restore-bus-1" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('bus', 1)">Restore Original</button>
+                </div>
+                <div id="feedback-bus-1" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(b)</div>
+                    <div class="question-text" id="text-bus-2">List the highest salary for those who joined the company in 2009.</div>
+                </div>
+                <textarea id="input-bus-2" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-bus-2" class="check-btn" onclick="checkAnswerWithAI('bus', 2)">Check Answer</button>
+                    <button id="btn-similar-bus-2" class="similar-btn" onclick="generateSimilarQuestion('bus', 2)">Generate Similar Question</button>
+                    <button id="btn-restore-bus-2" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('bus', 2)">Restore Original</button>
+                </div>
+                <div id="feedback-bus-2" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(c)</div>
+                    <div class="question-text" id="text-bus-3">List the names and identity codes of the employees who cannot drive any bus route.</div>
+                </div>
+                <textarea id="input-bus-3" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-bus-3" class="check-btn" onclick="checkAnswerWithAI('bus', 3)">Check Answer</button>
+                    <button id="btn-similar-bus-3" class="similar-btn" onclick="generateSimilarQuestion('bus', 3)">Generate Similar Question</button>
+                    <button id="btn-restore-bus-3" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('bus', 3)">Restore Original</button>
+                </div>
+                <div id="feedback-bus-3" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(d)</div>
+                    <div class="question-text" id="text-bus-4">For some bus routes, the number of drivers is smaller than the number of buses. List those bus routes.</div>
+                </div>
+                <textarea id="input-bus-4" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-bus-4" class="check-btn" onclick="checkAnswerWithAI('bus', 4)">Check Answer</button>
+                    <button id="btn-similar-bus-4" class="similar-btn" onclick="generateSimilarQuestion('bus', 4)">Generate Similar Question</button>
+                    <button id="btn-restore-bus-4" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('bus', 4)">Restore Original</button>
+                </div>
+                <div id="feedback-bus-4" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 2: VIDEO RENTAL (2020)                 -->
+    <!-- ========================================== -->
+    <div id="tab-video" class="tab-content">
+        <p>
+            A company provides a service which allows members to rent and view videos online during a 7-day rental period. The company uses three database tables <strong>MEMBER</strong>, <strong>VIDEO</strong> and <strong>RENTAL</strong> to store information on members, videos and rental respectively.
+        </p>
+
+        <div style="margin-top: 20px; font-weight: bold;">MEMBER</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>MID</td><td>Character</td><td>Identity code of member</td><td>M0023</td></tr>
+                <tr><td>MNAME</td><td>Character</td><td>Name</td><td>Susan Li</td></tr>
+                <tr><td>MTYPE</td><td>Character</td><td>Type of member:<br>G – Gold member<br>O – Ordinary member</td><td>G</td></tr>
+                <tr><td>CREDIT</td><td>Integer</td><td>Credit points</td><td>580</td></tr>
+                <tr><td>JDATE</td><td>Date</td><td>Date joined</td><td>31/01/2012</td></tr>
+            </tbody>
+        </table>
+        <p class="key-info">Primary key: MID</p>
+
+        <div style="margin-top: 20px; font-weight: bold;">VIDEO</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>VID</td><td>Character</td><td>Identity code of video</td><td>V08</td></tr>
+                <tr><td>VTITLE</td><td>Character</td><td>Title of video</td><td>Nice Face</td></tr>
+                <tr><td>RFEE</td><td>Integer</td><td>Rental fee for video</td><td>20</td></tr>
+            </tbody>
+        </table>
+        <p class="key-info">Primary key: VID</p>
+
+        <div style="margin-top: 20px; font-weight: bold;">RENTAL</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>MID</td><td>Character</td><td>Identity code of member</td><td>M0023</td></tr>
+                <tr><td>VID</td><td>Character</td><td>Identity code of video</td><td>V08</td></tr>
+                <tr><td>RDATE</td><td>Date</td><td>Date of rental</td><td>18/10/2019</td></tr>
+            </tbody>
+        </table>
+        <p class="key-info" style="line-height: 1.6;">Foreign keys: MID, VID</p>
+
+        <div class="questions-section">
+            <p>Answer the following questions based on the database schema.</p>
+            
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(a)</div>
+                    <div class="question-text" id="text-video-1">What is the primary key for RENTAL?</div>
+                </div>
+                <textarea id="input-video-1" class="sql-input" placeholder="Type your answer here..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-video-1" class="check-btn" onclick="checkAnswerWithAI('video', 1)">Check Answer</button>
+                    <button id="btn-similar-video-1" class="similar-btn" onclick="generateSimilarQuestion('video', 1)">Generate Similar Question</button>
+                    <button id="btn-restore-video-1" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('video', 1)">Restore Original</button>
+                </div>
+                <div id="feedback-video-1" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(b)</div>
+                    <div class="question-text" id="text-video-2">List the names and identity codes of the Ordinary members who have fewer than 100 credits.</div>
+                </div>
+                <textarea id="input-video-2" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-video-2" class="check-btn" onclick="checkAnswerWithAI('video', 2)">Check Answer</button>
+                    <button id="btn-similar-video-2" class="similar-btn" onclick="generateSimilarQuestion('video', 2)">Generate Similar Question</button>
+                    <button id="btn-restore-video-2" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('video', 2)">Restore Original</button>
+                </div>
+                <div id="feedback-video-2" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(c)</div>
+                    <div class="question-text" id="text-video-3">Find the total rental fee earned by the video 'Nice Face'.</div>
+                </div>
+                <textarea id="input-video-3" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-video-3" class="check-btn" onclick="checkAnswerWithAI('video', 3)">Check Answer</button>
+                    <button id="btn-similar-video-3" class="similar-btn" onclick="generateSimilarQuestion('video', 3)">Generate Similar Question</button>
+                    <button id="btn-restore-video-3" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('video', 3)">Restore Original</button>
+                </div>
+                <div id="feedback-video-3" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(d)</div>
+                    <div class="question-text" id="text-video-4">List the titles of the videos which have never been rented.</div>
+                </div>
+                <textarea id="input-video-4" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-video-4" class="check-btn" onclick="checkAnswerWithAI('video', 4)">Check Answer</button>
+                    <button id="btn-similar-video-4" class="similar-btn" onclick="generateSimilarQuestion('video', 4)">Generate Similar Question</button>
+                    <button id="btn-restore-video-4" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('video', 4)">Restore Original</button>
+                </div>
+                <div id="feedback-video-4" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(e)</div>
+                    <div class="question-text" id="text-video-5">The company celebrates its anniversary and gives 50 extra credit points to members who joined before 2017.</div>
+                </div>
+                <textarea id="input-video-5" class="sql-input" placeholder="UPDATE ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-video-5" class="check-btn" onclick="checkAnswerWithAI('video', 5)">Check Answer</button>
+                    <button id="btn-similar-video-5" class="similar-btn" onclick="generateSimilarQuestion('video', 5)">Generate Similar Question</button>
+                    <button id="btn-restore-video-5" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('video', 5)">Restore Original</button>
+                </div>
+                <div id="feedback-video-5" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- TAB 3: PROGRAMMING COMPETITION (2021)      -->
+    <!-- ========================================== -->
+    <div id="tab-comp" class="tab-content">
+        <p>
+            An organisation holds an inter-school programming competition annually. It uses database tables <strong>SCHOOL</strong>, <strong>PSTUD</strong> and <strong>MARK</strong> to store information on schools, participating students and marks of students respectively.
+        </p>
+        <p>
+            The competition has two groups, the Junior group and Senior group. Participating students will be awarded a mark. There will be no record in <strong>MARK</strong> for a student who is absent from the competition.
+        </p>
+
+        <div style="margin-top: 20px; font-weight: bold;">SCHOOL</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>SID</td><td>Character</td><td>School code</td><td>S0013</td></tr>
+                <tr><td>SNAME</td><td>Character</td><td>Name of school</td><td>ABC Government Secondary School</td></tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 20px; font-weight: bold;">PSTUD</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>SID</td><td>Character</td><td>School code</td><td>S0013</td></tr>
+                <tr><td>PID</td><td>Character</td><td>Identity code of student</td><td>P2020023</td></tr>
+                <tr><td>PNAME</td><td>Character</td><td>Name of student</td><td>Chan Siu Man</td></tr>
+                <tr><td>FIRST</td><td>Boolean</td><td>The student enrols in the competition for the first time</td><td>TRUE</td></tr>
+                <tr><td>GP</td><td>Character</td><td>Junior group (J) or Senior group (S)</td><td>J</td></tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 20px; font-weight: bold;">MARK</div>
+        <table>
+            <thead><tr><th>Field name</th><th>Type</th><th>Description</th><th>Example</th></tr></thead>
+            <tbody>
+                <tr><td>PID</td><td>Character</td><td>Identity code of student</td><td>P2020023</td></tr>
+                <tr><td>SMARK</td><td>Integer</td><td>Mark awarded in the competition</td><td>74</td></tr>
+            </tbody>
+        </table>
+
+        <div class="questions-section">
+            <p>Write SQL statements to complete the following tasks.</p>
+            
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(a)</div>
+                    <div class="question-text" id="text-comp-1">List the names of the students who come from the school with the school code 'S0013'.</div>
+                </div>
+                <textarea id="input-comp-1" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-comp-1" class="check-btn" onclick="checkAnswerWithAI('comp', 1)">Check Answer</button>
+                    <button id="btn-similar-comp-1" class="similar-btn" onclick="generateSimilarQuestion('comp', 1)">Generate Similar Question</button>
+                    <button id="btn-restore-comp-1" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('comp', 1)">Restore Original</button>
+                </div>
+                <div id="feedback-comp-1" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(b)</div>
+                    <div class="question-text" id="text-comp-2">Find the total number of students who come from the schools with names including 'Government'.</div>
+                </div>
+                <textarea id="input-comp-2" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-comp-2" class="check-btn" onclick="checkAnswerWithAI('comp', 2)">Check Answer</button>
+                    <button id="btn-similar-comp-2" class="similar-btn" onclick="generateSimilarQuestion('comp', 2)">Generate Similar Question</button>
+                    <button id="btn-restore-comp-2" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('comp', 2)">Restore Original</button>
+                </div>
+                <div id="feedback-comp-2" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(c)</div>
+                    <div class="question-text" id="text-comp-3">List the names of students in the Junior group who get a mark greater than or equal to 60.</div>
+                </div>
+                <textarea id="input-comp-3" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-comp-3" class="check-btn" onclick="checkAnswerWithAI('comp', 3)">Check Answer</button>
+                    <button id="btn-similar-comp-3" class="similar-btn" onclick="generateSimilarQuestion('comp', 3)">Generate Similar Question</button>
+                    <button id="btn-restore-comp-3" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('comp', 3)">Restore Original</button>
+                </div>
+                <div id="feedback-comp-3" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(d)</div>
+                    <div class="question-text" id="text-comp-4">What is the purpose of the following SQL statement?<br><br><code>SELECT PID, PNAME FROM PSTUD<br>WHERE GP = 'S' AND FIRST<br>  AND PID NOT IN (SELECT PID FROM MARK)</code></div>
+                </div>
+                <textarea id="input-comp-4" class="sql-input" placeholder="Type your explanation here..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-comp-4" class="check-btn" onclick="checkAnswerWithAI('comp', 4)">Check Answer</button>
+                    <button id="btn-similar-comp-4" class="similar-btn" onclick="generateSimilarQuestion('comp', 4)">Generate Similar Question</button>
+                    <button id="btn-restore-comp-4" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('comp', 4)">Restore Original</button>
+                </div>
+                <div id="feedback-comp-4" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div class="question-header">
+                    <div class="question-label">(e)</div>
+                    <div class="question-text" id="text-comp-5">Complete the following SQL statement for finding the sum of the marks of the students in each school.</div>
+                </div>
+                
+                <div id="comp-5-blanks-container" style="font-family: monospace; background: #f8f9fa; padding: 15px; border: 1px solid #ced4da; border-radius: 4px; margin-bottom: 10px; line-height: 2;">
+                    <div>SELECT S.SID, <input type="text" class="sql-blank comp-5-blank" id="comp-5-b1" style="width: 300px;" oninput="updateComp5()"> AS TOTAL</div>
+                    <div>FROM SCHOOL S, PSTUD P, MARK M</div>
+                    <div>WHERE &nbsp;&nbsp;<input type="text" class="sql-blank comp-5-blank" id="comp-5-b2" style="width: 450px;" oninput="updateComp5()"></div>
+                    <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" class="sql-blank comp-5-blank" id="comp-5-b3" style="width: 450px;" oninput="updateComp5()"></div>
+                    <div>GROUP BY <input type="text" class="sql-blank comp-5-blank" id="comp-5-b4" style="width: 450px;" oninput="updateComp5()"></div>
+                </div>
+                <textarea id="input-comp-5" class="sql-input" placeholder="SELECT ..." style="display: none;"></textarea>
+                
+                <div class="buttons-row">
+                    <button id="btn-check-comp-5" class="check-btn" onclick="checkAnswerWithAI('comp', 5)">Check Answer</button>
+                    <button id="btn-similar-comp-5" class="similar-btn" onclick="generateSimilarQuestion('comp', 5)">Generate Similar Question</button>
+                    <button id="btn-restore-comp-5" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('comp', 5)">Restore Original</button>
+                </div>
+                <div id="feedback-comp-5" class="feedback"></div>
+            </div>
+
+            <div class="question-block">
+                <div style="margin-bottom: 20px;">
+                    <p>Database table TM stores the results of the SQL statement in (e).</p>
+                    <div style="font-weight: bold; margin-bottom: 5px;">TM</div>
+                    <table>
+                        <thead><tr><th>Field name</th><th>Type</th><th>Description</th></tr></thead>
+                        <tbody>
+                            <tr><td>SID</td><td>Character</td><td>School code</td></tr>
+                            <tr><td>TOTAL</td><td>Integer</td><td>The sum of the marks of students</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="question-header">
+                    <div class="question-label">(f)</div>
+                    <div class="question-text" id="text-comp-6">A school will be awarded a certificate if the sum of the marks of its students is the highest among the schools. Write a SQL statement with TM to find the name(s) of school(s) that will be awarded a certificate.</div>
+                </div>
+                <textarea id="input-comp-6" class="sql-input" placeholder="SELECT ..."></textarea>
+                <div class="buttons-row">
+                    <button id="btn-check-comp-6" class="check-btn" onclick="checkAnswerWithAI('comp', 6)">Check Answer</button>
+                    <button id="btn-similar-comp-6" class="similar-btn" onclick="generateSimilarQuestion('comp', 6)">Generate Similar Question</button>
+                    <button id="btn-restore-comp-6" class="restore-btn" style="display: none;" onclick="restoreOriginalQuestion('comp', 6)">Restore Original</button>
+                </div>
+                <div id="feedback-comp-6" class="feedback"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- PROGRESS DRAWER                            -->
+    <!-- ========================================== -->
+    <div id="drawer-overlay" class="overlay" onclick="closeDrawer()"></div>
+    <div id="progress-drawer" class="drawer">
+        <div class="drawer-header">
+            <h2>Your Progress</h2>
+            <div class="drawer-header-actions">
+                <button class="pdf-btn" onclick="downloadPDF()">📄 Download PDF</button>
+                <button class="close-btn" onclick="closeDrawer()">&times;</button>
+            </div>
+        </div>
+        <div class="drawer-content" id="drawer-content-area">
+            
+            <!-- Display Student Information -->
+            <div id="drawer-student-info" class="hide-in-pdf" style="margin-bottom: 20px; padding: 10px; background: #e9ecef; border-radius: 5px; font-weight: bold; display: flex; justify-content: space-between; align-items: center;">
+                <span id="drawer-display-sinfo">Student: Not Set</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 1.1rem;">
+                <div><strong>Total Attempts:</strong> <span id="stat-total">0</span></div>
+                <div><strong>Correct:</strong> <span id="stat-correct" style="color: #28a745;">0</span></div>
+            </div>
+            
+            <button id="btn-advice" class="generate-advice-btn" onclick="generateAdvice()">🤖 Analyze My Mistakes & Give Advice</button>
+            <div id="advice-container" class="advice-box" style="display: none;"></div>
+
+            <h3 style="border-bottom: 2px solid #eee; padding-bottom: 10px;">Attempt History</h3>
+            <div id="history-list">
+                <p style="color: #666; font-style: italic;">No questions attempted yet. Submit an answer to see your history!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- STUDENT INFO MODAL                         -->
+    <!-- ========================================== -->
+    <div id="student-modal" class="modal-overlay">
+        <div class="modal-box">
+            <h2>Welcome! Please identify yourself</h2>
+            <div class="modal-form-group">
+                <label>Class (e.g., 4A)</label>
+                <input type="text" id="modal-class" placeholder="Class">
+            </div>
+            <div class="modal-form-group">
+                <label>Class Number</label>
+                <input type="text" id="modal-number" placeholder="Number">
+            </div>
+            <div class="modal-form-group">
+                <label>Student Name</label>
+                <input type="text" id="modal-name" placeholder="Full Name">
+            </div>
+            <button class="modal-btn" onclick="saveStudentInfo()">Save & Start Learning</button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- APPLICATION LOGIC                          -->
+    <!-- ========================================== -->
+    <script>
+        const apiKey = ""; // API key is provided securely by the environment at runtime
+
+        const historyLog = []; // Array to store student progress history
+        let studentSession = { class: '', number: '', name: '' }; // Store student identity
+
+        // Initialize session on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = sessionStorage.getItem('db_hub_student_info');
+            if (saved) {
+                studentSession = JSON.parse(saved);
+                updateStudentDisplay();
+            } else {
+                openStudentModal();
+            }
+        });
+
+        function openStudentModal() {
+            document.getElementById('modal-class').value = studentSession.class;
+            document.getElementById('modal-number').value = studentSession.number;
+            document.getElementById('modal-name').value = studentSession.name;
+            document.getElementById('student-modal').classList.add('active');
+        }
+
+        function saveStudentInfo() {
+            const sClass = document.getElementById('modal-class').value.trim();
+            const sNum = document.getElementById('modal-number').value.trim();
+            const sName = document.getElementById('modal-name').value.trim();
+            
+            if(!sClass && !sName) {
+                alert("Please enter at least your class and name.");
+                return;
+            }
+
+            studentSession = { class: sClass, number: sNum, name: sName };
+            sessionStorage.setItem('db_hub_student_info', JSON.stringify(studentSession));
+            
+            updateStudentDisplay();
+            document.getElementById('student-modal').classList.remove('active');
+        }
+
+        function updateStudentDisplay() {
+            const sClass = studentSession.class || '-';
+            const sNum = studentSession.number || '-';
+            const sName = studentSession.name || '-';
+            const infoString = `${sClass}(${sNum}) ${sName}`;
+            document.getElementById('display-sinfo').innerText = infoString;
+            document.getElementById('page-student-info').style.display = 'inline-flex';
+            document.getElementById('drawer-display-sinfo').innerText = infoString;
+        }
+
+        // Handle the fill-in-the-blank inputs for Comp Question (e)
+        function updateComp5() {
+            // Get raw values without trimming inside the variable so spaces are preserved if typed
+            const b1 = document.getElementById('comp-5-b1').value;
+            const b2 = document.getElementById('comp-5-b2').value;
+            const b3 = document.getElementById('comp-5-b3').value;
+            const b4 = document.getElementById('comp-5-b4').value;
+            
+            // If completely empty, keep textarea empty so the empty-check validation fires correctly
+            if (!b1.trim() && !b2.trim() && !b3.trim() && !b4.trim()) {
+                document.getElementById('input-comp-5').value = '';
+                return;
+            }
+
+            // Construct the unified query exactly as typed, with NO hidden operators or placeholders
+            const query = `SELECT S.SID, ${b1} AS TOTAL\nFROM SCHOOL S, PSTUD P, MARK M\nWHERE ${b2}\n${b3}\nGROUP BY ${b4}`;
+            document.getElementById('input-comp-5').value = query;
+        }
+
+        // State & Data management for all schemas
+        const state = {
+            school: {
+                text: "Tables:\n1. STUDENT (SID: Character, SNAME: Character, FID: Character, MID: Character, SL: Character)\n2. PARENT (PID: Character, PNAME: Character)\n3. ALUMNUS (AID: Character, ANAME: Character, GRAD: Integer)\nRelations: STUDENT(FID) maps to PARENT(PID), STUDENT(MID) maps to PARENT(PID). PARENT(PID) can be matched with ALUMNUS(AID) to check if a parent is an alumnus.",
+                questions: {
+                    1: "List the names of the students and their fathers' names.",
+                    2: "List the number of the students in each level.",
+                    3: "List the names of the parents who are not alumni of the school."
+                },
+                attempts: { 1: 0, 2: 0, 3: 0 }
+            },
+            bus: {
+                text: "Tables:\n1. BROUTE (BID: Character, BNO: Integer)\n2. EMPLOYEE (EID: Character, ENAME: Character, SALARY: Integer, DSER: Date)\n3. DRIVER (EID: Character, BID: Character)\nRelations: DRIVER maps EMPLOYEE(EID) to BROUTE(BID)",
+                questions: {
+                    1: "List the names and identity codes of the employees who can drive bus route '1A' in descending order of their salary.",
+                    2: "List the highest salary for those who joined the company in 2009.",
+                    3: "List the names and identity codes of the employees who cannot drive any bus route.",
+                    4: "For some bus routes, the number of drivers is smaller than the number of buses. List those bus routes."
+                },
+                attempts: { 1: 0, 2: 0, 3: 0, 4: 0 }
+            },
+            video: {
+                text: "Tables:\n1. MEMBER (MID: Character, MNAME: Character, MTYPE: Character, CREDIT: Integer, JDATE: Date)\n2. VIDEO (VID: Character, VTITLE: Character, RFEE: Integer)\n3. RENTAL (MID: Character, VID: Character, RDATE: Date)\nRelations: RENTAL maps MEMBER(MID) to VIDEO(VID)",
+                questions: {
+                    1: "What is the primary key for RENTAL?",
+                    2: "List the names and identity codes of the Ordinary members who have fewer than 100 credits.",
+                    3: "Find the total rental fee earned by the video 'Nice Face'.",
+                    4: "List the titles of the videos which have never been rented.",
+                    5: "The company celebrates its anniversary and gives 50 extra credit points to members who joined before 2017."
+                },
+                attempts: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+            },
+            comp: {
+                text: "Tables:\n1. SCHOOL (SID: Character, SNAME: Character)\n2. PSTUD (SID: Character, PID: Character, PNAME: Character, FIRST: Boolean, GP: Character)\n3. MARK (PID: Character, SMARK: Integer)\n4. TM (SID: Character, TOTAL: Integer)\nRelations: PSTUD(SID) references SCHOOL(SID). MARK(PID) references PSTUD(PID). TM(SID) references SCHOOL(SID). TM table stores the results of question (e).",
+                questions: {
+                    1: "List the names of the students who come from the school with the school code 'S0013'.",
+                    2: "Find the total number of students who come from the schools with names including 'Government'.",
+                    3: "List the names of students in the Junior group who get a mark greater than or equal to 60.",
+                    4: "What is the purpose of the following SQL statement? SELECT PID, PNAME FROM PSTUD WHERE GP = 'S' AND FIRST AND PID NOT IN (SELECT PID FROM MARK)",
+                    5: "Write a SQL statement for finding the sum of the marks of the students in each school. Your query should output SID and the sum as TOTAL.",
+                    6: "Database table TM stores the results of the SQL statement in (e). A school will be awarded a certificate if the sum of the marks of its students is the highest among the schools. Write a SQL statement with TM (and SCHOOL if needed) to find the name(s) of school(s) that will be awarded a certificate."
+                },
+                attempts: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0 }
+            }
+        };
+
+        // Cache the original questions so we can restore them later
+        for (const key in state) {
+            state[key].originalQuestions = { ...state[key].questions };
+        }
+
+        function switchTab(event, tabId) {
+            // Hide all contents and remove active class from buttons
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            
+            // Show targeted content and activate targeted button
+            document.getElementById('tab-' + tabId).classList.add('active');
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+        }
+
+        async function fetchWithRetry(url, options, retries = 5, backoff = 1000) {
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) throw new Error(`API Request Failed with status ${response.status}`);
+                return await response.json();
+            } catch (err) {
+                if (retries > 0) {
+                    await new Promise(resolve => setTimeout(resolve, backoff));
+                    return fetchWithRetry(url, options, retries - 1, backoff * 2);
+                }
+                throw err;
+            }
+        }
+
+        async function checkAnswerWithAI(schemaKey, qNum) {
+            const input = document.getElementById(`input-${schemaKey}-${qNum}`).value.trim();
+            const feedbackEl = document.getElementById(`feedback-${schemaKey}-${qNum}`);
+            const checkBtn = document.getElementById(`btn-check-${schemaKey}-${qNum}`);
+            const similarBtn = document.getElementById(`btn-similar-${schemaKey}-${qNum}`);
+
+            if (!input) {
+                feedbackEl.innerHTML = "<span style='color: orange;'>Please enter your answer before checking.</span>";
+                return;
+            }
+
+            state[schemaKey].attempts[qNum]++;
+            feedbackEl.innerHTML = `<span style='color: #666;'><em>The AI teacher is reviewing your answer (Attempt ${state[schemaKey].attempts[qNum]})...</em></span>`;
+            checkBtn.disabled = true;
+            similarBtn.disabled = true;
+
+            const questionText = state[schemaKey].questions[qNum];
+            const schemaText = state[schemaKey].text;
+            
+            const systemPrompt = `You are an encouraging database teacher evaluating a student's answer (which could be a SQL query or a conceptual answer).
+            Schema: ${schemaText}
+            Question: ${questionText}
+
+            Rules for your feedback:
+            1. Evaluate the core logic of the student's answer. If their query correctly answers the question, set isCorrect to true. Subqueries, implicit joins (comma-separated FROM), and explicit joins are all acceptable if they yield the correct result.
+            2. If the student provides a correct answer using implicit joins or NATURAL JOIN, set isCorrect to true, but gently remind them in the 'alternative' field to try using explicit SQL-92 JOIN syntax (INNER JOIN, LEFT JOIN) as a best practice. Subqueries are highly encouraged where appropriate.
+            3. If the student's answer is incorrect, incomplete, has syntax errors, or is completely unrelated, set isCorrect to false. 
+            4. Provide a pedagogical hint in the 'feedback' field based on the attempt count (${state[schemaKey].attempts[qNum]}):
+               - Attempt 1: Give a very gentle, high-level hint. Just point them in the general direction of what tables, subqueries, or concepts to think about.
+               - Attempt 2: Give a more specific hint pointing out exactly which clauses (JOIN, WHERE, subquery, UPDATE, etc.), columns, or concepts are missing or wrong.
+               - Attempt 3 or more: Give a very strong, structural hint (e.g., showing a skeleton of the query like "SELECT ... FROM ... INNER JOIN ... ON ... WHERE ...", or explicitly stating the definition of a key). DO NOT give the exact final answer.
+
+            Respond ONLY in JSON.`;
+
+            const userQuery = `Student's attempt: ${input}`;
+
+            try {
+                const result = await fetchWithRetry(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] },
+                            generationConfig: {
+                                responseMimeType: "application/json",
+                                responseSchema: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        isCorrect: { type: "BOOLEAN" },
+                                        feedback: { type: "STRING" },
+                                        alternative: { type: "STRING" }
+                                    },
+                                    required: ["isCorrect", "feedback", "alternative"]
+                                }
+                            }
+                        })
+                    }
+                );
+
+                const rawData = result.candidates[0].content.parts[0].text;
+                const aiResponse = JSON.parse(rawData);
+
+                // --- RECORD HISTORY ---
+                historyLog.push({
+                    time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+                    schema: schemaKey,
+                    qNum: qNum,
+                    question: questionText,
+                    attempt: input,
+                    isCorrect: aiResponse.isCorrect,
+                    feedback: aiResponse.feedback
+                });
+                renderHistory(); // Update UI
+                // ----------------------
+
+                if (aiResponse.isCorrect) {
+                    state[schemaKey].attempts[qNum] = 0; // Reset attempts on success
+                    let html = "<span style='color: green;'>&#10004; " + aiResponse.feedback + "</span>";
+                    if (aiResponse.alternative && aiResponse.alternative.trim() !== "") {
+                        html += "<div style='margin-top: 10px; font-size: 0.9em; padding: 10px; background-color: #f8f9fa; border-left: 3px solid #28a745;'><strong>Alternative/Explanation:</strong><br>" + aiResponse.alternative + "</div>";
+                    }
+                    feedbackEl.innerHTML = html;
+                } else {
+                    feedbackEl.innerHTML = `<span style='color: #2b6cb0;'>&#128161; <strong>Teacher's Hint (Level ${state[schemaKey].attempts[qNum]}):</strong> ` + aiResponse.feedback + "</span>";
+                }
+
+            } catch (error) {
+                console.error("Check Answer Error:", error);
+                feedbackEl.innerHTML = "<span style='color: #d9534f;'>Failed to connect to the AI teacher. Please try again later.</span>";
+                state[schemaKey].attempts[qNum]--; // Revert attempt count on API error
+            } finally {
+                checkBtn.disabled = false;
+                similarBtn.disabled = false;
+            }
+        }
+
+        async function generateSimilarQuestion(schemaKey, qNum) {
+            const feedbackEl = document.getElementById(`feedback-${schemaKey}-${qNum}`);
+            const checkBtn = document.getElementById(`btn-check-${schemaKey}-${qNum}`);
+            const similarBtn = document.getElementById(`btn-similar-${schemaKey}-${qNum}`);
+            const questionTextEl = document.getElementById(`text-${schemaKey}-${qNum}`);
+            const inputEl = document.getElementById(`input-${schemaKey}-${qNum}`);
+
+            feedbackEl.innerHTML = "<span style='color: #666;'><em>Generating a new similar question...</em></span>";
+            checkBtn.disabled = true;
+            similarBtn.disabled = true;
+
+            const originalQuestionText = state[schemaKey].questions[qNum];
+            const schemaText = state[schemaKey].text;
+
+            const systemPrompt = `You are a database teacher creating practice questions.
+            Schema: ${schemaText}
+            Original Question: ${originalQuestionText}
+
+            Task: Create a NEW, single SQL (or conceptual) question that tests similar concepts as the original (e.g., if the original tested JOIN and SUM, the new one should too), but asks for different fields, uses different conditions, or involves different tables from the schema. Keep it concise.
+
+            Return ONLY a JSON object with a single key 'newQuestion' containing the text of the new question. Do not include answers or explanations.`;
+
+            const userQuery = `Generate a similar question for Question ${qNum}.`;
+
+            try {
+                const result = await fetchWithRetry(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] },
+                            generationConfig: {
+                                responseMimeType: "application/json",
+                                responseSchema: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        newQuestion: { type: "STRING" }
+                                    },
+                                    required: ["newQuestion"]
+                                }
+                            }
+                        })
+                    }
+                );
+
+                const rawData = result.candidates[0].content.parts[0].text;
+                const aiResponse = JSON.parse(rawData);
+
+                if (aiResponse.newQuestion) {
+                    const newQText = aiResponse.newQuestion;
+                    state[schemaKey].questions[qNum] = newQText; // Update tracking text
+                    questionTextEl.innerHTML = `<span style="color: #0056b3; margin-right: 4px;">[New Practice]</span> ${newQText}`;
+                    inputEl.value = ''; // Clear old input
+                    
+                    // Handle UI toggle for the fill-in-the-blank question
+                    if (schemaKey === 'comp' && qNum === 5) {
+                        document.getElementById('comp-5-blanks-container').style.display = 'none';
+                        document.getElementById('input-comp-5').style.display = 'block';
+                    }
+
+                    state[schemaKey].attempts[qNum] = 0; // Reset attempts
+                    feedbackEl.innerHTML = "<span style='color: green;'>New question generated! Give it a try.</span>";
+                    document.getElementById(`btn-restore-${schemaKey}-${qNum}`).style.display = 'inline-block';
+                }
+
+            } catch (error) {
+                console.error("Generate Similar Question Error:", error);
+                feedbackEl.innerHTML = "<span style='color: #d9534f;'>Failed to generate question. Please try again later.</span>";
+            } finally {
+                checkBtn.disabled = false;
+                similarBtn.disabled = false;
+            }
+        }
+
+        function restoreOriginalQuestion(schemaKey, qNum) {
+            const questionTextEl = document.getElementById(`text-${schemaKey}-${qNum}`);
+            const inputEl = document.getElementById(`input-${schemaKey}-${qNum}`);
+            const feedbackEl = document.getElementById(`feedback-${schemaKey}-${qNum}`);
+            const restoreBtn = document.getElementById(`btn-restore-${schemaKey}-${qNum}`);
+
+            state[schemaKey].questions[qNum] = state[schemaKey].originalQuestions[qNum];
+            questionTextEl.innerHTML = state[schemaKey].originalQuestions[qNum];
+            inputEl.value = '';
+            
+            // Restore UI toggle for the fill-in-the-blank question
+            if (schemaKey === 'comp' && qNum === 5) {
+                document.getElementById('comp-5-blanks-container').style.display = 'block';
+                document.getElementById('input-comp-5').style.display = 'none';
+                document.querySelectorAll('.comp-5-blank').forEach(el => el.value = '');
+                updateComp5(); // Reset hidden state
+            }
+
+            state[schemaKey].attempts[qNum] = 0;
+            feedbackEl.innerHTML = "<span style='color: green;'>Original question restored.</span>";
+            restoreBtn.style.display = 'none';
+        }
+
+        // --- PROGRESS DRAWER LOGIC ---
+        function openDrawer() {
+            document.getElementById('drawer-overlay').classList.add('active');
+            document.getElementById('progress-drawer').classList.add('active');
+        }
+
+        function closeDrawer() {
+            document.getElementById('drawer-overlay').classList.remove('active');
+            document.getElementById('progress-drawer').classList.remove('active');
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('drawer-content-area');
+            const adviceBtn = document.getElementById('btn-advice');
+            
+            // Get student info from session state
+            const sClass = studentSession.class || '______';
+            const sNumber = studentSession.number || '______';
+            const sName = studentSession.name || '__________________';
+
+            // Temporarily hide the generate advice button for the PDF snapshot
+            const originalAdviceDisplay = adviceBtn.style.display;
+            adviceBtn.style.display = 'none';
+
+            // Add the PDF scaling mode class
+            element.classList.add('pdf-mode');
+
+            // Inject a temporary title and formatted student info for the PDF document
+            const pdfHeader = document.createElement('div');
+            pdfHeader.id = 'pdf-header-container';
+            pdfHeader.style.borderBottom = "2px solid #2c3e50";
+            pdfHeader.style.paddingBottom = "10px";
+            pdfHeader.style.marginBottom = "15px";
+
+            const pdfTitle = document.createElement('h2');
+            pdfTitle.innerText = "Database Learning Progress Report";
+            pdfTitle.style.margin = "0 0 10px 0";
+            pdfTitle.style.border = "none";
+
+            const studentDetails = document.createElement('div');
+            studentDetails.style.fontSize = "12pt";
+            studentDetails.style.fontWeight = "bold";
+            studentDetails.innerText = `${sClass}(${sNumber}) ${sName}`;
+
+            pdfHeader.appendChild(pdfTitle);
+            pdfHeader.appendChild(studentDetails);
+            element.insertBefore(pdfHeader, element.firstChild);
+
+            const opt = {
+                margin:       0.5,
+                filename:     'Database_Learning_Progress.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+
+            const pdfBtn = document.querySelector('.pdf-btn');
+            const originalText = pdfBtn.innerText;
+            pdfBtn.innerText = "⏳ Generating...";
+            pdfBtn.disabled = true;
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                adviceBtn.style.display = originalAdviceDisplay;
+                element.classList.remove('pdf-mode');
+                pdfHeader.remove(); // Remove the temporary PDF header
+                pdfBtn.innerText = originalText;
+                pdfBtn.disabled = false;
+            }).catch(err => {
+                console.error("PDF Generation Error", err);
+                adviceBtn.style.display = originalAdviceDisplay;
+                element.classList.remove('pdf-mode');
+                pdfHeader.remove();
+                pdfBtn.innerText = originalText;
+                pdfBtn.disabled = false;
+                alert("Failed to generate PDF.");
+            });
+        }
+
+        function renderHistory() {
+            const listEl = document.getElementById('history-list');
+            const totalEl = document.getElementById('stat-total');
+            const correctEl = document.getElementById('stat-correct');
+            
+            totalEl.innerText = historyLog.length;
+            correctEl.innerText = historyLog.filter(h => h.isCorrect).length;
+
+            if (historyLog.length === 0) {
+                listEl.innerHTML = '<p style="color: #666; font-style: italic;">No questions attempted yet. Submit an answer to see your history!</p>';
+                return;
+            }
+
+            // Group history by Tab, Question Number, and specific Question Text
+            const groups = {};
+            historyLog.forEach(h => {
+                const key = `${h.schema}-${h.qNum}-${h.question}`;
+                if (!groups[key]) {
+                    groups[key] = {
+                        schema: h.schema,
+                        qNum: h.qNum,
+                        question: h.question,
+                        attempts: []
+                    };
+                }
+                groups[key].attempts.push(h); // Already oldest to newest because we used push()
+            });
+
+            const tabNames = { 'school': '2018', 'bus': '2019', 'video': '2020', 'comp': '2021' };
+            const qLabels = { 1: '(a)', 2: '(b)', 3: '(c)', 4: '(d)', 5: '(e)', 6: '(f)' };
+
+            let html = '';
+            for (const key in groups) {
+                const g = groups[key];
+                const tabName = tabNames[g.schema] || g.schema.toUpperCase();
+                const qLabel = qLabels[g.qNum] || g.qNum;
+                
+                html += `
+                    <div style="margin-bottom: 25px; border: 1px solid #dee2e6; border-radius: 5px; overflow: hidden;">
+                        <div style="background: #e9ecef; padding: 10px 15px; border-bottom: 1px solid #dee2e6;">
+                            <strong style="color: #0056b3;">${tabName} Question ${qLabel}</strong>
+                            <div style="margin-top: 5px; font-size: 0.95rem; color: #333;"><em>Q: ${g.question}</em></div>
+                        </div>
+                        <div style="padding: 15px;">
+                `;
+                
+                g.attempts.forEach((a, index) => {
+                    html += `
+                        <div class="history-item ${a.isCorrect ? 'correct' : 'incorrect'}" style="margin-bottom: ${index === g.attempts.length - 1 ? '0' : '15px'};">
+                            <div class="history-meta"><strong>Attempt ${index + 1}</strong> | ${a.time} | ${a.isCorrect ? '<span style="color:#28a745; font-weight:bold;">Correct</span>' : '<span style="color:#dc3545; font-weight:bold;">Incorrect</span>'}</div>
+                            <div class="history-a">${a.attempt}</div>
+                            <div class="history-f"><strong>Feedback:</strong> ${a.feedback}</div>
+                        </div>
+                    `;
+                });
+                
+                html += `</div></div>`;
+            }
+
+            listEl.innerHTML = html;
+        }
+
+        async function generateAdvice() {
+            const adviceBtn = document.getElementById('btn-advice');
+            const adviceContainer = document.getElementById('advice-container');
+
+            if (historyLog.length === 0) {
+                alert("You need to attempt some questions first before the AI can give you advice!");
+                return;
+            }
+
+            adviceBtn.disabled = true;
+            adviceBtn.innerText = "🤖 Analyzing your progress...";
+            adviceContainer.style.display = "block";
+            adviceContainer.innerHTML = "<span style='color: #666;'><em>Reviewing your history and patterns...</em></span>";
+
+            // Grab the most recent 15 attempts from the end of the array
+            const recentHistory = historyLog.slice(-15).map(h => 
+                `Question: ${h.question}\nStudent Answer: ${h.attempt}\nWas Correct: ${h.isCorrect}\nTeacher Feedback: ${h.feedback}`
+            ).join('\n\n');
+
+            const systemPrompt = `You are a supportive database professor reviewing a student's recent practice history.
+            Task: Provide a personalized, encouraging summary of their progress and specific advice on which SQL areas or DB theories they need to focus on, based on patterns in their mistakes or successes.
+            
+            Rules:
+            1. Keep it concise: 1 paragraph summary, followed by a bulleted list of 1-3 specific areas to review (e.g., INNER JOIN syntax, Subqueries, Aggregate functions).
+            2. Be highly encouraging.
+            3. Use HTML formatting (<p>, <ul>, <li>, <strong>).
+            4. Return ONLY a JSON object with a single key 'advice' containing the HTML string.`;
+
+            const userQuery = `Student's recent history:\n${recentHistory}`;
+
+            try {
+                const result = await fetchWithRetry(
+                    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: userQuery }] }],
+                            systemInstruction: { parts: [{ text: systemPrompt }] },
+                            generationConfig: {
+                                responseMimeType: "application/json",
+                                responseSchema: {
+                                    type: "OBJECT",
+                                    properties: { advice: { type: "STRING" } },
+                                    required: ["advice"]
+                                }
+                            }
+                        })
+                    }
+                );
+
+                const rawData = result.candidates[0].content.parts[0].text;
+                const aiResponse = JSON.parse(rawData);
+                adviceContainer.innerHTML = aiResponse.advice;
+
+            } catch (error) {
+                console.error("Generate Advice Error:", error);
+                adviceContainer.innerHTML = "<span style='color: #d9534f;'>Failed to generate advice. Please try again later.</span>";
+            } finally {
+                adviceBtn.disabled = false;
+                adviceBtn.innerText = "🤖 Update My Advice";
+            }
+        }
+    </script>
+
+</body>
+</html>

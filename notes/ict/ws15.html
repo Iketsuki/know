@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>Tic-Tac-Toe&colon; Revision Edition &ndash; Worksheet 3</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-query-warning {
+  border-left: 3px solid var(--vscode-editorWarning-foreground);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.25em 0.75em;
+  margin: 0.5em 0;
+  font-size: 0.9em;
+}
+
+.foam-query-warning p {
+  margin: 0.2em 0;
+}
+
+.foam-query-error {
+  border-left: 3px solid var(--vscode-editorError-foreground);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.25em 0.75em;
+  margin: 0.5em 0;
+  font-size: 0.9em;
+}
+
+.foam-query-empty {
+  color: var(--vscode-descriptionForeground);
+  font-style: italic;
+}
+
+.foam-query-placeholder {
+  border: 1px dashed var(--vscode-editorLineNumber-foreground);
+  background-color: var(--vscode-textBlockQuote-background);
+  color: var(--vscode-foreground);
+  padding: 0.75em 1em;
+  margin: 1em 0;
+  opacity: 0.8;
+}
+
+.foam-query-placeholder pre {
+  background-color: var(--vscode-textPreformat-background);
+  padding: 0.4em 0.6em;
+  margin: 0.5em 0;
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="tic-tac-toe-revision-edition--worksheet-3">Tic-Tac-Toe: Revision Edition – Worksheet 3</h2>
+<h3 id="part-10-initializing-the-board">Part 10: Initializing the Board</h3>
+<p>We need a list of 9 strings: <code>[&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;]</code>.</p>
+<p><strong>Version A: The &quot;Tedious&quot; Way (One-by-One)</strong></p>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">initBoard</span>():
+    <span class="hljs-comment"># Manually typing every single element</span>
+    board = [<span class="hljs-string">&quot;1&quot;</span>, <span class="hljs-string">&quot;2&quot;</span>, <span class="hljs-string">&quot;3&quot;</span>, <span class="hljs-string">&quot;4&quot;</span>, <span class="hljs-string">&quot;5&quot;</span>, <span class="hljs-string">&quot;6&quot;</span>, <span class="hljs-string">&quot;7&quot;</span>, <span class="hljs-string">&quot;8&quot;</span>, <span class="hljs-string">&quot;9&quot;</span>]
+    <span class="hljs-keyword">return</span> board
+</code></pre>
+<p><strong>Version B: The &quot;Efficient&quot; Way (For Loop)</strong>
+<strong>Ponder:</strong> If we use the loop to generate numbers from 1 to 9. Since our board needs <strong>strings</strong>, we must convert the number.</p>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">initBoard</span>():
+    board = []
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(____, ____):
+        <span class="hljs-comment"># Convert the number i to a string and add it to the list</span>
+        board = board + [____(____)] 
+    <span class="hljs-keyword">return</span> board
+</code></pre>
+<hr>
+<h3 id="part-11-displaying-the-grid-showboard">Part 11: Displaying the Grid (<code>showBoard</code>)</h3>
+<p>We want to print 3 rows. Each row has 3 elements from our list.</p>
+<p><strong>Version A: The &quot;Tedious&quot; Way (Hardcoded Indexing)</strong></p>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">showBoard</span>(<span class="hljs-params">board</span>):
+    <span class="hljs-built_in">print</span>(board[____] + <span class="hljs-string">&quot; | &quot;</span> + board[<span class="hljs-number">1</span>] + <span class="hljs-string">&quot; | &quot;</span> + board[<span class="hljs-number">2</span>])
+    <span class="hljs-built_in">print</span>(board[____] + <span class="hljs-string">&quot; | &quot;</span> + board[<span class="hljs-number">4</span>] + <span class="hljs-string">&quot; | &quot;</span> + board[<span class="hljs-number">5</span>])
+    <span class="hljs-built_in">print</span>(board[____] + <span class="hljs-string">&quot; | &quot;</span> + board[____] + <span class="hljs-string">&quot; | &quot;</span> + board[____])
+</code></pre>
+<p><strong>Version B: The &quot;Efficient&quot; Way (Nested For Loop)</strong>
+<strong>Ponder:</strong> To print 3 rows, we start our range at 0 and jump by 3 each time.</p>
+<ul>
+<li>Row 1 starts at index 0.</li>
+<li>Row 2 starts at index 3.</li>
+<li>Row 3 starts at index 6.</li>
+</ul>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">showBoard</span>(<span class="hljs-params">board</span>):
+    <span class="hljs-comment"># range(start, stop, step)</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(____, <span class="hljs-number">9</span>, ____): 
+        <span class="hljs-comment"># This prints 3 elements starting from index i</span>
+        <span class="hljs-built_in">print</span>(board[i] + <span class="hljs-string">&quot; | &quot;</span> + board[____] + <span class="hljs-string">&quot; | &quot;</span> + board[____])
+</code></pre>
+<hr>
+<h3 id="part-12-the-win-checker-checkwinner">Part 12: The Win Checker (<code>checkWinner</code>)</h3>
+<p>Checking for a winner manually requires 8 <code>if</code> statements. Let's find the pattern for <strong>Rows</strong> and <strong>Columns</strong>.</p>
+<p><strong>Version A: The &quot;Tedious&quot; Way (Manual Checks)</strong></p>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">checkWinner</span>(<span class="hljs-params">board, turn</span>):
+    cp = players[turn % <span class="hljs-number">2</span>] <span class="hljs-comment"># Current Player</span>
+    <span class="hljs-comment"># Checking Row 1</span>
+    <span class="hljs-keyword">if</span> board[<span class="hljs-number">0</span>] == board[<span class="hljs-number">1</span>] == board[<span class="hljs-number">2</span>] == cp: 
+        <span class="hljs-keyword">return</span> cp
+    <span class="hljs-comment"># Checking Row 2</span>
+    <span class="hljs-keyword">if</span> board[<span class="hljs-number">3</span>] == board[<span class="hljs-number">4</span>] == board[<span class="hljs-number">5</span>] == cp: 
+        <span class="hljs-keyword">return</span> cp
+    <span class="hljs-comment"># ... (and so on for 6 more combinations)</span>
+</code></pre>
+<p><strong>Version B: The &quot;Efficient&quot; Way (Pattern Tracing)</strong></p>
+<p><strong>1. Tracing Row Patterns:</strong>
+Every row starts at index <code>i</code> and checks <code>____</code> and <code>____</code>.</p>
+<ul>
+<li>If <code>i</code> is 0, we check: 0, 1, 2.</li>
+<li>If <code>i</code> is 3, we check: 3, 4, 5.</li>
+<li>If <code>i</code> is 6, we check: 6, 7, 8.</li>
+</ul>
+<p><strong>2. Tracing Column Patterns:</strong>
+Every column starts at index <code>i</code> and checks <code>____</code> and <code>____</code>.</p>
+<ul>
+<li>If <code>i</code> is 0, we check: 0, 3, 6.</li>
+<li>If <code>i</code> is 1, we check: 1, 4, 7.</li>
+<li>If <code>i</code> is 2, we check: 2, 5, 8.</li>
+</ul>
+<p><strong>Fill in the loop logic below:</strong></p>
+<pre><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">checkWinner</span>(<span class="hljs-params">board, turn</span>):
+    cp = players[turn % <span class="hljs-number">2</span>]
+
+    <span class="hljs-comment"># LOOP FOR ROWS</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(____, ____, ____):
+        <span class="hljs-keyword">if</span> board[i] == board[____] == board[____] == cp:
+            <span class="hljs-keyword">return</span> cp
+
+    <span class="hljs-comment"># LOOP FOR COLUMNS</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(____):
+        <span class="hljs-keyword">if</span> board[i] == board[____] == board[____] == cp:
+            <span class="hljs-keyword">return</span> cp
+
+    <span class="hljs-comment"># DIAGONALS (Still manual, as there are only two!)</span>
+    <span class="hljs-keyword">if</span> board[<span class="hljs-number">0</span>] == board[<span class="hljs-number">4</span>] == board[<span class="hljs-number">8</span>] == cp: <span class="hljs-keyword">return</span> cp
+    <span class="hljs-keyword">if</span> board[<span class="hljs-number">2</span>] == board[<span class="hljs-number">4</span>] == board[<span class="hljs-number">6</span>] == cp: <span class="hljs-keyword">return</span> cp
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+</code></pre>
+<hr>
+<h3 id="part-13-summary-ponder">Part 13: Summary Ponder</h3>
+<ol>
+<li>In <code>showBoard</code>, if we changed the range to <code>range(0, 9, 1)</code>, how many lines would the program try to print? __________</li>
+<li>In <code>checkWinner</code>, why did the Column loop use and the Row loop used different <code>range()</code>?
+<blockquote>
+<p><em>Your Answer:</em> ________________________________________________________</p>
+</blockquote>
+</li>
+<li>Why is the &quot;Efficient&quot; version better if we decided to change our game to a 4x4 or 5x5 board later?
+<blockquote>
+<p><em>Your Answer:</em> ________________________________________________________</p>
+</blockquote>
+</li>
+</ol>
+
+            
+            <script async type="text/javascript">
+/* From extension foam.foam-vscode */
+/**
+ * Handles in-preview scroll-to-fragment for Foam block anchors.
+ *
+ * Block anchor elements have ids prefixed with '__' (e.g. id="__myblock").
+ *
+ * Two cases:
+ *
+ * 1. Same-document links ([[#^blockid]] → href="#__blockid"):
+ *    VS Code's click handler returns early for '#'-prefixed hrefs, relying on
+ *    browser-native hash navigation. In VS Code's webview this doesn't reliably
+ *    scroll to arbitrary elements (only headings work via the sync mechanism).
+ *    We intercept the click ourselves and call scrollIntoView directly.
+ *
+ * 2. Cross-document links ([[note#^blockid]] → href="/note.md#__blockid"):
+ *    VS Code opens the new note's preview. We stash the fragment in
+ *    sessionStorage before the navigation happens, and read it when the target
+ *    note's preview script runs (either on initial load or via the
+ *    vscode.markdown.updateContent event for in-place re-renders).
+ */
+
+const BLOCK_ANCHOR_PREFIX = '__';
+const FRAGMENT_STORAGE_KEY = 'foam-block-anchor-fragment';
+
+function scrollToBlockAnchor(fragment) {
+  if (!fragment || !fragment.startsWith(BLOCK_ANCHOR_PREFIX)) {
+    return false;
+  }
+  const el = document.getElementById(fragment);
+  if (el) {
+    el.scrollIntoView();
+    return true;
+  }
+  return false;
+}
+
+function getFragmentFromSettings() {
+  try {
+    const dataEl = document.getElementById('vscode-markdown-preview-data');
+    if (!dataEl) {
+      return null;
+    }
+    const settings = JSON.parse(dataEl.getAttribute('data-settings') ?? '{}');
+    const state = JSON.parse(dataEl.getAttribute('data-state') ?? '{}');
+    return settings.fragment ?? state.fragment ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function getPendingFragment() {
+  try {
+    const f = sessionStorage.getItem(FRAGMENT_STORAGE_KEY);
+    if (f) {
+      sessionStorage.removeItem(FRAGMENT_STORAGE_KEY);
+    }
+    return f;
+  } catch {
+    return null;
+  }
+}
+
+function tryScrollFromContext() {
+  scrollToBlockAnchor(getFragmentFromSettings() ?? getPendingFragment());
+}
+
+// Case 1 & 2: intercept all block anchor link clicks (window capture phase runs
+// before VS Code's document-level handler).
+window.addEventListener(
+  'click',
+  e => {
+    const a = e.target.closest('a[href]');
+    if (!a) {
+      return;
+    }
+    const href = a.getAttribute('href');
+    if (!href) {
+      return;
+    }
+
+    const hashIndex = href.lastIndexOf('#');
+    if (hashIndex === -1) {
+      return;
+    }
+
+    const fragment = href.slice(hashIndex + 1); // fragment without '#'
+    if (!fragment.startsWith(BLOCK_ANCHOR_PREFIX)) {
+      return;
+    }
+
+    const pathPart = href.slice(0, hashIndex);
+
+    if (!pathPart) {
+      // Same-document link: scroll directly and suppress default navigation.
+      if (scrollToBlockAnchor(fragment)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    } else {
+      // Cross-document link: stash the fragment so the target note's preview
+      // script can pick it up on load or on the updateContent event.
+      try {
+        sessionStorage.setItem(FRAGMENT_STORAGE_KEY, fragment);
+      } catch {
+        // sessionStorage unavailable — silently ignore.
+      }
+    }
+  },
+  true
+);
+
+// On (re)load: scroll to any pending block anchor fragment. markdown.previewScripts
+// execute after VS Code has appended the rendered content, so the element is in DOM.
+tryScrollFromContext();
+
+// Also handle in-place re-renders triggered by live editing or cross-document
+// navigation that reuses the same webview panel.
+window.addEventListener('vscode.markdown.updateContent', tryScrollFromContext);
+
+</script>
+
+        </body>
+        </html>

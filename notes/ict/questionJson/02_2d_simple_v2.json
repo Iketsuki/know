@@ -1,0 +1,182 @@
+[
+    {
+        "id": 1,
+        "title": "Top-left access",
+        "skill": "2D arrays",
+        "difficulty": "Very Beginner",
+        "question": "Print the top-left element of a 2x2 matrix.",
+        "initialCode": "# a small 2x2 matrix\nmat = [[1,2],[3,4]]\n# row index then column index\nprint(mat[___][___])\n",
+        "expectedOutput": "1"
+    },
+    {
+        "id": 2,
+        "title": "Bottom-right access",
+        "skill": "2D arrays",
+        "difficulty": "Very Beginner",
+        "question": "Print the bottom-right element.",
+        "initialCode": "# bottom-right is row 1, column 1 in a 0-indexed 2x2\nmat = [[1,2],[3,4]]\nprint(mat[___][___])\n",
+        "expectedOutput": "4"
+    },
+    {
+        "id": 3,
+        "title": "Print row 0",
+        "skill": "2D arrays",
+        "difficulty": "Very Beginner",
+        "question": "Print the entire first row of the matrix.",
+        "initialCode": "# the first row is mat[0]\nmat = [[1,2,3],[4,5,6]]\n# fill the blank with the row index\nprint(mat[___])\n",
+        "expectedOutput": "[1, 2, 3]"
+    },
+    {
+        "id": 4,
+        "title": "Print elements of row 1",
+        "skill": "2D arrays",
+        "difficulty": "Very Beginner",
+        "question": "Print each element of row 1 using an index loop.",
+        "initialCode": "mat = [[1,2,3],[4,5,6]]\n# iterate over column indexes for row 1\n# c is the column index\nfor c in range(___, ___, ___):\n    # print element at row 1, column c\n    print(mat[1][c])\n",
+        "expectedOutput": "4\n5\n6"
+    },
+    {
+        "id": 5,
+        "title": "Flatten one row (for)",
+        "skill": "2D arrays",
+        "difficulty": "Very Beginner",
+        "question": "Append elements of row 0 into a list using an index loop.",
+        "initialCode": "mat = [[5,6],[7,8]]\n# start with an empty list\nout = []\n# loop over columns in row 0\nfor c in range(___, ___, ___):\n    # append element at row 0, column c\n    out.append(mat[0][c])\nprint(out)\n",
+        "expectedOutput": "[5, 6]"
+    },
+    {
+        "id": 6,
+        "title": "Sum row 1",
+        "skill": "2D arrays",
+        "difficulty": "Very Beginner",
+        "question": "Compute the sum of elements in row 1 using an index loop.",
+        "initialCode": "mat = [[1,2,3],[4,5,6]]\n# accumulate sum of row 2\ns = 0\nfor c in range(___, ___, ___):\n    s += mat[___][___]\nprint(s)\n",
+        "expectedOutput": "15"
+    },
+    {
+        "id": 7,
+        "title": "Row 0 sum (for)",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Sum elements in row 0 using an index for-loop.",
+        "initialCode": "mat = [[1,2],[3,4]]\n# prepare accumulator\ns = 0\n# loop over columns of row 1\nfor c in range(___, ___, ___):\n    s += mat[___][___]\nprint(s)\n",
+        "expectedOutput": "3"
+    },
+    {
+        "id": 8,
+        "title": "Column 1 sum (for)",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Sum elements in column 1 using an index for-loop.",
+        "initialCode": "mat = [[1,2],[3,4]]\n# sum down column 2\ns = 0\n# r is row index\nfor r in range(___, ___, ___):\n    s += mat[___][___]\nprint(s)\n",
+        "expectedOutput": "6"
+    },
+    {
+        "id": 9,
+        "title": "Max in row 0",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Find the maximum value in row 0 using index access.",
+        "initialCode": "mat = [[1,3,2],[4,5,6]]\n# store the first element as current max\nrow = mat[0]\nm = row[0]\n# check remaining columns\nfor c in range(___, ___, ___):\n    # if this element is larger, update m\n    if ___:\n        m = ___\nprint(m)\n",
+        "expectedOutput": "3"
+    },
+    {
+        "id": 10,
+        "title": "Print row 0 reversed",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Print elements of row 0 in reverse order using an index loop.",
+        "initialCode": "mat = [[1,2,3],[4,5,6]]\n# start from last column index and go down to 0\nfor c in range(___, ___, ___):\n    print(mat[___][___])\n",
+        "expectedOutput": "3\n2\n1"
+    },
+    {
+        "id": 11,
+        "title": "Set element to value",
+        "skill": "2D arrays",
+        "difficulty": "Very Beginner",
+        "question": "Set row 1, col 0 to 9 and print.",
+        "initialCode": "mat = [[1,2],[3,4]]\n# set row 1, column 0 to 9\nmat[___][___] = ___\nprint(mat)\n",
+        "expectedOutput": "[[1, 2], [9, 4]]"
+    },
+    {
+        "id": 12,
+        "title": "Replace zeros (if)",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Replace any 0 with -1. Use an index loop and an if blank.",
+        "initialCode": "mat = [[0,1],[2,0]]\n# loop rows and columns\nfor i in range(___, ___, ___):\n    for j in range(___, ___, ___):\n        # check if the current cell is 0\n        if ___:\n            mat[___][___] = -1\nprint(mat)\n",
+        "expectedOutput": "[[-1, 1], [2, -1]]"
+    },
+    {
+        "id": 13,
+        "title": "Find element position (break)",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Find first position of 3; use if blank and break.",
+        "initialCode": "mat = [[1,2],[3,4]]\npos = None\n# scan rows then columns until found\nfor i in range(___, ___, ___):\n    for j in range(___, ___, ___):\n        # check if this cell equals 3\n        if ___:\n            pos = (i,j)\n            break\nprint(pos)\n",
+        "expectedOutput": "(1, 0)"
+    },
+    {
+        "id": 14,
+        "title": "Total sum (nested for)",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Sum all elements using nested index loops.",
+        "initialCode": "mat = [[1,2],[3,4]]\ns = 0\n# outer loop for rows\nfor i in range(___, ___, ___):\n    # inner loop for columns\n    for j in range(___, ___, ___):\n        s += mat[i][j]\nprint(s)\n",
+        "expectedOutput": "10"
+    },
+    {
+        "id": 15,
+        "title": "Flatten full matrix",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Flatten the matrix to a 1D list using index loops.",
+        "initialCode": "mat = [[1,2],[3,4]]\nout = []\n# go row by row\nfor r in range(___, ___, ___):\n    for c in range(___, ___, ___):\n        out.append(mat[r][c])\nprint(out)\n",
+        "expectedOutput": "[1, 2, 3, 4]"
+    },
+    {
+        "id": 16,
+        "title": "Main diagonal sum",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Compute main diagonal sum (i==i). Use a for-range blank.",
+        "initialCode": "mat = [[1,2,3],[4,5,6],[7,8,9]]\nmain = 0\n# diagonal runs from 0 to n-1\nfor i in range(___, ___, ___):\n    main += mat[i][i]\nprint(main)\n",
+        "expectedOutput": "15"
+    },
+    {
+        "id": 17,
+        "title": "Secondary diagonal (if)",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Compute sum of secondary diagonal using if blank inside loops.",
+        "initialCode": "mat = [[1,2,3],[4,5,6],[7,8,9]]\nsec = 0\nn = len(mat)\nfor i in range(___, ___, ___):\n    for j in range(___, ___, ___):\n        # secondary diagonal condition: i + j == n-1\n        if ___:\n            sec += mat[i][j]\nprint(sec)\n",
+        "expectedOutput": "15"
+    },
+    {
+        "id": 18,
+        "title": "Set diagonal value",
+        "skill": "2D arrays",
+        "difficulty": "Very Beginner",
+        "question": "Set main diagonal values to 7 using an if blank.",
+        "initialCode": "mat = [[0,0],[0,0]]\n# set cells where row==col to 7\nfor i in range(___, ___, ___):\n    for j in range(___, ___, ___):\n        if ___:\n            mat[i][j] = ___\nprint(mat)\n",
+        "expectedOutput": "[[7, 0], [0, 7]]"
+    },
+    {
+        "id": 19,
+        "title": "Transpose 2x2 (indices)",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Transpose a 2x2 matrix using index loops. Leave the target indices blank.",
+        "initialCode": "mat = [[1,2],[3,4]]\nres = [[0,0],[0,0]]\nfor i in range(___, ___, ___):\n    for j in range(___, ___, ___):\n        res[___][___] = mat[i][j]\nprint(res)\n",
+        "expectedOutput": "[[1, 3], [2, 4]]"
+    },
+    {
+        "id": 20,
+        "title": "Scale by factor",
+        "skill": "2D arrays",
+        "difficulty": "Beginner",
+        "question": "Multiply every element by a factor (leave factor blank).",
+        "initialCode": "mat = [[1,2],[3,4]]\n# multiply each element by the factor\nfor i in range(___, ___, ___):\n    for j in range(___, ___, ___):\n        mat[i][j] = mat[i][j] * ___\nprint(mat)\n",
+        "expectedOutput": "[[2, 4], [6, 8]]"
+    }
+]

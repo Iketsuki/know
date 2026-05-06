@@ -1,0 +1,452 @@
+[
+    {
+        "id": 1,
+        "title": "Print Hello",
+        "skill": "Basics",
+        "difficulty": "Very Beginner",
+        "question": "Print the text Hello.",
+        "initialCode": "# Fill in\nprint(___)\n",
+        "expectedOutput": "Hello"
+    },
+    {
+        "id": 2,
+        "title": "Assign and Print",
+        "skill": "Variables",
+        "difficulty": "Very Beginner",
+        "question": "Assign 5 to x and print x.",
+        "initialCode": "x = ___\nprint(x)\n",
+        "expectedOutput": "5"
+    },
+    {
+        "id": 3,
+        "title": "Simple Input",
+        "skill": "IO",
+        "difficulty": "Beginner",
+        "question": "Read a name and print 'Hi <name>'.",
+        "initialCode": "name = input()\nprint(\"Hi \" + ___)\n",
+        "expectedOutput": "Hi Sam"
+    },
+    {
+        "id": 4,
+        "title": "Arithmetic",
+        "skill": "Operators",
+        "difficulty": "Beginner",
+        "question": "Compute 3+4 and print the result.",
+        "initialCode": "print(___)\n",
+        "expectedOutput": "7"
+    },
+    {
+        "id": 5,
+        "title": "Type Conversion",
+        "skill": "Types",
+        "difficulty": "Beginner",
+        "question": "Read a number string and print it as an int plus 1.",
+        "initialCode": "s = \"4\"\nprint(int(___) + 1)\n",
+        "expectedOutput": "5"
+    },
+    {
+        "id": 6,
+        "title": "If statement",
+        "skill": "Conditionals",
+        "difficulty": "Beginner",
+        "question": "If x>0 print Positive else print Non-positive.",
+        "initialCode": "x = 3\nif x > 0:\n    print(\"Positive\")\nelse:\n    print(___)\n",
+        "expectedOutput": "Positive"
+    },
+    {
+        "id": 7,
+        "title": "Compare Numbers",
+        "skill": "Conditionals",
+        "difficulty": "Beginner",
+        "question": "Read a and b and print 'a>b' if a>b.",
+        "initialCode": "a=5\nb=2\nif a > b:\n    print(\"a>b\")\n",
+        "expectedOutput": "a>b"
+    },
+    {
+        "id": 8,
+        "title": "If with input",
+        "skill": "Conditionals,IO",
+        "difficulty": "Beginner",
+        "question": "Read an int and print Even if even, else Odd.",
+        "initialCode": "n = int(input())\nif n % 2 == 0:\n    print(\"Even\")\nelse:\n    print(\"Odd\")\n",
+        "expectedOutput": "Even"
+    },
+    {
+        "id": 9,
+        "title": "Nested if",
+        "skill": "Conditionals",
+        "difficulty": "Intermediate",
+        "question": "Check sign: positive, negative, or zero.",
+        "initialCode": "n = int(input())\nif n == 0:\n    print(\"Zero\")\nelif n > 0:\n    print(\"Positive\")\nelse:\n    print(\"Negative\")\n",
+        "expectedOutput": "Positive"
+    },
+    {
+        "id": 10,
+        "title": "If-elif chain",
+        "skill": "Conditionals",
+        "difficulty": "Intermediate",
+        "question": "Grade: A if >=90, B if >=80, else F.",
+        "initialCode": "score = 85\nif score >= 90:\n    print(\"A\")\nelif score >= 80:\n    print(\"B\")\nelse:\n    print(\"F\")\n",
+        "expectedOutput": "B"
+    },
+    {
+        "id": 11,
+        "title": "Simple for loop",
+        "skill": "Loops",
+        "difficulty": "Beginner",
+        "question": "Print numbers 0 to 2 using a for loop.",
+        "initialCode": "for i in range(___):\n    print(i)\n",
+        "expectedOutput": "0\n1\n2"
+    },
+    {
+        "id": 12,
+        "title": "Loop sum",
+        "skill": "Loops",
+        "difficulty": "Intermediate",
+        "question": "Sum numbers 1..3 using a loop and print sum.",
+        "initialCode": "total = 0\nfor i in range(1, ___):\n    total += i\nprint(total)\n",
+        "expectedOutput": "6"
+    },
+    {
+        "id": 13,
+        "title": "While loop",
+        "skill": "Loops",
+        "difficulty": "Beginner",
+        "question": "Use while to print 1 then 2 then 3.",
+        "initialCode": "i = 1\nwhile i <= ___:\n    print(i)\n    i += 1\n",
+        "expectedOutput": "1\n2\n3"
+    },
+    {
+        "id": 14,
+        "title": "Loop and break",
+        "skill": "Loops",
+        "difficulty": "Intermediate",
+        "question": "Loop 1..10 but break when i==3 and print i each time.",
+        "initialCode": "for i in range(1, 11):\n    if i == ___:\n        break\n    print(i)\n",
+        "expectedOutput": "1\n2"
+    },
+    {
+        "id": 15,
+        "title": "Loop with continue",
+        "skill": "Loops",
+        "difficulty": "Intermediate",
+        "question": "Print odd numbers from 1 to 5 using continue.",
+        "initialCode": "for i in range(1, 6):\n    if i % 2 == 0:\n        continue\n    print(i)\n",
+        "expectedOutput": "1\n3\n5"
+    },
+    {
+        "id": 16,
+        "title": "String concat",
+        "skill": "Strings",
+        "difficulty": "Beginner",
+        "question": "Join 'Hi' and 'You' with a space and print.",
+        "initialCode": "a = \"Hi\"\nb = \"You\"\nprint(a + ___ + b)\n",
+        "expectedOutput": "Hi You"
+    },
+    {
+        "id": 17,
+        "title": "String repeat",
+        "skill": "Strings",
+        "difficulty": "Beginner",
+        "question": "Print three stars using string multiplication.",
+        "initialCode": "print(\"*\" * ___)\n",
+        "expectedOutput": "***"
+    },
+    {
+        "id": 18,
+        "title": "String indexing",
+        "skill": "Strings",
+        "difficulty": "Beginner",
+        "question": "Print the first character of 'cat'.",
+        "initialCode": "s = \"cat\"\nprint(s[___])\n",
+        "expectedOutput": "c"
+    },
+    {
+        "id": 19,
+        "title": "String slice",
+        "skill": "Strings",
+        "difficulty": "Intermediate",
+        "question": "Print 'at' from 'cat' using slicing.",
+        "initialCode": "s = \"cat\"\nprint(s[___:___])\n",
+        "expectedOutput": "at"
+    },
+    {
+        "id": 20,
+        "title": "Strip and lower",
+        "skill": "Strings",
+        "difficulty": "Intermediate",
+        "question": "Normalize '  YES ' to 'yes'.",
+        "initialCode": "s = \"  YES \"\nprint(s.___())\n",
+        "expectedOutput": "yes"
+    },
+    {
+        "id": 21,
+        "title": "List indexing",
+        "skill": "Lists",
+        "difficulty": "Beginner",
+        "question": "Given [10,20,30] print 20.",
+        "initialCode": "lst = [10, 20, 30]\nprint(lst[___])\n",
+        "expectedOutput": "20"
+    },
+    {
+        "id": 22,
+        "title": "Append to list",
+        "skill": "Lists",
+        "difficulty": "Beginner",
+        "question": "Start with [] append 5 and print the list.",
+        "initialCode": "lst = []\nlst.___(5)\nprint(lst)\n",
+        "expectedOutput": "[5]"
+    },
+    {
+        "id": 23,
+        "title": "List length",
+        "skill": "Lists",
+        "difficulty": "Beginner",
+        "question": "Print length of [1,2,3,4].",
+        "initialCode": "lst = [1,2,3,4]\nprint(len(___))\n",
+        "expectedOutput": "4"
+    },
+    {
+        "id": 24,
+        "title": "Iterate list",
+        "skill": "Lists,Loops",
+        "difficulty": "Intermediate",
+        "question": "Print each item in [2,4,6].",
+        "initialCode": "for x in ___:\n    print(x)\n",
+        "expectedOutput": "2\n4\n6"
+    },
+    {
+        "id": 25,
+        "title": "Sum list elements",
+        "skill": "Lists,Loops",
+        "difficulty": "Intermediate",
+        "question": "Compute sum of [1,2,3] with a loop.",
+        "initialCode": "lst = [1,2,3]\ns = 0\nfor x in lst:\n    s += ___\nprint(s)\n",
+        "expectedOutput": "6"
+    },
+    {
+        "id": 26,
+        "title": "Function return",
+        "skill": "Functions",
+        "difficulty": "Beginner",
+        "question": "Define f() that returns 10 and print f().",
+        "initialCode": "def f():\n    return ___\nprint(f())\n",
+        "expectedOutput": "10"
+    },
+    {
+        "id": 27,
+        "title": "Function with two params",
+        "skill": "Functions",
+        "difficulty": "Intermediate",
+        "question": "Define mul(a,b) returning a*b. Print mul(2,3).",
+        "initialCode": "def mul(a, b):\n    return a * ___\nprint(mul(2, 3))\n",
+        "expectedOutput": "6"
+    },
+    {
+        "id": 28,
+        "title": "Default parameter",
+        "skill": "Functions",
+        "difficulty": "Intermediate",
+        "question": "Define greet(name='Friend') and call without args.",
+        "initialCode": "def greet(name=___):\n    print(\"Hello, \" + name)\ngreet()\n",
+        "expectedOutput": "Hello, Friend"
+    },
+    {
+        "id": 29,
+        "title": "Return vs print",
+        "skill": "Functions",
+        "difficulty": "Intermediate",
+        "question": "Write add(a,b) that returns sum; print(add(1,2)).",
+        "initialCode": "def add(a,b):\n    ___ a + b\n\nprint(add(1,2))\n",
+        "expectedOutput": "3"
+    },
+    {
+        "id": 30,
+        "title": "Nested loops grid",
+        "skill": "Nested Loops",
+        "difficulty": "Intermediate",
+        "question": "Print 2x2 stars grid using nested loops.",
+        "initialCode": "for i in range(___):\n    for j in range(___):\n        print(\"*\", end=\"\")\n    print()\n",
+        "expectedOutput": "**\n**"
+    },
+    {
+        "id": 31,
+        "title": "2D list access",
+        "skill": "Lists",
+        "difficulty": "Intermediate",
+        "question": "Given [[1,2],[3,4]] print 4.",
+        "initialCode": "matrix = [[1,2],[3,4]]\nprint(matrix[___][___])\n",
+        "expectedOutput": "4"
+    },
+    {
+        "id": 32,
+        "title": "Flatten 1D",
+        "skill": "Lists,Loops",
+        "difficulty": "Intermediate",
+        "question": "Given [1,2,3] produce [1,2,3] (copy into new list).",
+        "initialCode": "src=[1,2,3]\ndst=[]\nfor x in src:\n    dst.append(___)\nprint(dst)\n",
+        "expectedOutput": "[1,2,3]"
+    },
+    {
+        "id": 33,
+        "title": "Count occurrences",
+        "skill": "Lists",
+        "difficulty": "Intermediate",
+        "question": "Count how many times 2 appears in [2,1,2,3].",
+        "initialCode": "lst=[2,1,2,3]\ncount=0\nfor x in lst:\n    if x == ___:\n        count += 1\nprint(count)\n",
+        "expectedOutput": "2"
+    },
+    {
+        "id": 34,
+        "title": "Reverse list",
+        "skill": "Lists",
+        "difficulty": "Intermediate",
+        "question": "Print reversed [1,2,3] using slicing.",
+        "initialCode": "lst=[1,2,3]\nprint(lst[___])\n",
+        "expectedOutput": "[3, 2, 1]"
+    },
+    {
+        "id": 35,
+        "title": "Find index",
+        "skill": "Lists",
+        "difficulty": "Intermediate",
+        "question": "Find position of 5 in [3,5,7] using loop.",
+        "initialCode": "lst=[3,5,7]\nfor i in range(len(lst)):\n    if lst[i] == ___:\n        print(i)\n        break\n",
+        "expectedOutput": "1"
+    },
+    {
+        "id": 36,
+        "title": "List slicing sum",
+        "skill": "Lists",
+        "difficulty": "Intermediate",
+        "question": "Sum first three elements of [1,2,3,4].",
+        "initialCode": "lst=[1,2,3,4]\nprint(sum(lst[___:___]))\n",
+        "expectedOutput": "6"
+    },
+    {
+        "id": 37,
+        "title": "Map-like loop",
+        "skill": "Loops,Lists",
+        "difficulty": "Intermediate",
+        "question": "Multiply each element by 2 and print new list.",
+        "initialCode": "lst=[1,2,3]\nout=[]\nfor x in lst:\n    out.append(x * ___)\nprint(out)\n",
+        "expectedOutput": "[2,4,6]"
+    },
+    {
+        "id": 38,
+        "title": "Filter-like loop",
+        "skill": "Loops,Lists",
+        "difficulty": "Intermediate",
+        "question": "Keep only even numbers from [1,2,3,4].",
+        "initialCode": "lst=[1,2,3,4]\nout=[]\nfor x in lst:\n    if x % 2 == 0:\n        out.append(___)\nprint(out)\n",
+        "expectedOutput": "[2,4]"
+    },
+    {
+        "id": 39,
+        "title": "Sliding window sum",
+        "skill": "Arrays",
+        "difficulty": "Advanced",
+        "question": "Compute sum of consecutive pairs in [1,2,3].",
+        "initialCode": "lst=[1,2,3]\nout=[]\nfor i in range(len(lst)-1):\n    out.append(lst[i] + lst[i+___])\nprint(out)\n",
+        "expectedOutput": "[3,5]"
+    },
+    {
+        "id": 40,
+        "title": "Prefix sums",
+        "skill": "Arrays",
+        "difficulty": "Advanced",
+        "question": "Build prefix sum array of [1,2,3].",
+        "initialCode": "lst=[1,2,3]\npref=[0]\nfor x in lst:\n    pref.append(pref[-1] + ___)\nprint(pref[1:])\n",
+        "expectedOutput": "[1,3,6]"
+    },
+    {
+        "id": 41,
+        "title": "Find max index",
+        "skill": "Arrays,Loops",
+        "difficulty": "Advanced",
+        "question": "Return index of maximum in [2,8,5].",
+        "initialCode": "lst=[2,8,5]\nmx = lst[0]\nidx = 0\nfor i in range(1, len(lst)):\n    if lst[i] > mx:\n        mx = lst[i]\n        idx = ___\nprint(idx)\n",
+        "expectedOutput": "1"
+    },
+    {
+        "id": 42,
+        "title": "Rotate right by 1",
+        "skill": "Arrays",
+        "difficulty": "Advanced",
+        "question": "Rotate [1,2,3] right by 1 to get [3,1,2].",
+        "initialCode": "lst=[1,2,3]\nlast = lst[-1]\nfor i in range(len(lst)-1, 0, -1):\n    lst[i] = lst[i-1]\nlst[0] = ___\nprint(lst)\n",
+        "expectedOutput": "[3,1,2]"
+    },
+    {
+        "id": 43,
+        "title": "Remove duplicates",
+        "skill": "Lists",
+        "difficulty": "Advanced",
+        "question": "Remove duplicates from [1,2,1,3] preserving order.",
+        "initialCode": "lst=[1,2,1,3]\nout=[]\nfor x in lst:\n    if x not in out:\n        out.append(x)\nprint(out)\n",
+        "expectedOutput": "[1,2,3]"
+    },
+    {
+        "id": 44,
+        "title": "Count pairs with sum",
+        "skill": "Arrays",
+        "difficulty": "Advanced",
+        "question": "Count pairs (i<j) in [1,2,3] with sum 4.",
+        "initialCode": "lst=[1,2,3]\ncount=0\nfor i in range(len(lst)):\n    for j in range(i+1, len(lst)):\n        if lst[i] + lst[j] == ___:\n            count += 1\nprint(count)\n",
+        "expectedOutput": "1"
+    },
+    {
+        "id": 45,
+        "title": "Merge two sorted lists",
+        "skill": "Arrays",
+        "difficulty": "Advanced",
+        "question": "Merge [1,3] and [2,4] to [1,2,3,4].",
+        "initialCode": "a=[1,3]\nb=[2,4]\nres=[]\ni=j=0\nwhile i < len(a) and j < len(b):\n    if a[i] <= b[j]:\n        res.append(a[i]); i += 1\n    else:\n        res.append(b[j]); j += 1\nres += a[i:] + b[j:]\nprint(res)\n",
+        "expectedOutput": "[1,2,3,4]"
+    },
+    {
+        "id": 46,
+        "title": "Binary search (loop) - scaffold",
+        "skill": "Algorithms,Arrays",
+        "difficulty": "Advanced",
+        "question": "Given sorted list and target, find index or -1 (implement loop).",
+        "initialCode": "def bs(arr, target):\n    l = 0\n    r = len(arr)-1\n    while l <= r:\n        m = (l + r) // 2\n        if arr[m] == target:\n            return m\n        elif arr[m] < target:\n            l = m + 1\n        else:\n            r = m - 1\n    return -1\nprint(bs([1,2,3,4], 3))\n",
+        "expectedOutput": "2"
+    },
+    {
+        "id": 47,
+        "title": "Count negatives",
+        "skill": "Arrays",
+        "difficulty": "Intermediate",
+        "question": "Count negative numbers in [-1,0,2,-3].",
+        "initialCode": "lst=[-1,0,2,-3]\ncount=0\nfor x in lst:\n    if x < 0:\n        count += ___\nprint(count)\n",
+        "expectedOutput": "2"
+    },
+    {
+        "id": 48,
+        "title": "Replace elements",
+        "skill": "Arrays",
+        "difficulty": "Intermediate",
+        "question": "Replace all occurrences of 0 with 9 in [0,1,0].",
+        "initialCode": "lst=[0,1,0]\nfor i in range(len(lst)):\n    if lst[i] == 0:\n        lst[i] = ___\nprint(lst)\n",
+        "expectedOutput": "[9,1,9]"
+    },
+    {
+        "id": 49,
+        "title": "Running average",
+        "skill": "Arrays",
+        "difficulty": "Advanced",
+        "question": "Compute running average of [2,4,6] as floats.",
+        "initialCode": "lst=[2,4,6]\nout=[]\nsum_=0\nfor i in range(len(lst)):\n    sum_ += lst[i]\n    out.append(sum_ / (i+1))\nprint(out)\n",
+        "expectedOutput": "[2.0, 3.0, 4.0]"
+    },
+    {
+        "id": 50,
+        "title": "1D reduction: product",
+        "skill": "Arrays,Loops",
+        "difficulty": "Advanced",
+        "question": "Compute product of [2,3,4] using a loop.",
+        "initialCode": "lst=[2,3,4]\nprod = 1\nfor x in lst:\n    prod *= ___\nprint(prod)\n",
+        "expectedOutput": "24"
+    }
+]

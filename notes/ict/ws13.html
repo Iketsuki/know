@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>WS13&colon; Tic-Tac-Toe&colon; Revision Edition - Part 1</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-query-warning {
+  border-left: 3px solid var(--vscode-editorWarning-foreground);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.25em 0.75em;
+  margin: 0.5em 0;
+  font-size: 0.9em;
+}
+
+.foam-query-warning p {
+  margin: 0.2em 0;
+}
+
+.foam-query-error {
+  border-left: 3px solid var(--vscode-editorError-foreground);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.25em 0.75em;
+  margin: 0.5em 0;
+  font-size: 0.9em;
+}
+
+.foam-query-empty {
+  color: var(--vscode-descriptionForeground);
+  font-style: italic;
+}
+
+.foam-query-placeholder {
+  border: 1px dashed var(--vscode-editorLineNumber-foreground);
+  background-color: var(--vscode-textBlockQuote-background);
+  color: var(--vscode-foreground);
+  padding: 0.75em 1em;
+  margin: 1em 0;
+  opacity: 0.8;
+}
+
+.foam-query-placeholder pre {
+  background-color: var(--vscode-textPreformat-background);
+  padding: 0.4em 0.6em;
+  margin: 0.5em 0;
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="ws13-tic-tac-toe-revision-edition---part-1">WS13: Tic-Tac-Toe: Revision Edition - Part 1</h2>
+<p><strong>The Blueprint &amp; The Foundation</strong></p>
+<p>We need to understand the &quot;Skeleton&quot; of our program. Complete this worksheet.</p>
+<hr>
+<h3 id="part-1-mapping-the-brain">Part 1: Mapping the &quot;Brain&quot;</h3>
+<p>The <code>game()</code> function is the central hub of the program. It controls the flow of a single match from start to finish.</p>
+<p><strong>Flowchart Fill-in-the-Blanks:</strong></p>
+<ol>
+<li>
+<p><strong>Start:</strong> The function <code>game()</code> is called.</p>
+</li>
+<li>
+<p><strong>The Count:</strong> <code>updateRound()</code> is triggered to increase the ____________________.</p>
+</li>
+<li>
+<p><strong>Setup:</strong> The variable <code>board</code> is created by calling the function ____________________.</p>
+</li>
+<li>
+<p><strong>Initial States:</strong></p>
+<ul>
+<li><code>winner</code> starts as ____________________.</li>
+<li><code>draw</code> starts as <code>False</code>.</li>
+<li><code>turn</code> starts at ____________________.</li>
+</ul>
+</li>
+<li>
+<p><strong>The Engine:</strong> A <code>while</code> loop begins. It will continue running as long as:</p>
+<ul>
+<li><code>winner</code> is ____________________ <strong>AND</strong></li>
+<li><code>draw</code> is ____________________.</li>
+</ul>
+</li>
+<li>
+<p><strong>Action Phase (Inside the Loop):</strong></p>
+<ul>
+<li>First, we display the grid using ____________________.</li>
+<li>Then, the player makes a move using ____________________.</li>
+<li>The computer checks for a win and then checks for a ____________________.</li>
+<li>Finally, the <code>turn</code> counter increases by ____________________.</li>
+</ul>
+</li>
+<li>
+<p><strong>Resolution:</strong> Once the loop stops, the final board is shown and <code>gameoverMsg()</code> is called.</p>
+</li>
+<li>
+<p>Now, draw a flowchart of <code>game()</code> on the right.</p>
+</li>
+</ol>
+<hr>
+<div style="page-break-after: always;"></div>
+<h3 id="part-2-understanding-global-state">Part 2: Understanding Global State</h3>
+<p>Global variables are like &quot;shared memories&quot; that the whole program can see.</p>
+<p><strong>Discussion Questions:</strong></p>
+<ol>
+<li>
+<p><strong>Why Global?</strong> We define <code>players</code> and <code>scores</code> outside of any function. If we defined <code>scores = [0,0]</code> <em>inside</em> the <code>game()</code> function, what would happen to the score every time a new game started?</p>
+<blockquote>
+<p>______________________________________________________________________</p>
+</blockquote>
+</li>
+<li>
+<p><strong>The &quot;Keyword&quot;:</strong> Python functions can <em>read</em> global variables easily, but if they want to <em>change</em> a variable like <code>round_no</code>, they must use the ____________________ keyword first.</p>
+</li>
+<li>
+<p><strong>Data Persistence:</strong> In the <code>players</code> list, index <code>0</code> represents __________ and index <code>1</code> represents __________.</p>
+</li>
+</ol>
+<hr>
+<h3 id="part-3-building-the-board-initboard">Part 3: Building the Board (<code>initBoard</code>)</h3>
+<p>We need a way to store 9 different squares in a single variable.</p>
+<p><strong>Critical Thinking:</strong></p>
+<ol>
+<li><strong>The Structure:</strong> To represent 9 squares, we use a Python <strong>list</strong>. How many items should be in this list? __________</li>
+<li><strong>Strings vs. Integers:</strong> We use strings like <code>&quot;1&quot;</code>, <code>&quot;2&quot;</code>, and <code>&quot;3&quot;</code> to fill the board initially. Why is it better to use strings instead of actual numbers?
+<em>(Hint: Think about what &quot;X&quot; and &quot;O&quot; are).</em>
+<blockquote>
+<p>______________________________________________________________________</p>
+</blockquote>
+</li>
+<li><strong>Efficiency:</strong> Instead of typing <code>board = [&quot;1&quot;, &quot;2&quot;, &quot;3&quot;...]</code>, can you think of a way to generate a list of 9 strings using a loop or a range?
+<blockquote>
+<p>______________________________________________________________________</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h3 id="part-4-visualization-logic">Part 4: Visualization Logic</h3>
+<p>The user sees a grid, but the computer sees a list.</p>
+<p><strong>The Index Gap:</strong></p>
+<ul>
+<li>If a user wants to play in the top-left corner (Position <strong>1</strong>), what <strong>index</strong> number does the computer use to find that spot in the list? __________</li>
+<li>If a user chooses Position <strong>9</strong>, what is the <strong>index</strong>? __________</li>
+<li><strong>The Rule:</strong> The List Index is always the User Position minus __________.</li>
+</ul>
+
+            
+            <script async type="text/javascript">
+/* From extension foam.foam-vscode */
+/**
+ * Handles in-preview scroll-to-fragment for Foam block anchors.
+ *
+ * Block anchor elements have ids prefixed with '__' (e.g. id="__myblock").
+ *
+ * Two cases:
+ *
+ * 1. Same-document links ([[#^blockid]] → href="#__blockid"):
+ *    VS Code's click handler returns early for '#'-prefixed hrefs, relying on
+ *    browser-native hash navigation. In VS Code's webview this doesn't reliably
+ *    scroll to arbitrary elements (only headings work via the sync mechanism).
+ *    We intercept the click ourselves and call scrollIntoView directly.
+ *
+ * 2. Cross-document links ([[note#^blockid]] → href="/note.md#__blockid"):
+ *    VS Code opens the new note's preview. We stash the fragment in
+ *    sessionStorage before the navigation happens, and read it when the target
+ *    note's preview script runs (either on initial load or via the
+ *    vscode.markdown.updateContent event for in-place re-renders).
+ */
+
+const BLOCK_ANCHOR_PREFIX = '__';
+const FRAGMENT_STORAGE_KEY = 'foam-block-anchor-fragment';
+
+function scrollToBlockAnchor(fragment) {
+  if (!fragment || !fragment.startsWith(BLOCK_ANCHOR_PREFIX)) {
+    return false;
+  }
+  const el = document.getElementById(fragment);
+  if (el) {
+    el.scrollIntoView();
+    return true;
+  }
+  return false;
+}
+
+function getFragmentFromSettings() {
+  try {
+    const dataEl = document.getElementById('vscode-markdown-preview-data');
+    if (!dataEl) {
+      return null;
+    }
+    const settings = JSON.parse(dataEl.getAttribute('data-settings') ?? '{}');
+    const state = JSON.parse(dataEl.getAttribute('data-state') ?? '{}');
+    return settings.fragment ?? state.fragment ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function getPendingFragment() {
+  try {
+    const f = sessionStorage.getItem(FRAGMENT_STORAGE_KEY);
+    if (f) {
+      sessionStorage.removeItem(FRAGMENT_STORAGE_KEY);
+    }
+    return f;
+  } catch {
+    return null;
+  }
+}
+
+function tryScrollFromContext() {
+  scrollToBlockAnchor(getFragmentFromSettings() ?? getPendingFragment());
+}
+
+// Case 1 & 2: intercept all block anchor link clicks (window capture phase runs
+// before VS Code's document-level handler).
+window.addEventListener(
+  'click',
+  e => {
+    const a = e.target.closest('a[href]');
+    if (!a) {
+      return;
+    }
+    const href = a.getAttribute('href');
+    if (!href) {
+      return;
+    }
+
+    const hashIndex = href.lastIndexOf('#');
+    if (hashIndex === -1) {
+      return;
+    }
+
+    const fragment = href.slice(hashIndex + 1); // fragment without '#'
+    if (!fragment.startsWith(BLOCK_ANCHOR_PREFIX)) {
+      return;
+    }
+
+    const pathPart = href.slice(0, hashIndex);
+
+    if (!pathPart) {
+      // Same-document link: scroll directly and suppress default navigation.
+      if (scrollToBlockAnchor(fragment)) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    } else {
+      // Cross-document link: stash the fragment so the target note's preview
+      // script can pick it up on load or on the updateContent event.
+      try {
+        sessionStorage.setItem(FRAGMENT_STORAGE_KEY, fragment);
+      } catch {
+        // sessionStorage unavailable — silently ignore.
+      }
+    }
+  },
+  true
+);
+
+// On (re)load: scroll to any pending block anchor fragment. markdown.previewScripts
+// execute after VS Code has appended the rendered content, so the element is in DOM.
+tryScrollFromContext();
+
+// Also handle in-place re-renders triggered by live editing or cross-document
+// navigation that reuses the same webview panel.
+window.addEventListener('vscode.markdown.updateContent', tryScrollFromContext);
+
+</script>
+
+        </body>
+        </html>

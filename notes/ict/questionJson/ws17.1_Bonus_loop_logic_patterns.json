@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "title": "Linear: Single star",
+    "skill": "Loops",
+    "difficulty": "Beginner",
+    "question": "Print a single star.",
+    "initialCode": "print(\"___\")\n",
+    "expectedOutput": "*"
+  },
+  {
+    "id": 2,
+    "title": "Linear: Vertical stars",
+    "skill": "Loops",
+    "difficulty": "Beginner",
+    "question": "Loop 3 times and print a star each time.",
+    "initialCode": "for i in range(___):\n    print(\"*\")\n",
+    "expectedOutput": "*\n*\n*"
+  },
+  {
+    "id": 3,
+    "title": "Linear: Horizontal concat",
+    "skill": "Loops, Strings",
+    "difficulty": "Beginner",
+    "question": "Build a horizontal line of 3 stars using concatenation.",
+    "initialCode": "msg = \"\"\nfor i in range(___):\n    msg ___ \"*\"\nprint(___)\n",
+    "expectedOutput": "***"
+  },
+  {
+    "id": 4,
+    "title": "Fixed Grid: print stars (nested loops)",
+    "skill": "Nested Loops",
+    "difficulty": "Beginner",
+    "question": "Use nested for-loops to print two rows of three stars (each row '***').",
+    "initialCode": "for i in range(___):\n    for j in range(___):\n        print(\"*\", ___=\"\")\n    ___\n",
+    "expectedOutput": "***\n***"
+  },
+  {
+    "id": 5,
+    "title": "Fixed Grid: build row string",
+    "skill": "Nested Loops, Strings",
+    "difficulty": "Beginner",
+    "question": "Use nested for-loops: build a row string in the inner loop and print three rows of two stars each.",
+    "initialCode": "for i in range(___):\n    row = \"\"\n    for j in range(___):\n        row += ___\n    print(___)\n",
+    "expectedOutput": "**\n**\n**"
+  },
+  {
+    "id": 6,
+    "title": "Growing: fixed stars in loop",
+    "skill": "Loops, String multiplication",
+    "difficulty": "Beginner",
+    "question": "Use a for-loop and string multiplication to print a triangle of height 3 (rows with 1,2,3 stars).",
+    "initialCode": "for i in range(1, ___):\n    print(\"*\" * ___ )\n",
+    "expectedOutput": "*\n**\n***"
+  },
+  {
+    "id": 7,
+    "title": "Growing: spaced stars in one line",
+    "skill": "Loops, Formatting",
+    "difficulty": "Beginner",
+    "question": "Use nested for-loops to print growing rows of spaced stars: 1 star, then 2, then 3 (each separated by a space).",
+    "initialCode": "for i in range(___):\n    for j in range(___):\n        print(\"*\", end=\" \")\n    print()\n",
+    "expectedOutput": "*\n* *\n* * *"
+  },
+  {
+    "id": 8,
+    "title": "Growing: centered triangle",
+    "skill": "Loops, Whitespace",
+    "difficulty": "Intermediate",
+    "question": "Use a single for-loop with spaces and repeated '* ' to print a centered triangle of 3 rows.",
+    "initialCode": "for i in range(___):\n    spaces = \" \" * (2 - ___)\n    stars = \"* \" * (i + ___)\n    print(spaces + stars)\n",
+    "expectedOutput": "  *\n * *\n* * *"
+  },
+  {
+    "id": 9,
+    "title": "Advanced: print inline stars",
+    "skill": "Loops, end parameter",
+    "difficulty": "Beginner",
+    "question": "Use nested loops and print(..., end='') to produce three lines with 3, 2 and 1 stars respectively.",
+    "initialCode": "for i in range(___):\n    print(\"*\" ___ ___, end=\"\")\n",
+    "expectedOutput": "***\n**\n*"
+  },
+  {
+    "id": 10,
+    "title": "Advanced: number triangle",
+    "skill": "Nested Loops, Numbers",
+    "difficulty": "Intermediate",
+    "question": "Use nested for-loops to print rows where each row prints numbers from 1 up to the row number (1, 12, 123).",
+    "initialCode": "for i in range(1, ___):\n    for j in range(1, ___ ):\n        print(___, end=\"\")\n    print()\n",
+    "expectedOutput": "1\n12\n123"
+  },
+  {
+    "id": 11,
+    "title": "Advanced: pattern with conditionals",
+    "skill": "Nested Loops, Conditionals",
+    "difficulty": "Intermediate",
+    "question": "Use nested loops and a conditional to print a 3x3 grid with 'X' on the diagonal and '_' elsewhere (diagonal pattern).",
+    "initialCode": "for i in range(___): \n  for j in range(___): \n    if i ___ j: \n      print(\"X\", end=\"\") \n    else: \n      print(\"_\", end=\"\") \n  print()",
+    "expectedOutput": "X___\n_X_\n___X"
+  },
+  {
+    "id": 12,
+    "title": "Alignment: leading spaces",
+    "skill": "Whitespace, Loops",
+    "difficulty": "Beginner",
+    "question": "Use a for-loop and leading spaces so the star shifts right each row (3 rows, right-aligned column).",
+    "initialCode": "for i in range(___): \n  spaces = \" \" ___ (___)\n  print(___ + \"___\")\n",
+    "expectedOutput": "  *\n *\n*"
+  }
+]

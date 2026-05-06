@@ -1,0 +1,6 @@
+//add 3 questions about simple 2d array access, 1st s = the first row
+[
+  {"id":1,"title":"Print Hello","skill":"Basics","difficulty":"Very Beginner","question":"Print the text Hello.","initialCode":"# Fill in\nprint(___)\n","expectedOutput":"Hello"},
+
+  
+]
