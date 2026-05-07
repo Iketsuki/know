@@ -1,0 +1,83 @@
+[
+  {
+    "id": 1,
+    "title": "p.48 Least Common Multiple (LCM) – complete the program",
+    "skill": "Algorithms",
+    "difficulty": "Intermediate",
+    "question": "Complete the Python program to compute the Least Common Multiple (LCM) of two input integers.",
+    "initialCode": "num1 = int(input(\"Input the first number: \"))\nnum2 = int(input(\"Input the second number: \"))\nif ___:\n    lcm = num1\nelse:\n    lcm = num2\nfound = False\nwhile ___:\n    if ___:\n        found = True\n    else:\n        lcm += 1\nprint(\"The LCM of\", num1, \"and\", num2, \"is\", lcm)\n",
+    "expectedOutput": "For input 4 and 6 -> 12"
+  }
+  ,
+  {
+    "id": 2,
+    "title": "p.50 Average score for class 3 – complete the algorithm",
+    "skill": "Arrays",
+    "difficulty": "Intermediate",
+    "question": "Ms Chan stores student scores per subject in a 2D array S1A_score where each row is a subject and each column is a class number (1..7). Complete the algorithm to find the average score of class number 3 across all subjects.",
+    "initialCode": "# S1A_score rows: Chinese, English, Maths, Music\n# Columns = class numbers 1..7\nS1A_score = [[82,65,77,81,49,71,69],\n             [78,75,76,71,90,53,72],\n             [64,77,73,67,63,81,61],\n             [79,80,66,65,88,74,65]]\n\naverage3 = 0\nfor k ___:\n    average3 = ___  # class number 3 is index 2\naverage3 = ___ \nprint(\"Average for class 3:\", average3)\n",
+    "expectedOutput": "Average for class 3: 73.0"
+
+  }
+  ,
+  {
+    "id": 3,
+    "title": "p.50 Average score for Music – complete the algorithm",
+    "skill": "Arrays",
+    "difficulty": "Intermediate",
+    "question": "Ms Chan wants to find the average score of the class in Music (subject row 4). Complete the algorithm to compute the average across class numbers 1..7.",
+    "initialCode": "# S1A_score rows: Chinese, English, Maths, Music\n# Columns = class numbers 1..7\nS1A_score = [[82,65,77,81,49,71,69],\n             [78,75,76,71,90,53,72],\n             [64,77,73,67,63,81,61],\n             [79,80,66,65,88,74,65]]\n\naverage_music = 0\nfor k ___:\n    average_music += ___  # music is row or col?\naverage_music = ___\nprint(\"Average for Music:\", average_music)\n",
+    "expectedOutput": "Average for Music: 73.85714285714286"
+  }
+  ,
+  {
+    "id": 4,
+    "title": "p.145 Zodiac sub-program and variable scope",
+    "skill": "Algorithms",
+    "difficulty": "Intermediate",
+    "question": "Complete the Python function `zodiac(year)` by filling the blank(s) in the starter code so it returns the correct animal from `z` (example call `print(zodiac(2008))` should output `rat`). Also state the variable scope of `z` (answer: global).",
+    "initialCode": "z = [\"rat\", \"ox\", \"tiger\", \"rabbit\", \"dragon\", \"snake\", \"horse\", \"goat\", \"monkey\", \"rooster\", \"dog\", \"pig\"]\n\n# Sub-program zodiac(year) in Python (fill the blank(s))\ndef zodiac(year):\n    remainder = (___) % ___\n    ___ z[___]  # fill index to return correct animal\n\n# example call to produce output\nprint(___(2008))  # expected: rat",
+    "expectedOutput": "Example: zodiac(2008) -> rat; z is a global variable"
+  }
+  ,
+  {
+    "id": 5,
+    "title": "p.146 F1(c): single-character conversion to decimal (Python)",
+    "skill": "Algorithms",
+    "difficulty": "Beginner",
+    "question": "Fill the blank(s) in the Python `F1(c)` starter code so it converts a single hex-like character to its decimal value. Example calls: `print(F1(\"D\"))` -> 13 and `print(F1(\"6\"))` -> 6.",
+    "initialCode": "# Python version of sub-program F1(c) - convert a single hex-like char to decimal\ndef F1(c):\n    # fill the blank(s) below\n    if '0' <= c ___:\n        return ___(c)\n    else:\n        return ord(c) - ___('___') + ___\n\n# example calls to produce output\nprint(F1(\"D\"))  # expected: 13\nprint(F1(\"6\"))  # expected: 6\n",
+    "expectedOutput": "13\n6",
+    "userCode": ""
+  }
+  ,
+  {
+    "id": 5,
+    "title": "p.146 Hexadecimal to Decimal (hex2dec) – complete the sub-program",
+    "skill": "Algorithms",
+    "difficulty": "Intermediate",
+    "question": "Fill the blank(s) in the Python `hex2dec(h)` starter code so it converts a hexadecimal string to its decimal value. Example calls: `hex2dec(\"1A\")` -> 26 and `hex2dec(\"FF\")` -> 255.",
+    "initialCode": "# Python version of sub-program F1(c) - convert a single hex-like char to decimal\ndef F1(c):\n    # fill the blank(s) below\n    if '0' <= c <= '9':\n        return int(c)\n    else:\n        return ord(c) - ord('A') + 10\n    \n# Python version of hex2dec(h) - fill the blank(s)\ndef hex2dec(h):\n    dec = 0\n    length = len(h)\n    for i in range(___):\n        digit = length - ___ - ___\n        dec += ___ * ___  # convert hex char to value\n    ___\n\n# example calls to produce output\nprint(hex2dec('1A'))  # expected: 26\nprint(hex2dec('FF'))  # expected: 255\n",
+    "expectedOutput": "26\n255"
+  }
+  ,
+  {
+    "id": 6,
+    "title": "p.147 randint() – pseudocode using rand()",
+    "skill": "Randomness",
+    "difficulty": "Beginner",
+    "question": "Fill the blank in the Python `randint()` starter code (using provided `rand()`) so it returns an integer in 1..100. Example: `print(randint())` should produce an integer between 1 and 100.",
+    "initialCode": "# Python randint() using provided rand() - fill the blank(s)\nimport random\n\n# provided rand(): returns a float between 0.00 and 0.99 (two decimal places)\ndef rand():\n    v = round(random.random(), 2)\n    if v >= 1.0:\n        v = 0.99\n    return v\n\ndef randint(n):\n    r = rand() * ___ + 1\n    ___ int(r)\n\n# example call to produce output\nprint(___(___))  # returns integer in 1..100\n",
+    "expectedOutput": "randint(100) returns an integer in 1..100 (e.g., 57)"
+  }
+  ,
+  {
+    "id": 7,
+    "title": "p147 takeSample(n) – pseudocode generalized",
+    "skill": "Randomness",
+    "difficulty": "Beginner",
+    "question": "Fill the blank in the Python `takeSample(n)` starter code (using provided `rand()`) so it returns an integer in 1..n. Example: `print(takeSample(5))` should produce an integer between 1 and 5.",
+    "initialCode": "# Python takeSample(n) using rand() - fill the blank(s)\nimport random\n\ndef rand():\n    v = round(random.random(), 2)\n    if v >= 1.0:\n        v = 0.99\n    return v\n\ndef takeSample(n):\n    r = ___ * ___ + 1\n    return ___(r)\n\n# example call to produce output\nprint(takeSample(5))  # returns integer in 1..5\n",
+    "expectedOutput": "takeSample(5) returns an integer in 1..5 (e.g., 3)"
+  }
+]
