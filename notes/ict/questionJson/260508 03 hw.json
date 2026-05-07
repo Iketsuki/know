@@ -35,7 +35,7 @@
     "title": "p.145 Zodiac sub-program and variable scope",
     "skill": "Algorithms",
     "difficulty": "Intermediate",
-    "question": "Complete the Python function `zodiac(year)` by filling the blank(s) in the starter code so it returns the correct animal from `z` (example call `print(zodiac(2008))` should output `rat`). Also state the variable scope of `z` (answer: global).",
+    "question": "Complete the Python function `zodiac(year)` by filling the blank(s) in the starter code so it returns the correct animal from `z` (example call `print(zodiac(2008))` should output `rat`).",
     "initialCode": "z = [\"rat\", \"ox\", \"tiger\", \"rabbit\", \"dragon\", \"snake\", \"horse\", \"goat\", \"monkey\", \"rooster\", \"dog\", \"pig\"]\n\n# Sub-program zodiac(year) in Python (fill the blank(s))\ndef zodiac(year):\n    remainder = (___) % ___\n    ___ z[___]  # fill index to return correct animal\n\n# example call to produce output\nprint(___(2008))  # expected: rat",
     "expectedOutput": "Example: zodiac(2008) -> rat; z is a global variable"
   }

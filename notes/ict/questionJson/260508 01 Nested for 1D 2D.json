@@ -1,0 +1,87 @@
+
+[
+  {
+    "id": 1,
+    "title": "Check: any negative in array",
+    "skill": "Loops",
+    "difficulty": "Beginner",
+    "question": "Given an array A of N integers, use a `for i in range(len(A))` loop to check whether any element is negative. Print True if any negative exists, otherwise False.",
+    "initialCode": "A = [13, 17, 31, 71, 2, 23, 34]\nfound_negative = False\nfor i in range(___):\n    if ___:\n        found_negative = ___\n        ___\nprint(found_negative)\n",
+    "expectedOutput": "False",
+    "analysis": "Iterate using the index loop and check `A[i] < 0`. Break early when a negative is found."
+  },
+  {
+    "id": 2,
+    "title": "Check: prime number (single input)",
+    "skill": "Primality, Loops",
+    "difficulty": "Beginner",
+    "question": "Input a number N and check if it is prime using a for-loop. Store the result in a boolean and print it at the end.",
+    "initialCode": "N = 34\n\n\nisPrime = True\n\nfor d in range(2, ___):\n    if ___: # not prime -> divisble by i\n        isPrime = False\n        ___ # once proved, stop\nprint(isPrime)\n",
+    "expectedOutput": "False",
+    "analysis": "Test divisibility from 2 to N-1; set `isPrime = False` if any divisor found; print the boolean result."
+  },
+  {
+    "id": 3,
+    "title": "Check: all primes in array (nested loops)",
+    "skill": "Primality, Loops",
+    "difficulty": "Intermediate",
+    "question": "Given an array A of N integers, write a program that uses a simple nested for-loop (no subprograms) to check whether all elements are prime. Print a message indicating the result.",
+    "initialCode": "A = [13, 17, 31, 71, 2, 23, 34]\nallOK = True\n\nfor i in range(___):\n    n = A[i]\n    is_prime = True\n    ###\n    #___ COPY from your question 2\n    ###\n            \n    if ___: # Non-prime number\n        allOK = False\n        ___ # once proved, stop\n\nif ___:\n    print('No. Some are not prime numbers.')\nelse:\n    print('Yes. All are prime numbers.')\n",
+    "expectedOutput": "No. Some are not prime numbers.",
+    "analysis": "For each array element, run an inner loop testing divisors from 2 to sqrt(n); mark composite numbers and stop early."
+  },
+  {
+    "id": 4,
+    "title": "Check: all primes in array (subprogram)",
+    "skill": "Primality, Loops, Functions",
+    "difficulty": "Intermediate",
+    "question": "Given an array A of N integers, write a program that uses a subprogram (function) `is_prime` to test each element and report whether all are prime.",
+    "initialCode": "A = [13, 17, 31, 71, 2, 23, 34]\n\ndef is_prime(n):\n    ___\n\nallOK = True\nfor i in range(___):\n    ___\n\nif ___:\n    print(\"No. Some are not prime numbers.\")\nelse:\n    print(\"Yes. All are prime numbers.\")\n",
+    "expectedOutput": "No. Some are not prime numbers.",
+    "analysis": "Encapsulate primality test in `is_prime` and reuse it across the main loop; 34 is composite so the output is the negative message."
+  }
+  ,
+  {
+    "id": 5,
+    "title": "Sum: sum of three numbers in array",
+    "skill": "Arrays, Loops, Arithmetic",
+    "difficulty": "Beginner",
+    "question": "Given an array A containing three numbers, write a program to find and print their sum.",
+    "initialCode": "A = [5, 10, 3]\nS = 0\nfor i in range(___):\n    S ___\nprint(___)\n",
+    "expectedOutput": "18",
+    "analysis": "Use an index loop over the array and accumulate values into a running total; print the total."
+  }
+  ,
+  {
+    "id": 6,
+    "title": "Sliding Sum: sum of every 3 consecutive numbers",
+    "skill": "Arrays, Loops, Nested Loops",
+    "difficulty": "Intermediate",
+    "question": "N numbers are stored in an array A. Write a program that computes the sum of every 3 consecutive numbers and stores the results in array B. Use a nested loop.",
+    "initialCode": "A = [13, 17, 31, 71, 2, 23, 34]\nB = []\n# For each starting index i, compute sum of A[i], A[i+1], A[i+2]\n# Copy your question 5 code (sum of three numbers).\nfor i in range(___):\n    S = 0\n    ___ #Q5 \n    B = B + ___\nprint(B)\n",
+    "expectedOutput": "[61, 119, ..., 59]",
+    "analysis": "Outer loop runs from 0 to N-3; inner loop (length 3) sums the three consecutive elements starting at i and appends the result to B. For the given A, B[0]=13+17+31=61, B[1]=17+31+71=119, last B entry is 2+23+34=59."
+  }
+  ,
+  {
+    "id": 7,
+    "title": "Total: total number of books in 2D storage",
+    "skill": "Arrays, Nested Loops",
+    "difficulty": "Intermediate",
+    "question": "A two-dimensional array `B` stores the number of books in each storage unit. Using nested loops, write a program to calculate and print the total number of books on the whole bookshelf.",
+    "initialCode": "B = [\n    [5, 9, 6, 5, 3, 4],\n    [2, 3, 8, 2, 6, 5],\n    [8, 3, 5, 3, 9, 9]\n]\ntotal = 0\nfor i in range(___):\n    for j in range(___):\n        total += B[___][___]\nprint(total)\n",
+    "expectedOutput": "98",
+    "analysis": "Use a nested loop: outer over rows `i`, inner over columns `j`, accumulate `total += B[i][j]`. For the given B the total is 98."
+  }
+  ,
+  {
+    "id": 8,
+    "title": "Table: multiplication table 0..10",
+    "skill": "Nested Loops, Arrays",
+    "difficulty": "Beginner",
+    "question": "Marco defined a two-dimensional array `M` to store the multiplication table, with `M[i][j]` storing the product of the corresponding numbers from 0 to 10. Fill the table using nested loops and print `M[7][9]`.",
+    "initialCode": "# create a 2D array 11x11\nM = [[0 for j in range(11) ] for i in range(11)]\n\nfor i in range(___):\n    for j in range(___):\n        M[___][___] = ___\n\nprint(M[7][9])\n",
+    "expectedOutput": "63",
+    "analysis": "Initialize an 11x11 array then use nested loops to set `M[i][j] = i * j`. `M[7][9]` equals 7*9 = 63."
+  }
+]

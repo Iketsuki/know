@@ -104,7 +104,79 @@
     "skill": "Whitespace, Loops",
     "difficulty": "Beginner",
     "question": "Use a for-loop and leading spaces so the star shifts right each row (3 rows, right-aligned column).",
-    "initialCode": "for i in range(___): \n  spaces = \" \" ___ (___)\n  print(___ + \"___\")\n",
+    "initialCode": "for i in range(___): \n  spaces = \" \" ___ (___)\n  print(spaces + \"*\")\n",
     "expectedOutput": "  *\n *\n*"
+  },
+  {
+    "id": 13,
+    "title": "Alignment: spaced stars",
+    "skill": "Whitespace, Strings",
+    "difficulty": "Intermediate",
+    "question": "Use a for-loop to print increasing rows of spaced stars with appropriate leading spaces (1,2,3 spaced stars).",
+    "initialCode": "for i in range(3): \n  s = \" \" * (___) \n  stars = \"* \" * (___) \nprint(s + stars)\n",
+    "expectedOutput": "  *\n * *\n* * *"
+  },
+  {
+    "id": 14,
+    "title": "Alignment: repeated groups",
+    "skill": "Strings, Repetition",
+    "difficulty": "Intermediate",
+    "question": "Use a for-loop and string repetition to print three rows that shift stars to the right: '***', ' **', '  *'.",
+    "initialCode": "for i in range(3): \n  row = \" \" * ___ \n  row += \"___\" * ___\nprint(row)\n",
+    "expectedOutput": "***\n **\n  *"
+  },
+  {
+    "id": 15,
+    "title": "Alternating: if-else",
+    "skill": "Conditionals, Modulo",
+    "difficulty": "Beginner",
+    "question": "Use a for-loop and modulo to print alternating characters '*' and '#' for 4 iterations (one per line).",
+    "initialCode": "for i in range(4): \n  if ___: \n    print(\"*\") \n  else: \n    print(\"#\")\n",
+    "expectedOutput": "*\n#\n*\n#"
+  },
+  {
+    "id": 16,
+    "title": "Alternating nested: checker by sum",
+    "skill": "Nested Loops, Modulo",
+    "difficulty": "Intermediate",
+    "question": "Use nested for-loops to print a 3x3 checkerboard of '*' and '#'.",
+    "initialCode": "for i in range(3): \n  for j in range(3): \n    if (___) % 2 ___ ___: \n      print(\"*\", end=\"\") \n    else: \n      print(\"#\", end=\"\") \n  print()\n",
+    "expectedOutput": "*#*\n#*#\n*#*"
+  },
+  {
+    "id": 17,
+    "title": "Alternating: choose char by parity",
+    "skill": "Modulo, Strings",
+    "difficulty": "Intermediate",
+    "question": "Use a for-loop and if to choose between '*' and '#' then print rows of increasing length using that character.",
+    "initialCode": "for i in range(1, ___): \n  char = \"*\" \n  if ___: \n    char = \"#\" \n  print(char * ___)\n",
+    "expectedOutput": "*\n**\n###\n####"
+  },
+  {
+    "id": 18,
+    "title": "Complex Grid: conditional fill",
+    "skill": "Nested Loops, Conditionals",
+    "difficulty": "Advanced",
+    "question": "Use nested for-loops and a conditional to print three rows that alternate '*' and '#' across columns producing '*#*' per row.",
+    "initialCode": "for i in range(___): \n  for j in range(___):\n    if ___: \n      print(\"#\", end=\"\")     \n    else: \n      print(\"*\", end=\"\")     \n  print()\n",
+    "expectedOutput": "*#*\n*#*\n*#*"
+  },
+  {
+    "id": 19,
+    "title": "Complex Grid: alternate full rows",
+    "skill": "Conditionals, Strings",
+    "difficulty": "Advanced",
+    "question": "Use a for-loop and a conditional to print five rows where some rows are full-star rows and others are spaced groups, depending on the row index.",
+    "initialCode": "for i in range(___): \n  if ___:    \n    print(\"****\") \n  else: \n    print(\"* *\")\n",
+    "expectedOutput": "**** \n* * \n**** \n* * \n****"
+  },
+  {
+    "id": 20,
+    "title": "Christmas Card for Ms Kwan",
+    "skill": "Loops, Formatting, Multiline",
+    "difficulty": "Advanced",
+    "question": "Use for-loops and string repetition/spacing to print the Christmas tree, trunk and message exactly as shown.",
+    "initialCode": "# use for-loop :)\n\n",
+    "expectedOutput": "####*####\n###***###\n##*****##\n#*******#\n*********\n####|####\n####|####\n##Merry##\nChristmas"
   }
 ]
