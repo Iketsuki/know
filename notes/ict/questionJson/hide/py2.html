@@ -1,0 +1,2332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Mastery: Loop Logic & Patterns (AI Edition)</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Pyodide for Browser-based Python Execution -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+
+    <!-- CodeMirror for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Theme Variables */
+        :root {
+            --app-bg: #0f172a;
+            --app-text: #f8fafc;
+            --panel-bg: #1e293b;
+            --panel-border: #334155;
+            
+            --sidebar-bg: #0f172a;
+            --sidebar-border: #334155;
+            --sidebar-text: #94a3b8;
+            --sidebar-active-bg: #1e293b;
+            --sidebar-active-text: #eab308;
+            --sidebar-active-border: #eab308;
+            
+            --header-bg: #020617;
+            --header-border: #eab308;
+            --header-text: #ffffff;
+            
+            --coding-bg: #0f172a;
+            --coding-text: #cbd5e1;
+            --coding-border: #334155;
+            --target-bg: rgba(30, 41, 59, 0.5);
+            --target-text: #facc15;
+            --sys-msg: #94a3b8;
+            --success-msg: #4ade80;
+            --error-msg: #f87171;
+            --debug-msg: #c084fc;
+            --var-name: #93c5fd;
+            --var-val: #fde047;
+        }
+
+        .theme-light {
+            --app-bg: #f8fafc;
+            --app-text: #0f172a;
+            --panel-bg: #ffffff;
+            --panel-border: #e2e8f0;
+            
+            --sidebar-bg: #ffffff;
+            --sidebar-border: #e2e8f0;
+            --sidebar-text: #475569;
+            --sidebar-active-bg: #eff6ff;
+            --sidebar-active-text: #1d4ed8;
+            --sidebar-active-border: #3b82f6;
+            
+            --header-bg: #ffffff;
+            --header-border: #3b82f6;
+            --header-text: #0f172a;
+            
+            --coding-bg: #ffffff;
+            --coding-text: #334155;
+            --coding-border: #cbd5e1;
+            --target-bg: #f8fafc;
+            --target-text: #2563eb;
+            --sys-msg: #64748b;
+            --success-msg: #16a34a;
+            --error-msg: #dc2626;
+            --debug-msg: #9333ea;
+            --var-name: #2563eb;
+            --var-val: #d97706;
+        }
+
+        .txt-sys { color: var(--sys-msg); }
+        .txt-success { color: var(--success-msg); }
+        .txt-error { color: var(--error-msg); }
+        .txt-debug { color: var(--debug-msg); }
+        .txt-var-name { color: var(--var-name); }
+        .txt-var-val { color: var(--var-val); }
+
+        /* Resizable Workspace Containers */
+        .resize-vertical { resize: vertical; overflow: auto; }
+        .resize-horizontal { resize: horizontal; overflow: auto; }
+        .resize-both { resize: both; overflow: auto; }
+        
+        .sidebar-container { min-width: 250px; max-width: 60vw; }
+        
+        /* Fixed base heights to ensure resize works */
+        .editor-container { min-height: 150px; height: 350px; flex: none; }
+        .debugger-container { min-height: 150px; height: 350px; flex: none; }
+        .terminal-container { min-height: 150px; height: 350px; flex: none; }
+
+        .cm-wrapper {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            min-height: 100px;
+        }
+        
+        .CodeMirror {
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+            height: 100% !important;
+            border-radius: 0 0 0.5rem 0.5rem;
+            font-size: 24px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .CodeMirror-gutters {
+            border-right: 1px solid #475569;
+            background-color: #1e293b;
+            z-index: 3;
+        }
+        
+        /* VS Code Light Theme Customization for CodeMirror */
+        .theme-light .CodeMirror { background-color: #ffffff; color: #000000; }
+        .theme-light .CodeMirror-gutters { background-color: #f3f3f3; border-right: 1px solid #d4d4d4; }
+        .theme-light .CodeMirror-linenumber { color: #237893; }
+        .theme-light .cm-keyword { color: #0000ff; font-weight: normal; }
+        .theme-light .cm-operator { color: #000000; }
+        .theme-light .cm-variable, .theme-light .cm-variable-2, .theme-light .cm-variable-3 { color: #001080; }
+        .theme-light .cm-builtin, .theme-light .cm-def, .theme-light .cm-property { color: #795e26; }
+        .theme-light .cm-string, .theme-light .cm-string-2 { color: #a31515; }
+        .theme-light .cm-number { color: #098658; }
+        .theme-light .cm-comment { color: #008000; font-style: italic; }
+        .theme-light .cm-meta { color: #ff0000; }
+        .theme-light .CodeMirror-cursor { border-left: 2px solid #000000; }
+        .theme-light .CodeMirror-selected { background: #add6ff !important; }
+        .theme-light .CodeMirror-line::selection, .theme-light .CodeMirror-line > span::selection, .theme-light .CodeMirror-line > span > span::selection { background: #add6ff; }
+
+        .cm-fill-in-blank { background-color: #fde047; color: #854d0e !important; font-weight: bold; border-radius: 2px; }
+        .cm-debug-line { background-color: rgba(168, 85, 247, 0.4) !important; border-left: 4px solid #a855f7; }
+        .blank-highlight { background-color: #fde047; color: #854d0e; font-weight: bold; padding: 0 4px; border-radius: 4px; font-family: monospace; }
+
+        /* UI Variable Highlighting for Debugger */
+        .var-changed-row {
+            font-weight: bold;
+            background-color: rgba(51, 65, 89, 0.8);
+            color: #f8fafc;
+            padding: 4px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .theme-light .var-changed-row {
+            background-color: #fef08a; /* Yellow 200 */
+            color: #0f172a;
+        }
+        .active-output-step {
+            background-color: rgba(51, 65, 89, 0.5); 
+            color: inherit;
+            display: block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .theme-light .active-output-step {
+            background-color: #fef08a; 
+            color: #0f172a; 
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--panel-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--sys-msg); }
+        .theme-light ::-webkit-scrollbar-track { background: #f1f5f9; }
+        .theme-light ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+        .theme-light ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .tab-active { border-bottom: 2px solid var(--header-border); color: var(--sidebar-active-text) !important; background-color: var(--sidebar-active-bg) !important; }
+        
+        /* Typography alignment for code elements */
+        #terminal-output, #expected-preview, #stdin-input, #debug-vars {
+            font-family: 'Courier New', Courier, monospace; font-size: 24px; line-height: 1.2;
+        }
+        #terminal-output, #expected-preview { white-space: pre-wrap; word-wrap: break-word; }
+        
+        /* Loading Spinner */
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .markdown-body p { margin-bottom: 0.75rem; }
+        .markdown-body code { background: #f1f5f9; padding: 2px 4px; border-radius: 4px; font-family: monospace; color: #db2777; }
+        .markdown-body pre { background: #1e293b; color: #e2e8f0; padding: 10px; border-radius: 6px; overflow-x: auto; margin-bottom: 1rem; }
+        .markdown-body pre code { background: transparent; color: inherit; padding: 0; }
+        .markdown-body h2 { font-size: 1.25rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+        .markdown-body h3 { font-size: 1.1rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #334155; }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .markdown-body li { margin-bottom: 0.25rem; }
+    </style>
+</head>
+<body class="h-screen flex flex-col font-sans overflow-hidden theme-light transition-colors duration-300" style="background-color: var(--app-bg); color: var(--app-text);">
+
+    <!-- Startup ID Modal -->
+    <div id="startup-modal" class="absolute inset-0 z-[100] bg-slate-900 flex items-center justify-center p-6 fixed">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center border-t-8 border-blue-500">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-graduation-cap text-blue-600 text-3xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Welcome to Python Mastery</h2>
+            <p class="text-slate-600 mb-6 text-sm">Please enter your Student ID to retrieve your history and start learning.</p>
+            <input type="number" id="startup-sid-input" placeholder="e.g. 12345678" class="w-full px-4 py-3 rounded border border-slate-300 mb-4 focus:ring-2 focus:ring-blue-500 outline-none text-center font-bold text-lg" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+            <button onclick="submitStudentId()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors shadow-md">Start Learning</button>
+        </div>
+    </div>
+
+    <!-- Drag & Drop Overlay -->
+    <div id="drag-drop-overlay" class="absolute inset-0 z-[100] bg-blue-900/90 hidden flex-col items-center justify-center text-white backdrop-blur-sm transition-all pointer-events-none">
+        <i class="fa-solid fa-file-import text-6xl mb-4 animate-bounce"></i>
+        <h2 class="text-3xl font-bold tracking-wider">Drop JSON file here</h2>
+        <p class="text-blue-200 mt-2 text-lg">Automatically parses Progress Logs or Question Data.</p>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="absolute inset-0 z-50 bg-slate-900 flex flex-col items-center justify-center text-white transition-opacity duration-500 hidden">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python Logo" class="w-24 h-24 mb-6 animate-pulse">
+        <div class="loader mb-4"></div>
+        <h2 class="text-2xl font-bold tracking-wider mb-2">Initializing System...</h2>
+        <div id="loading-status" class="text-slate-400 text-sm max-w-lg text-center leading-relaxed">
+            Please wait
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="p-4 shadow-md flex justify-between items-center shrink-0 border-b-4 z-20 relative transition-colors duration-300" style="background-color: var(--header-bg); color: var(--header-text); border-color: var(--header-border);">
+        <div class="flex items-center gap-3">
+            <button onclick="toggleSidebar()" class="text-inherit opacity-70 hover:opacity-100 transition mr-1" title="Toggle Sidebar">
+                <i id="sidebar-toggle-icon" class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" class="w-8 h-8">
+            <h1 class="text-xl font-bold tracking-wide">Python Mastery <span class="text-sm font-normal ml-2 opacity-70">AI-Assisted Learning</span></h1>
+        </div>
+        <div class="flex items-center gap-4">
+            <button onclick="openWeaknessModal()" class="text-sm bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-1.5 rounded-lg shadow font-medium transition flex items-center gap-2">
+                <i class="fa-solid fa-cloud-arrow-up"></i> SAVE & Weakness Analysis
+            </button>
+            <div class="text-sm font-medium px-4 py-1.5 rounded-full border transition-colors duration-300" style="background-color: var(--panel-bg); border-color: var(--panel-border);">
+                <span id="progress-text" class="font-bold" style="color: var(--header-border);">0/1</span> Completed
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex flex-1 overflow-hidden">
+        
+        <!-- Sidebar (Resizable) -->
+        <aside id="sidebar" class="w-96 resize-horizontal sidebar-container border-r flex flex-col shrink-0 shadow-lg z-10 relative transition-colors duration-300" style="background-color: var(--sidebar-bg); border-color: var(--sidebar-border); color: var(--sidebar-text);">
+            <!-- Tabs -->
+            <div class="flex border-b shrink-0" style="border-color: var(--sidebar-border);">
+                <button onclick="switchTab('practice')" id="tab-practice" class="flex-1 py-3 text-sm font-bold transition-colors tab-active" style="color: var(--sidebar-text);">
+                    <i class="fa-solid fa-list-check mr-2"></i> Drills
+                </button>
+                <button onclick="switchTab('cheatsheet')" id="tab-cheatsheet" class="flex-1 py-3 text-sm font-bold transition-colors" style="color: var(--sidebar-text);">
+                    <i class="fa-solid fa-book mr-2"></i> AI Cheatsheet
+                </button>
+            </div>
+
+            <!-- Practice List Tab Content -->
+            <div id="content-practice" class="flex-1 flex flex-col relative overflow-hidden">
+                <div class="p-3 border-b shrink-0 z-10 shadow-sm transition-colors duration-300" style="background-color: var(--panel-bg); border-color: var(--panel-border);">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
+                        </div>
+                        <input type="text" id="drill-search" oninput="renderLevelList()" class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-9 py-2 transition-colors duration-300" style="background-color: var(--app-bg); color: var(--app-text); border-color: var(--panel-border);" placeholder="Search drills...">
+                    </div>
+                </div>
+
+                <!-- Levels injected via JS -->
+                <div id="level-list-container" class="flex-1 space-y-1 overflow-y-auto p-2 pb-4"></div>
+                
+                <!-- Bottom Sticky Buttons for Drill Management -->
+                <div class="shrink-0 p-3 border-t flex flex-wrap gap-2 sticky bottom-0 transition-colors duration-300" style="background-color: var(--sidebar-bg); border-color: var(--sidebar-border);">
+                    <button onclick="openPresetsModal()" class="flex-1 bg-blue-600 text-white text-xs font-bold py-2.5 rounded shadow hover:bg-blue-500 transition flex justify-center items-center gap-1 min-w-[28%]">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Presets
+                    </button>
+                    <button onclick="openCustomQuestionModal()" class="flex-1 bg-indigo-600 text-white text-xs font-bold py-2.5 rounded shadow hover:bg-indigo-500 transition flex justify-center items-center gap-1 min-w-[28%]">
+                        <i class="fa-solid fa-plus"></i> Custom
+                    </button>
+                    <button onclick="toggleDataModal()" class="flex-1 border text-xs font-bold py-2.5 rounded shadow-sm transition flex justify-center items-center gap-1 min-w-[28%]" style="background-color: var(--panel-bg); border-color: var(--panel-border); color: var(--app-text);">
+                        <i class="fa-solid fa-file-import"></i> Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cheatsheet Content -->
+            <div id="content-cheatsheet" class="flex-1 overflow-y-auto p-4 hidden flex flex-col relative" style="background-color: var(--app-bg);">
+                <div class="text-center mb-4">
+                    <button onclick="generateAICheatsheet()" id="btn-generate-cheatsheet" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg transition shadow-md flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Custom Cheatsheet
+                    </button>
+                    <p class="text-xs mt-2" style="color: var(--sys-msg);">AI will analyze all current drills and write a guide just for you!</p>
+                </div>
+                <div id="cheatsheet-content" class="markdown-body text-sm rounded-lg border shadow-sm min-h-[200px] p-4 transition-colors duration-300" style="background-color: var(--panel-bg); border-color: var(--panel-border); color: var(--app-text);">
+                    <div class="text-center italic py-10" style="color: var(--sys-msg);">
+                        <i class="fa-solid fa-book-open text-4xl mb-3 opacity-20 block"></i>
+                        No cheatsheet generated yet.
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace (Scrollable) -->
+        <main class="flex-1 min-w-0 overflow-y-auto overflow-x-hidden relative flex flex-col transition-colors duration-300" style="background-color: var(--app-bg);">
+            
+            <!-- Question Area -->
+            <div class="p-6 border-b shadow-sm shrink-0 transition-colors duration-300" style="background-color: var(--panel-bg); border-color: var(--panel-border);">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded uppercase tracking-wide" id="level-badge">Drill 1</span>
+                    <span class="text-xs font-mono px-2 py-1 rounded border transition-colors duration-300" id="skill-badge" style="background-color: var(--app-bg); border-color: var(--panel-border); color: var(--sys-msg);">#basics</span>
+                </div>
+                <h2 id="question-text" class="text-xl font-bold mt-2 leading-relaxed transition-colors duration-300" style="color: var(--app-text);">Loading environment...</h2>
+            </div>
+
+            <!-- Dynamic Editor / Debugger Section -->
+            <div id="editor-debug-section" class="p-6 border-b flex flex-col gap-4 shrink-0 transition-all duration-300" style="border-color: var(--panel-border);">
+                
+                <!-- Left Wrapper (Code Space & Input) -->
+                <div id="editor-left-pane" class="flex flex-col gap-4 transition-all w-full flex-none overflow-hidden pr-2 pb-2">
+                    
+                    <!-- Editor Container (Resizable Vertically & Horizontally via wrapper) -->
+                    <div class="shadow-md rounded-lg border flex flex-col transition-colors resize-vertical editor-container" style="border-color: var(--coding-border); background-color: var(--coding-bg);">
+                        <!-- Editor Header -->
+                        <div class="px-4 py-2 flex items-center justify-between border-b shrink-0 transition-colors" style="background-color: var(--panel-bg); border-color: var(--coding-border);">
+                            
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500 hidden sm:block"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 hidden sm:block"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500 hidden sm:block"></div>
+                                <span class="ml-2 text-xs font-mono txt-sys">main.py</span>
+                            </div>
+                            
+                            <div class="flex items-center gap-2">
+                                <button onclick="executePython()" id="btn-run" class="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded shadow text-xs font-bold transition flex items-center gap-1 disabled:opacity-50">
+                                    <i class="fa-solid fa-play"></i> <span id="run-text">Run</span>
+                                </button>
+                                <button onclick="startDebug()" id="btn-debug" class="bg-purple-600 hover:bg-purple-500 text-white px-2 py-1 rounded shadow text-xs font-bold transition flex items-center gap-1 disabled:opacity-50">
+                                    <i class="fa-solid fa-bug"></i> <span id="debug-text">Debug</span>
+                                </button>
+                                <button onclick="resetEditor()" class="bg-slate-500 hover:bg-red-500 text-white px-2 py-1 rounded shadow text-xs font-bold transition flex items-center gap-1">
+                                    <i class="fa-solid fa-rotate-left"></i> Reset
+                                </button>
+                                
+                                <div class="w-px h-4 mx-1" style="background-color: var(--coding-border);"></div>
+                                
+                                <button onclick="changeFontSize(-1)" class="txt-sys hover:text-blue-500 transition" title="Decrease Font Size"><i class="fa-solid fa-minus text-[10px]"></i></button>
+                                <span class="txt-sys text-xs font-mono w-6 text-center" id="font-size-display">24</span>
+                                <button onclick="changeFontSize(1)" class="txt-sys hover:text-blue-500 transition" title="Increase Font Size"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                                <div class="w-px h-4 mx-1" style="background-color: var(--coding-border);"></div>
+                                <button onclick="toggleTheme()" class="txt-sys hover:text-yellow-500 transition" title="Switch Theme"><i id="theme-icon" class="fa-solid fa-moon"></i></button>
+                            </div>
+                        </div>
+                        <div class="cm-wrapper">
+                            <textarea id="python-editor"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Input area for python input() function (Resizable Vertically) -->
+                    <div class="hidden shadow-md rounded-lg border transition-colors shrink-0 resize-vertical flex flex-col" id="stdin-container" style="border-color: var(--coding-border); background-color: var(--coding-bg); min-height: 100px;">
+                        <div class="px-4 py-1.5 border-b shrink-0" style="background-color: var(--panel-bg); border-color: var(--coding-border);">
+                            <span class="text-xs font-mono txt-sys"><i class="fa-solid fa-keyboard mr-2"></i>Standard Input (Required by script)</span>
+                        </div>
+                        <textarea id="stdin-input" class="w-full flex-1 px-4 py-2 focus:outline-none border-none resize-none" placeholder="Your code requires input(). Provide values here (one per line)..." style="background-color: transparent; color: var(--coding-text); height: calc(100% - 30px);"></textarea>
+                    </div>
+                </div>
+
+                <!-- Right Wrapper (Debugger Panel - Hidden by default, Flex resizable) -->
+                <div id="debugger-container" class="hidden shadow-md rounded-lg border transition-colors flex flex-col shrink-0 debugger-container min-w-[300px] resize-both overflow-auto" style="border-color: var(--coding-border); background-color: var(--coding-bg); flex: 1;">
+                    <div class="px-4 py-2 border-b flex justify-between items-center shrink-0" style="background-color: var(--panel-bg); border-color: var(--coding-border);">
+                        <span class="text-xs font-bold uppercase tracking-wider txt-sys"><i class="fa-solid fa-bug mr-2"></i>Debugger Active</span>
+                        <div class="flex gap-2 items-center">
+                            <button onclick="exportCurrentTracePDF()" class="bg-slate-600 hover:bg-slate-500 px-3 py-1 rounded text-white text-[10px] font-bold transition mr-2" title="Export this trace as a PDF"><i class="fa-solid fa-file-pdf"></i> Export Trace</button>
+                            <button onclick="debugStep(-1)" class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-white text-[10px] font-bold transition"><i class="fa-solid fa-arrow-left"></i> Prev</button>
+                            <span id="debug-step-text" class="text-[10px] font-mono w-10 text-center txt-sys">0/0</span>
+                            <button onclick="debugStep(1)" class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-white text-[10px] font-bold transition">Next <i class="fa-solid fa-arrow-right"></i></button>
+                            <button onclick="debugStep('last')" class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-white text-[10px] font-bold transition ml-1" title="Skip to Last Step">Last <i class="fa-solid fa-forward-fast"></i></button>
+                            <button onclick="exitDebug()" class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded text-white text-[10px] font-bold ml-2 transition"><i class="fa-solid fa-xmark"></i> Exit</button>
+                        </div>
+                    </div>
+                    <div class="p-4 overflow-auto flex-1" id="debug-vars" style="color: var(--coding-text); height: calc(100% - 45px);">
+                        <!-- Variables listed here dynamically -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Terminal Output Area Wrapper -->
+            <div class="p-6 pb-10 flex flex-col flex-none min-h-[150px] resize-vertical terminal-container">
+                <!-- Status/Feedback Message -->
+                <div id="feedback-msg" class="hidden mb-4 p-4 rounded-lg border shadow-sm font-medium flex justify-between items-center transition-all shrink-0">
+                    <div id="feedback-text" class="flex items-center"></div>
+                    <div class="flex items-center gap-2">
+                        <button id="btn-ask-ai" onclick="requestAIAnalysis()" class="hidden bg-purple-600 hover:bg-purple-500 text-white px-4 py-1.5 rounded-md shadow text-sm font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-robot"></i> Ask AI Professor
+                        </button>
+                        <button id="btn-similar" onclick="generateSimilarDrill()" class="hidden bg-blue-600 hover:bg-blue-500 text-white px-4 py-1.5 rounded-md shadow text-sm font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-clone"></i> Generate Similar Drill
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resizable Split Console -->
+                <div id="terminal-container" class="flex-1 rounded-xl shadow-inner border relative flex flex-col transition-colors w-full overflow-hidden" style="background-color: var(--coding-bg); border-color: var(--coding-border);">
+                    <div class="px-4 py-2 border-b flex justify-between items-center text-sm shrink-0" style="background-color: var(--panel-bg); border-color: var(--coding-border);">
+                        <span class="font-mono txt-sys"><i class="fa-solid fa-terminal mr-2"></i>Terminal Output</span>
+                        <div class="text-xs txt-sys flex gap-4">
+                            <span>Expected Target:</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-1 min-h-0 flex-col md:flex-row w-full overflow-hidden">
+                        <!-- User Output -->
+                        <div id="terminal-output-pane" class="p-4 md:border-r border-b md:border-b-0 min-w-[200px] overflow-auto resize-horizontal hover:border-slate-500 transition-colors w-1/2 flex-none" style="border-color: var(--coding-border);">
+                            <div id="terminal-output" style="color: var(--coding-text);">Awaiting execution...</div>
+                        </div>
+                        <!-- Target Preview -->
+                        <div id="target-container" class="flex-1 min-w-[200px] p-4 flex flex-col overflow-auto transition-colors" style="background-color: var(--target-bg); color: var(--target-text);">
+                            <span class="text-xs mb-2 border-b pb-1 shrink-0" style="color: var(--sys-msg); border-color: var(--coding-border);">TARGET:</span>
+                            <div id="expected-preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Tutor Modal -->
+            <div id="ai-modal" class="absolute inset-0 z-50 bg-slate-900/80 hidden flex items-center justify-center backdrop-blur-sm p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-full flex flex-col border-t-8 border-purple-500 overflow-hidden">
+                    <div class="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-2xl shadow-inner">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">AI Python Professor</h3>
+                                <p class="text-xs text-slate-500 font-medium tracking-wide uppercase">Feedback & Guidance</p>
+                            </div>
+                        </div>
+                        <button onclick="closeAIModal()" class="text-slate-400 hover:text-slate-600 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="p-6 overflow-y-auto flex-1 bg-white markdown-body text-slate-700 text-base" id="ai-response-content">
+                        <!-- AI content injected here -->
+                    </div>
+
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-between items-center shrink-0">
+                        <p class="text-xs text-slate-500 italic max-w-sm">Need more practice on this specific concept?</p>
+                        <button onclick="generateRemedialDrill()" id="btn-generate-remedial" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-5 rounded-lg transition shadow-md flex items-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Remedial Drill
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weakness Analysis Modal -->
+            <div id="weakness-modal" class="absolute inset-0 z-50 bg-slate-900/80 hidden flex items-center justify-center backdrop-blur-sm p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-full flex flex-col border-t-8 border-indigo-500 overflow-hidden">
+                    <div class="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-2xl shadow-inner">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Weakness Analysis</h3>
+                                <p class="text-xs text-slate-500 font-medium tracking-wide uppercase">Progress & Recommendations</p>
+                            </div>
+                        </div>
+                        <button onclick="closeWeaknessModal()" class="text-slate-400 hover:text-slate-600 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="p-6 overflow-y-auto flex-1 bg-white markdown-body text-slate-700 text-base" id="weakness-response-content">
+                        <!-- AI Analysis injected here -->
+                    </div>
+
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-3 shrink-0">
+                        <div class="flex flex-col gap-1 mb-2">
+                            <span class="text-slate-700 font-bold mb-1 text-sm border-b pb-1">Select Data to Export:</span>
+                            <label class="flex items-center text-sm text-slate-700 font-medium cursor-pointer">
+                                <input type="checkbox" id="export-h-toggle" class="mr-2 w-4 h-4 text-blue-600 bg-white border-slate-300 rounded focus:ring-blue-500" checked>
+                                Overall History (JSON)
+                            </label>
+                            <label class="flex items-center text-sm text-slate-700 font-medium cursor-pointer">
+                                <input type="checkbox" id="export-p-toggle" class="mr-2 w-4 h-4 text-blue-600 bg-white border-slate-300 rounded focus:ring-blue-500">
+                                Current Progress (JSON)
+                            </label>
+                            <label class="flex items-center text-sm text-slate-700 font-medium cursor-pointer">
+                                <input type="checkbox" id="export-q-toggle" class="mr-2 w-4 h-4 text-blue-600 bg-white border-slate-300 rounded focus:ring-blue-500">
+                                Questions Template (JSON)
+                            </label>
+                        </div>
+                        <div class="flex justify-between items-center border-t pt-3">
+                            <p class="text-xs text-slate-500 italic max-w-sm">Save a copy of this analysis and all your answers for your records.</p>
+                            <div class="flex gap-2">
+                                <button onclick="generateExtraDrill()" id="btn-extra-drill" class="bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded-lg transition shadow-md flex items-center gap-2">
+                                    <i class="fa-solid fa-forward-step"></i> Extra Drill
+                                </button>
+                                <button onclick="openDownloadModal()" id="btn-download-pdf" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg transition shadow-md flex items-center gap-2">
+                                    <i class="fa-solid fa-file-pdf"></i> Download PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student ID Download Modal -->
+            <div id="download-modal" class="absolute inset-0 z-[70] bg-slate-900/90 hidden flex items-center justify-center backdrop-blur-sm p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center border-t-8 border-blue-500">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-id-card text-blue-600 text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Export Progress Report</h2>
+                    <p class="text-slate-600 mb-6 text-sm">Please enter your Student ID to officially stamp your PDF report.<br><br><span class="text-red-600 font-bold">Important:</span> If submitting to your teacher, wait for the AI Weakness Analysis to finish loading before generating!</p>
+                    
+                    <input type="number" id="student-id-input" placeholder="e.g. 12345678" class="w-full px-4 py-3 rounded border border-slate-300 mb-4 focus:ring-2 focus:ring-blue-500 outline-none text-center font-bold text-lg" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+                    
+                    <div class="flex gap-3">
+                        <button onclick="closeDownloadModal()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-lg transition-colors">
+                            Cancel
+                        </button>
+                        <button onclick="confirmDownloadPDF()" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors shadow-md">
+                            Generate
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preset Questions Modal -->
+            <div id="presets-modal" class="absolute inset-0 z-[60] bg-slate-900/90 hidden flex items-center justify-center backdrop-blur-sm p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[80vh] flex flex-col border-t-8 border-blue-500 overflow-hidden">
+                    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-cloud-arrow-down text-blue-500 mr-2"></i>Preset Exercises</h3>
+                            <button onclick="openPresetsModal(true)" class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200 transition ml-2" title="Refetch Presets"><i class="fa-solid fa-rotate"></i> Refetch</button>
+                        </div>
+                        <button onclick="closePresetsModal()" class="text-slate-400 hover:text-slate-600 transition text-xl"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="p-6 overflow-y-auto flex-1 text-sm bg-slate-50 max-h-[60vh]" id="presets-list-container">
+                        <!-- Presets list injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Management Modal -->
+            <div id="data-modal" class="absolute inset-0 z-50 bg-slate-900/80 hidden flex items-center justify-center backdrop-blur-sm p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-full flex flex-col border-t-8 border-slate-800 overflow-hidden">
+                    <div class="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 text-xl shadow-inner">
+                                <i class="fa-solid fa-database"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-800">Manage Data</h3>
+                                <p class="text-xs text-slate-500 font-medium tracking-wide uppercase">Import & Export Setup</p>
+                            </div>
+                        </div>
+                        <button onclick="toggleDataModal()" class="text-slate-400 hover:text-slate-600 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="p-6 overflow-y-auto flex-1 space-y-6">
+                        <!-- JSON Import/Export -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                                <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-200 pb-1"><i class="fa-solid fa-layer-group text-blue-500 mr-2"></i>Question Data</h4>
+                                <div class="flex gap-2 mt-3">
+                                    <button onclick="exportQuestions()" class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-download mr-1"></i> Export</button>
+                                    <button onclick="triggerFileSelect('questions')" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-upload mr-1"></i> Import</button>
+                                </div>
+                            </div>
+                            <div class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                                <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-200 pb-1"><i class="fa-solid fa-chart-pie text-green-500 mr-2"></i>Progress Data</h4>
+                                <div class="flex gap-2 mt-3">
+                                    <button onclick="exportProgress(false)" class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-download mr-1"></i> Export</button>
+                                    <button onclick="triggerFileSelect('progress')" class="flex-1 bg-green-600 hover:bg-green-500 text-white py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-upload mr-1"></i> Import</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Question Modal -->
+            <div id="custom-question-modal" class="absolute inset-0 z-[60] bg-slate-900/90 hidden flex items-center justify-center backdrop-blur-sm p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-full flex flex-col border-t-8 border-yellow-500 overflow-hidden">
+                    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-pen-to-square text-yellow-500 mr-2"></i>New Custom Drill</h3>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button id="btn-ai-autofill" onclick="aiAutoFillCustomDrill()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold py-1.5 px-3 rounded shadow transition flex items-center gap-1">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> AI Auto Fill
+                            </button>
+                            <button onclick="closeCustomQuestionModal()" class="text-slate-400 hover:text-slate-600 transition text-xl"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 overflow-y-auto flex-1 space-y-4 text-sm">
+                        <div class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-2 rounded text-xs mb-2">
+                            <i class="fa-solid fa-lightbulb mr-1"></i> <strong>Tip:</strong> Type a simple "Title" or "Question Prompt" and click <strong>AI Auto Fill</strong> to let the AI build the rest of the drill!
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Title</label>
+                                <input type="text" id="cq-title" placeholder="e.g. Triangle Maker" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Skill Tag</label>
+                                <input type="text" id="cq-skill" placeholder="e.g. Nested Loops" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Difficulty</label>
+                            <select id="cq-difficulty" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                                <option value="Mastery">Mastery</option>
+                                <option value="Boss">Boss</option>
+                                <option value="Custom">Custom</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Question Prompt</label>
+                            <textarea id="cq-question" rows="2" placeholder="Instructions for the student (Use ___ for blanks)..." class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Initial Code (Starter Code)</label>
+                            <textarea id="cq-initial" rows="4" placeholder="for i in range(3):&#10;    print('___')" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500 font-mono"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Expected Output</label>
+                            <textarea id="cq-expected" rows="3" placeholder="Exact output string to match..." class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500 font-mono"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-end shrink-0">
+                        <button onclick="saveCustomQuestion()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-lg transition shadow flex items-center gap-2">
+                            <i class="fa-solid fa-save"></i> Save & Add to Drills
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Hidden Input for File Dialogs -->
+    <input type="file" id="file-input-hidden" accept=".json" class="hidden">
+
+    <script>
+        // --- 1. GLOBALS & INITIALIZATION ---
+        const apiKey = ""; // Gemini API Key injected by environment
+        let pyodide;
+        let pythonStdout = "";
+        let currentLevelIndex = 0;
+        let editor;
+        let completedLevels = new Set();
+        let suppressChange = false;
+        let isInitialLoad = true;
+        let currentFontSize = 24;
+        let isDarkMode = false;
+        let isImporting = false; 
+        let cachedPresetsList = null;
+        let currentPresetName = "Default Set"; 
+        
+        let analysisNeedsUpdate = true;
+        
+        let studentId = null;
+        let overallHistory = JSON.parse(localStorage.getItem('pyMasteryOverallHistory')) || {}; 
+
+        // Debugger State Variables
+        let traceData = [];
+        let currentTraceStep = -1;
+        let lastHighlightedLine = -1;
+
+        // Track mistakes for AI Analysis and PDF report
+        let mistakeLog = []; 
+        let lastFailedAttempt = null;
+
+        // Define default levels globally BEFORE usage
+        let levels = [
+            {
+                id: 1, title: "The Basic Star", skill: "Linear", difficulty: "Beginner",
+                question: "Print a single star.",
+                initialCode: "# Fill in the blank\nprint('___')\n",
+                expectedOutput: "*",
+                status: "not_attempted" 
+            },
+            {
+                id: 2, title: "Interactive Greeting", skill: "Input", difficulty: "Intermediate",
+                question: "Ask the user for their name using input() and print 'Hello, [name]'.",
+                initialCode: "name = input('Name: ')\nprint(f'Hello, ___')",
+                expectedOutput: "Name: Hello, John",
+                status: "not_attempted"
+            }
+        ];
+        
+        let currentAnalysisHtml = "";
+        window.pythonStdinLines = [];
+        
+        window.getPythonInput = function() {
+            if (window.pythonStdinLines.length > 0) return window.pythonStdinLines.shift();
+            return "";
+        };
+
+        window.capturePythonOutput = function(text) {
+            pythonStdout += text;
+        };
+
+        let supabaseClient = null;
+        async function initSupabase() {
+            if (!supabaseClient) {
+                try {
+                    const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+                    const supabaseUrl = 'https://ndjodjiuydlsysltawwu.supabase.co';
+                    const supabaseKey = 'sb_publishable_MmpFp2Aymzj0-VorP1Sh6Q_68HA-PGZ';
+                    supabaseClient = createClient(supabaseUrl, supabaseKey);
+                } catch(e) {
+                    console.error("Supabase load error:", e);
+                }
+            }
+            return supabaseClient;
+        }
+
+        function saveOverallHistoryToLocal() {
+            localStorage.setItem('pyMasteryOverallHistory', JSON.stringify(overallHistory));
+        }
+
+        function flushEditorToLevel() {
+            if (editor && levels && levels[currentLevelIndex] && !isImporting) {
+                levels[currentLevelIndex].userCode = editor.getValue();
+            }
+        }
+
+        function saveCurrentProgressToHistory() {
+            if (!levels || levels.length === 0) return;
+            
+            const exerciseName = currentPresetName ? currentPresetName.replace(/\.json$/i, '') : 'Custom';
+            
+            const levelsToSave = levels.map(l => {
+                if (l.status === 'not_attempted') {
+                    return { 
+                        id: l.id, title: l.title, skill: l.skill, difficulty: l.difficulty, 
+                        question: l.question, initialCode: l.initialCode, expectedOutput: l.expectedOutput,
+                        status: l.status 
+                    };
+                }
+                return { ...l };
+            });
+
+            overallHistory[exerciseName] = {
+                levels: levelsToSave,
+                mistakeLog: [...mistakeLog]
+            };
+            saveOverallHistoryToLocal();
+        }
+
+        function restoreProgressFromHistory() {
+            const exerciseName = currentPresetName ? currentPresetName.replace(/\.json$/i, '') : 'Custom';
+            if (overallHistory && overallHistory[exerciseName]) {
+                const data = overallHistory[exerciseName];
+                completedLevels.clear();
+                mistakeLog = data.mistakeLog || [];
+                
+                levels.forEach(l => {
+                    const histLevel = data.levels.find(hl => hl.id === l.id);
+                    if (histLevel && histLevel.status && histLevel.status !== 'not_attempted') {
+                        l.status = histLevel.status;
+                        l.userCode = histLevel.userCode !== undefined ? histLevel.userCode : l.initialCode;
+                        l.lastOutput = histLevel.lastOutput || "";
+                        if(l.status === 'passed') completedLevels.add(l.id);
+                    } else {
+                        l.status = 'not_attempted';
+                        l.userCode = l.initialCode;
+                        l.lastOutput = "";
+                    }
+                });
+            } else {
+                completedLevels.clear();
+                mistakeLog = [];
+                levels.forEach(l => {
+                    l.status = 'not_attempted';
+                    l.userCode = l.initialCode;
+                    l.lastOutput = "";
+                });
+            }
+        }
+
+        function switchExerciseSet(newName, newLevels) {
+            flushEditorToLevel();
+            saveCurrentProgressToHistory();
+            
+            isImporting = true;
+            currentPresetName = newName;
+            levels = newLevels;
+            currentLevelIndex = 0;
+            
+            restoreProgressFromHistory();
+            
+            renderLevelList();
+            if(levels.length > 0) loadLevel(0);
+            
+            const dataModal = document.getElementById('data-modal');
+            if (dataModal) dataModal.classList.add('hidden');
+            
+            isImporting = false;
+        }
+
+        async function submitStudentId() {
+            const sidInput = document.getElementById('startup-sid-input').value.trim();
+            if (!sidInput || isNaN(sidInput)) {
+                alert('Please enter a valid numeric Student ID.');
+                return;
+            }
+            studentId = parseInt(sidInput);
+            document.getElementById('startup-modal').classList.add('hidden');
+            
+            document.getElementById('loading-overlay').classList.remove('hidden');
+            document.getElementById('loading-overlay').style.display = 'flex';
+            document.getElementById('loading-overlay').style.opacity = '1';
+            document.getElementById('loading-status').innerText = "Looking for your history in the cloud...";
+            
+            try {
+                const sb = await initSupabase();
+                if(sb) {
+                    const fetchPromise = sb.from('pyHist').select('histJson').eq('sid', studentId).maybeSingle();
+                    const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error("Timeout")), 5000));
+                    
+                    const response = await Promise.race([fetchPromise, timeoutPromise]);
+                    
+                    if (response && response.error) {
+                        throw new Error(response.error.message);
+                    }
+                    
+                    if (response && response.data && response.data.histJson) {
+                        overallHistory = { ...overallHistory, ...response.data.histJson };
+                        saveOverallHistoryToLocal();
+                        document.getElementById('loading-status').innerText = "History found & loaded!";
+                        await new Promise(r => setTimeout(r, 1000));
+                    } else {
+                        document.getElementById('loading-status').innerText = "No previous record found. Starting as new user...";
+                        await new Promise(r => setTimeout(r, 1500));
+                    }
+                }
+            } catch(e) {
+                console.log("No history found or error:", e);
+                document.getElementById('loading-status').innerText = "No previous record found (or network timeout). Starting as new user...";
+                await new Promise(r => setTimeout(r, 1500));
+            }
+            
+            document.getElementById('loading-status').innerText = "Fetching daily drill...";
+            await fetchDailyDrill();
+            
+            restoreProgressFromHistory();
+            
+            renderLevelList();
+            if(levels.length > 0) loadLevel(0);
+            
+            checkPyodideAndReady();
+        }
+
+        // --- SYNCHRONOUS DOM INITIALIZATION ---
+        // This ensures the editor is fully constructed before the user can trigger any loads
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('startup-modal').classList.remove('hidden');
+
+            editor = CodeMirror.fromTextArea(document.getElementById('python-editor'), {
+                mode: 'python',
+                theme: 'default',
+                lineNumbers: true,
+                smartIndent: true,
+                indentUnit: 4,
+                extraKeys: {
+                    "Ctrl-Enter": executePython,
+                    "Cmd-Enter": executePython,
+                    "Tab": function(cm) { cm.replaceSelection("    ", "end"); }
+                }
+            });
+
+            // Prevent line-number overlap via a delayed refresh
+            setTimeout(() => { if (editor) editor.refresh(); }, 100);
+
+            // Adapt CodeMirror when its container is resized
+            const resizeObserver = new ResizeObserver(() => {
+                if (editor) editor.refresh();
+            });
+            const edContainer = document.querySelector('.editor-container');
+            const leftPaneContainer = document.getElementById('editor-left-pane');
+            if (edContainer) resizeObserver.observe(edContainer);
+            if (leftPaneContainer) resizeObserver.observe(leftPaneContainer);
+
+            // Track unsaved/unsubmitted changes
+            editor.on('change', () => {
+                toggleStdinContainer();
+                
+                if (suppressChange || !levels || levels.length === 0) return;
+                const lvl = levels[currentLevelIndex];
+                if(lvl) {
+                    if (lvl.status === 'failed') {
+                        lvl.status = 'changed'; 
+                    } else if (lvl.status !== 'passed') {
+                        lvl.status = 'changed';
+                    }
+                    lvl.hasPromptedForInput = false;
+                }
+                
+                // Clear any STDIN error formatting if they are editing code
+                document.getElementById('stdin-container').classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+                if(document.getElementById('feedback-msg').classList.contains('bg-red-50')) {
+                    hideFeedback();
+                }
+            });
+
+            document.getElementById('stdin-input').addEventListener('input', () => {
+                document.getElementById('stdin-container').classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+                if (levels && levels[currentLevelIndex]) {
+                    levels[currentLevelIndex].hasPromptedForInput = false;
+                }
+            });
+
+            editor.addOverlay({
+                token: function(stream) {
+                    if (stream.match("___")) {
+                        return "fill-in-blank";
+                    }
+                    while (stream.next() != null && !stream.match("___", false)) {}
+                    return null;
+                }
+            });
+            
+            setupDragAndDrop();
+
+            const savedBackupToggle = localStorage.getItem('backupDataToggle');
+            if (savedBackupToggle !== null) {
+                const el = document.getElementById('backup-toggle');
+                if(el) el.checked = (savedBackupToggle === 'true');
+            }
+
+            // Immediately boot pyodide in the background while user enters SID
+            initEnvironment();
+        });
+
+        let isPyodideReady = false;
+        async function initEnvironment() {
+            try {
+                if (typeof loadPyodide === 'undefined') {
+                    throw new Error("Failed to download Python engine. This is usually caused by an ad-blocker, firewall, or strict network restrictions. Please disable ad-blockers and reload.");
+                }
+
+                const timeout = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error("Python engine took too long to load (Timeout after 20s). Your network might be blocking WebAssembly files. Please refresh the page.")), 20000)
+                );
+
+                pyodide = await Promise.race([
+                    loadPyodide(),
+                    timeout
+                ]);
+                
+                await pyodide.runPythonAsync(`
+import sys
+import json
+import js
+import builtins
+import re
+
+_stdout_log = []
+_last_stdout_len = 0
+
+class CustomStdout:
+    def write(self, text): 
+        js.capturePythonOutput(text)
+        _stdout_log.append(text)
+    def flush(self): pass
+    def clear(self):
+        _stdout_log.clear()
+
+sys.stdout = CustomStdout()
+
+def custom_input(prompt=""):
+    if prompt:
+        js.capturePythonOutput(str(prompt))
+        _stdout_log.append(str(prompt))
+    val = js.getPythonInput()
+    _stdout_log.append(str(val) + "\\n")
+    if _trace_log:
+        _trace_log[-1]["input"] += str(val)
+    return val
+
+builtins.input = custom_input
+
+_trace_log = []
+_code_lines = []
+
+def _tracer(frame, event, arg):
+    global _last_stdout_len
+    
+    current_stdout = "".join(_stdout_log)
+    new_output = current_stdout[_last_stdout_len:]
+    if new_output and len(_trace_log) > 0:
+        _trace_log[-1]["output"] += new_output
+    _last_stdout_len = len(current_stdout)
+
+    if frame.f_code.co_filename == "<string>":
+        _locs = {k: repr(v) for k, v in frame.f_locals.items() if not k.startswith('__')}
+        _globs = {k: repr(v) for k, v in frame.f_globals.items() if not k.startswith('__') and k not in ['sys', 'js', 'json', 'builtins', 'CustomStdout', 'custom_input', '_tracer', '_run_debug', '_stdout_log', '_trace_log', '_code_lines', '_last_stdout_len', 're']}
+        
+        is_global = (frame.f_globals is frame.f_locals)
+        func_name = frame.f_code.co_name if frame.f_code.co_name != "<module>" else "global"
+
+        if _trace_log and not _trace_log[-1].get("completed"):
+            prev = _trace_log[-1]
+            prev["after_locals"] = _locs.copy()
+            prev["after_globals"] = _globs.copy()
+            prev["completed"] = True
+            
+            changes = []
+            changed_g = []
+            for k, v in prev["after_globals"].items():
+                if k not in prev["before_globals"] or prev["before_globals"][k] != v:
+                    changed_g.append(f"{k}={v}")
+            if changed_g:
+                changes.append(f"[global] {', '.join(changed_g)}")
+                
+            if not prev["is_global"]:
+                changed_l = []
+                for k, v in prev["after_locals"].items():
+                    if k not in prev["before_locals"] or prev["before_locals"][k] != v:
+                        changed_l.append(f"{k}={v}")
+                if changed_l:
+                    changes.append(f"[{prev['func_name']}] {', '.join(changed_l)}")
+            
+            prev["var_changed"] = "\\n".join(changes)
+            
+            import re
+            if prev["source"].startswith("for ") and " in " in prev["source"]:
+                match = re.search(r'for\\s+([a-zA-Z_]\\w*)\\s+in', prev["source"])
+                if match:
+                    loop_var = match.group(1)
+                    if not prev["is_global"] and loop_var in prev["after_locals"]:
+                        prev["condition"] = f"{loop_var} -> {prev['after_locals'][loop_var]}"
+                    elif loop_var in prev["after_globals"]:
+                        prev["condition"] = f"{loop_var} -> {prev['after_globals'][loop_var]}"
+
+        if event in ("line", "return"):
+            line_no = frame.f_lineno
+            src_line = _code_lines[line_no - 1].strip() if 0 <= line_no - 1 < len(_code_lines) else ""
+            
+            if event == "line":
+                if src_line == '"""' or src_line == "'''": return _tracer
+                if (src_line.startswith('"""') or src_line.startswith("'''")) and "=" not in src_line and "print" not in src_line and "return" not in src_line: return _tracer
+
+            cond_eval = ""
+            if event == "line":
+                if src_line.startswith("if ") or src_line.startswith("elif ") or src_line.startswith("while "):
+                    if src_line.startswith("if "): cond_str = src_line[3:]
+                    elif src_line.startswith("elif "): cond_str = src_line[5:]
+                    elif src_line.startswith("while "): cond_str = src_line[6:]
+                    cond_str = cond_str.split(":", 1)[0].strip()
+                    
+                    try:
+                        res = eval(cond_str, frame.f_globals, frame.f_locals)
+                        import re
+                        plugged_str = cond_str
+                        for k, v in sorted(frame.f_locals.items(), key=lambda x: -len(x[0])):
+                            plugged_str = re.sub(r'\\b' + re.escape(k) + r'\\b', str(v), plugged_str)
+                        if not is_global:
+                            for k, v in sorted(frame.f_globals.items(), key=lambda x: -len(x[0])):
+                                if k not in frame.f_locals:
+                                    plugged_str = re.sub(r'\\b' + re.escape(k) + r'\\b', str(v), plugged_str)
+                        cond_eval = f"{plugged_str} -> {res}"
+                    except:
+                        pass
+
+            return_val = ""
+            if event == "return":
+                return_val = f"[{func_name}] {repr(arg)}"
+
+            _trace_log.append({
+                "line": line_no,
+                "source": src_line if event == "line" else "(return)",
+                "before_locals": _locs.copy() if not is_global else {},
+                "before_globals": _globs.copy(),
+                "after_locals": _locs.copy() if not is_global else {},
+                "after_globals": _globs.copy(),
+                "is_global": is_global,
+                "func_name": func_name,
+                "var_changed": "",
+                "condition": cond_eval,
+                "return_val": return_val,
+                "event": event,
+                "input": "",
+                "output": "",
+                "error": "",
+                "completed": False
+            })
+            
+    return _tracer
+
+def _run_debug(code_str):
+    global _trace_log, _code_lines, _last_stdout_len
+    _trace_log = []
+    _code_lines = code_str.split('\\n')
+    _stdout_log.clear()
+    _last_stdout_len = 0
+    sys.stdout.clear()
+    
+    namespace = {}
+    sys.settrace(_tracer)
+    try:
+        exec(code_str, namespace, namespace)
+    except Exception as e:
+        tb = e.__traceback__
+        line = 0
+        while tb:
+            if tb.tb_frame.f_code.co_filename == "<string>":
+                line = tb.tb_lineno
+            tb = tb.tb_next
+        
+        current_stdout = "".join(_stdout_log)
+        new_output = current_stdout[_last_stdout_len:]
+        if new_output and len(_trace_log) > 0:
+            _trace_log[-1]["output"] += new_output
+            
+        if _trace_log:
+            _trace_log[-1]["error"] = type(e).__name__ + ": " + str(e)
+        else:
+            _trace_log.append({
+                "line": line,
+                "error": type(e).__name__ + ": " + str(e)
+            })
+    finally:
+        sys.settrace(None)
+        current_stdout = "".join(_stdout_log)
+        new_output = current_stdout[_last_stdout_len:]
+        if new_output and len(_trace_log) > 0:
+            _trace_log[-1]["output"] += new_output
+        
+    return json.dumps(_trace_log)
+                `);
+                
+                isPyodideReady = true;
+                checkPyodideAndReady();
+
+            } catch (err) {
+                document.getElementById('loading-overlay').innerHTML = `<div class="text-red-500 text-xl font-bold mb-4 text-center max-w-lg leading-relaxed px-4"><i class="fa-solid fa-triangle-exclamation mr-2"></i><br>${escapeHTML(err.message)}</div><button onclick="window.location.reload()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded shadow font-bold transition">Reload Page</button>`;
+            }
+        }
+        
+        function checkPyodideAndReady() {
+            if (isPyodideReady && studentId !== null) {
+                document.getElementById('loading-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading-overlay').style.display = 'none';
+                }, 500);
+            } else if (studentId !== null) {
+                document.getElementById('loading-status').innerText = "Finishing Python engine initialization...";
+            }
+        }
+
+        async function fetchDailyDrill() {
+            const today = new Date();
+            const getYYMMDD = (d) => {
+                const yy = String(d.getFullYear()).slice(-2);
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                const dd = String(d.getDate()).padStart(2, '0');
+                return `${yy}${mm}${dd}`;
+            };
+            
+            const todayStr = getYYMMDD(today);
+            
+            const cachedDate = localStorage.getItem('cachedDailyDrillDate');
+            const cachedData = localStorage.getItem('cachedDailyDrillData');
+            const cachedName = localStorage.getItem('cachedDailyDrillName');
+            
+            if (cachedDate === todayStr && cachedData) {
+                try {
+                    const parsedData = JSON.parse(cachedData);
+                    if(Array.isArray(parsedData) && parsedData.length > 0) {
+                        currentPresetName = cachedName || todayStr;
+                        levels = parsedData;
+                        return; 
+                    }
+                } catch(e) {
+                    console.log("Cached daily drill invalid", e);
+                }
+            }
+
+            try {
+                const dirUrl = 'https://api.github.com/repos/Iketsuki/know/contents/notes/ict/questionJson?ref=Python';
+                const response = await fetch(dirUrl);
+                if (response.ok) {
+                    const files = await response.json();
+                    const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+                    
+                    let targetFile = null;
+                    for (let i = 0; i < 30; i++) {
+                        let targetDate = new Date(today);
+                        targetDate.setDate(today.getDate() - i);
+                        let prefix = getYYMMDD(targetDate);
+                        targetFile = jsonFiles.find(f => f.name.startsWith(prefix));
+                        if (targetFile) break;
+                    }
+                    
+                    if (targetFile) {
+                        const fileResponse = await fetch(targetFile.download_url);
+                        if (fileResponse.ok) {
+                            const data = await fileResponse.json();
+                            if(Array.isArray(data) && data.length > 0) {
+                                currentPresetName = targetFile.name;
+                                levels = data;
+                                localStorage.setItem('cachedDailyDrillDate', todayStr);
+                                localStorage.setItem('cachedDailyDrillData', JSON.stringify(data));
+                                localStorage.setItem('cachedDailyDrillName', targetFile.name);
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                console.log("No daily drill found or fetch failed:", e);
+            }
+        }
+
+        async function saveToDatabase() {
+            if (!studentId) return;
+            flushEditorToLevel();
+            try {
+                const sb = await initSupabase();
+                if(!sb) return;
+                
+                const exerciseName = currentPresetName ? currentPresetName.replace(/\.json$/i, '') : 'Custom';
+                const score = completedLevels.size;
+                const max_score = levels.length;
+                const trial = mistakeLog.length + completedLevels.size;
+                const qArray = levels.map(l => l.status === 'passed');
+                
+                await sb.from('pyOnline').insert([{
+                    exercise: exerciseName,
+                    sid: studentId,
+                    score: score,
+                    max_score: max_score,
+                    trial: trial,
+                    q: qArray
+                }]);
+                
+                saveCurrentProgressToHistory();
+                
+                await sb.from('pyHist').upsert({
+                    sid: studentId,
+                    histJson: overallHistory
+                });
+                
+            } catch(e) {
+                console.error('Failed to save to database:', e);
+            }
+        }
+
+        function escapeHTML(str) {
+            if (!str) return "";
+            return str.replace(/[&<>]/g, tag => ({'&': '&amp;','<': '&lt;','>': '&gt;'}[tag]));
+        }
+
+        function formatBlanks(text) {
+            let html = escapeHTML(text).replace(/___/g, '<span class="blank-highlight">___</span>');
+            return html.replace(/`([^`]+)`/g, '<code class="bg-slate-200 text-pink-600 px-1 rounded font-mono">$1</code>');
+        }
+
+        function escapeHTMLPDF(str) {
+            if (!str) return "";
+            return str.replace(/[&<>]/g, tag => ({'&': '&amp;','<': '&lt;','>': '&gt;'}[tag]));
+        }
+
+        function formatBlanksPDF(text) {
+            let html = escapeHTMLPDF(text).replace(/___/g, '<span style="background-color: #fde047; color: #854d0e; font-weight: bold; padding: 0 4px; border-radius: 4px; font-family: monospace;">___</span>');
+            return html.replace(/`([^`]+)`/g, '<code style="background-color: #f1f5f9; color: #db2777; padding: 2px 4px; border-radius: 4px; font-family: monospace;">$1</code>');
+        }
+
+        function highlightPythonForPDFWithLines(code) {
+            if (!code) return "";
+            
+            let tokens = [];
+            let tokenIndex = 0;
+            let escaped = escapeHTMLPDF(code);
+            
+            escaped = escaped.replace(/(#.*)/g, match => {
+                tokens.push(`<span style="color: #008000; font-style: italic;">${match}</span>`);
+                return `__TOKEN_${tokenIndex++}__`;
+            });
+            escaped = escaped.replace(/(".*?"|'.*?')/g, match => {
+                tokens.push(`<span style="color: #a31515;">${match}</span>`);
+                return `__TOKEN_${tokenIndex++}__`;
+            });
+            escaped = escaped.replace(/\b(def|for|in|if|else|elif|return|print|range|while|break|continue|import|from|as|class|pass|try|except|with|True|False|None|and|or|not)\b/g, '<span style="color: #0000ff;">$1</span>');
+            escaped = escaped.replace(/\b(\d+)\b/g, '<span style="color: #098658;">$1</span>');
+            
+            for (let i = tokenIndex - 1; i >= 0; i--) {
+                escaped = escaped.replace(`__TOKEN_${i}__`, tokens[i]);
+            }
+            escaped = escaped.replace(/___/g, '<span style="background-color: #fde047; color: #854d0e; font-weight: bold; padding: 0 4px; border-radius: 4px; font-family: monospace;">___</span>');
+            
+            let lines = escaped.split('\n');
+            let numberedLines = lines.map((line, idx) => {
+                return `<span style="display:inline-block; width:25px; color:#94a3b8; border-right:1px solid #cbd5e1; margin-right:8px; padding-right:4px; text-align:right; user-select:none;">${idx + 1}</span>${line}`;
+            });
+            return numberedLines.join('\n');
+        }
+
+        function printHTML(title, htmlContent) {
+            const printWindow = window.open('', '', 'width=1000,height=800');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${title}</title>
+                    <style>
+                        @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+                        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; line-height: 1.6; margin: 0 auto; padding: 40px; max-width: 900px; font-size: 16px;}
+                        h1 { font-size: 32px; color: #2c3e50; margin-top: 0; }
+                        h2 { font-size: 24px; color: #2c3e50; border-bottom: 2px solid #dee2e6; padding-bottom: 5px; margin-top: 30px; }
+                        h3 { font-size: 18px; margin: 0; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; font-family: 'Courier New', monospace; }
+                        th, td { border: 1px solid #dee2e6; padding: 8px; text-align: left; }
+                        th { background-color: #e9ecef; text-align: center; font-weight: bold;}
+                        .page-break { page-break-before: always; padding-top: 20px; }
+                        .code-block { background-color: #ffffff; border: 1px solid #d4d4d4; padding: 15px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 14px; white-space: pre-wrap; color: #000; margin-bottom: 15px; }
+                        .status-pass { color: #28a745; font-weight: bold; }
+                        .status-fail { color: #dc3545; font-weight: bold; }
+                        .status-pending { color: #f59e0b; font-weight: bold; }
+                        .status-none { color: #6c757d; font-weight: bold; }
+                        .box-container { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 20px; border-radius: 5px; margin-bottom: 30px; page-break-inside: avoid; }
+                        .center { text-align: center; }
+                        .metrics-box { background: #e9ecef; padding: 20px; border-radius: 5px; text-align: center; }
+                    </style>
+                </head>
+                <body>
+                    ${htmlContent}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(36).toUpperCase();
+        }
+
+        function renderVarGroup(title, curr, prev) {
+            curr = curr || {};
+            prev = prev || {};
+            let html = `<div class="text-[10px] font-bold txt-sys mt-4 mb-1 tracking-widest border-b pb-1" style="border-color: var(--coding-border);">${title}</div>`;
+            if (Object.keys(curr).length > 0) {
+                for (const [k, v] of Object.entries(curr)) {
+                    let isChanged = (prev[k] !== v);
+                    let rowClass = isChanged ? "var-changed-row" : "px-1 w-full inline-block";
+                    let indicator = isChanged ? `<span class="text-green-500 font-bold ml-2 text-[10px] float-right mt-1.5"><i class="fa-solid fa-arrow-left"></i> updated</span>` : "";
+                    html += `<div class="mb-1 ${rowClass}"><span class="txt-var-name font-bold">${escapeHTML(k)}</span> <span class="txt-sys">=</span> <span class="txt-var-val">${escapeHTML(v)}</span>${indicator}</div>`;
+                }
+            } else {
+                html += `<span class="txt-sys italic block mt-1 text-sm px-1">No variables in scope</span>`;
+            }
+            return html;
+        }
+
+        function toggleStdinContainer() {
+            if (!editor) return;
+            const code = editor.getValue();
+            const container = document.getElementById('stdin-container');
+            if (code.includes('input(')) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        function updateLayout() {
+            const sidebar = document.getElementById('sidebar');
+            const editorDebugSection = document.getElementById('editor-debug-section');
+            const editorLeftPane = document.getElementById('editor-left-pane');
+            const debugContainer = document.getElementById('debugger-container');
+            const toggleIcon = document.getElementById('sidebar-toggle-icon');
+
+            const isSidebarHidden = sidebar.classList.contains('hidden');
+            const isDebuggerActive = !debugContainer.classList.contains('hidden');
+
+            if (isSidebarHidden) {
+                toggleIcon.className = 'fa-solid fa-bars-staggered text-xl';
+            } else {
+                toggleIcon.className = 'fa-solid fa-bars text-xl';
+            }
+
+            editorDebugSection.className = "p-6 border-b flex gap-4 shrink-0 transition-all duration-300";
+
+            if (isSidebarHidden && isDebuggerActive) {
+                editorDebugSection.classList.add('flex-row');
+                editorLeftPane.style.width = "50%";
+                editorLeftPane.classList.add('resize-horizontal', 'pr-4', 'border-r');
+                if(editorLeftPane.classList.contains('theme-light')) editorLeftPane.classList.add('border-slate-300');
+            } else if (!isSidebarHidden && isDebuggerActive) {
+                editorDebugSection.classList.add('flex-col');
+                editorLeftPane.style.width = "100%";
+                editorLeftPane.classList.remove('resize-horizontal', 'pr-4', 'border-r', 'border-slate-300');
+            } else {
+                editorDebugSection.classList.add('flex-col');
+                editorLeftPane.style.width = "100%";
+                editorLeftPane.classList.remove('resize-horizontal', 'pr-4', 'border-r', 'border-slate-300');
+            }
+
+            setTimeout(() => { if (editor) editor.refresh(); }, 50);
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('hidden');
+            updateLayout();
+        }
+
+        function setupDragAndDrop() {
+            const overlay = document.getElementById('drag-drop-overlay');
+            let dragCounter = 0;
+
+            window.addEventListener('dragenter', (e) => {
+                e.preventDefault();
+                dragCounter++;
+                if (dragCounter === 1) {
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('flex');
+                }
+            });
+
+            window.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dragCounter--;
+                if (dragCounter === 0) {
+                    overlay.classList.remove('flex');
+                    overlay.classList.add('hidden');
+                }
+            });
+            
+            window.addEventListener('dragover', (e) => {
+                e.preventDefault(); 
+            });
+
+            window.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dragCounter = 0;
+                overlay.classList.remove('flex');
+                overlay.classList.add('hidden');
+                
+                if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    const file = e.dataTransfer.files[0];
+                    if (file.name.endsWith('.json')) {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                            try {
+                                const data = JSON.parse(ev.target.result);
+                                if (data.levels || (Array.isArray(data) && data.length > 0 && data[0].lastOutput !== undefined)) {
+                                    handleProgressDataImport(data);
+                                } else {
+                                    currentPresetName = file.name;
+                                    handleQuestionDataImport(data);
+                                }
+                            } catch (err) {
+                                alert("Invalid JSON file format.");
+                            }
+                        };
+                        reader.readAsText(file);
+                    } else {
+                        alert("Please drop a valid .json file.");
+                    }
+                }
+            });
+        }
+
+        function changeFontSize(delta) {
+            currentFontSize += delta;
+            if (currentFontSize < 10) currentFontSize = 10;
+            if (currentFontSize > 36) currentFontSize = 36;
+            
+            document.getElementById('font-size-display').innerText = currentFontSize;
+
+            const cmEl = document.querySelector('.CodeMirror');
+            if (cmEl) {
+                cmEl.style.fontSize = currentFontSize + 'px';
+                editor.refresh();
+            }
+            
+            document.getElementById('terminal-output').style.fontSize = currentFontSize + 'px';
+            document.getElementById('expected-preview').style.fontSize = currentFontSize + 'px';
+            document.getElementById('stdin-input').style.fontSize = currentFontSize + 'px';
+            document.getElementById('debug-vars').style.fontSize = currentFontSize + 'px';
+        }
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            const bodyEl = document.body;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (isDarkMode) {
+                bodyEl.classList.remove('theme-light');
+                editor.setOption('theme', 'monokai');
+                themeIcon.className = 'fa-solid fa-sun';
+                themeIcon.title = "Switch to Light Mode";
+            } else {
+                bodyEl.classList.add('theme-light');
+                editor.setOption('theme', 'default');
+                themeIcon.className = 'fa-solid fa-moon';
+                themeIcon.title = "Switch to Dark Mode";
+            }
+        }
+
+        function renderLevelList() {
+            const listContainer = document.getElementById('level-list-container');
+            listContainer.innerHTML = '';
+            
+            const searchInput = document.getElementById('drill-search');
+            const query = searchInput ? searchInput.value.toLowerCase() : "";
+            
+            let hasMatches = false;
+
+            levels.forEach((level, index) => {
+                const isCompleted = completedLevels.has(level.id);
+                const isActive = index === currentLevelIndex;
+                
+                if (query) {
+                    const searchTarget = `${level.title} ${level.skill} ${level.question} ${level.difficulty}`.toLowerCase();
+                    if (!searchTarget.includes(query)) return;
+                }
+                hasMatches = true;
+                
+                const div = document.createElement('div');
+                div.style.borderColor = isActive ? 'var(--header-border)' : 'var(--sidebar-border)';
+                div.style.backgroundColor = isActive ? 'var(--sidebar-active-bg)' : 'transparent';
+                div.style.color = isActive ? 'var(--sidebar-active-text)' : 'var(--sidebar-text)';
+                div.className = `p-3 rounded-lg cursor-pointer text-sm flex items-center justify-between transition-all border-2`;
+                
+                div.onclick = () => loadLevel(index);
+
+                let diffColor = "font-bold opacity-80";
+
+                const left = document.createElement('div');
+                left.className = "flex items-center gap-3 w-full overflow-hidden";
+                left.innerHTML = `
+                    <div class="flex flex-col items-center justify-center w-6 h-6 rounded font-bold text-xs shrink-0" style="background-color: var(--panel-bg); border: 1px solid var(--panel-border); color: inherit;">${index + 1}</div> 
+                    <div class="flex flex-col flex-1 min-w-0">
+                        <span class="font-bold truncate block" style="color: inherit;">${level.title}</span>
+                        <span class="text-[10px] uppercase tracking-wide mt-0.5 px-1.5 py-0.5 rounded w-max ${diffColor}">${level.difficulty}</span>
+                    </div>`;
+
+                const icon = document.createElement('i');
+                icon.className = isCompleted ? "fa-solid fa-circle-check text-green-500 text-lg shrink-0" : "fa-regular fa-circle opacity-30 text-lg shrink-0";
+
+                div.appendChild(left);
+                div.appendChild(icon);
+                listContainer.appendChild(div);
+            });
+
+            if (!hasMatches && levels.length > 0) {
+                listContainer.innerHTML = `<div class="text-center text-xs py-4 italic" style="color: var(--sys-msg);">No drills match your search.</div>`;
+            }
+
+            document.getElementById('progress-text').innerText = `${completedLevels.size}/${levels.length}`;
+        }
+
+        function loadLevel(index) {
+            if(levels.length === 0) return;
+            
+            exitDebug();
+
+            if (!isInitialLoad && !isImporting) {
+                flushEditorToLevel();
+            }
+            isInitialLoad = false;
+
+            currentLevelIndex = index;
+            const level = levels[index];
+            
+            document.getElementById('question-text').innerHTML = formatBlanks(escapeHTML(level.question));
+            document.getElementById('level-badge').innerText = `Drill ${index + 1} - ${level.title}`;
+            document.getElementById('skill-badge').innerText = level.skill;
+            document.getElementById('expected-preview').innerText = level.expectedOutput;
+
+            hideFeedback();
+            document.getElementById('terminal-output').innerHTML = `<span class="txt-sys">>>> Ready to run...</span>`;
+            document.getElementById('stdin-input').value = ""; 
+            document.getElementById('stdin-container').classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+            
+            suppressChange = true;
+            const codeToLoad = level.userCode !== undefined ? level.userCode : (level.initialCode || "");
+            editor.setValue(codeToLoad);
+            suppressChange = false;
+            
+            toggleStdinContainer();
+            editor.focus();
+            setTimeout(() => editor.refresh(), 50); 
+            renderLevelList();
+        }
+
+        function switchTab(tabName) {
+            const practiceBtn = document.getElementById('tab-practice');
+            const sheetBtn = document.getElementById('tab-cheatsheet');
+            const practiceContent = document.getElementById('content-practice');
+            const sheetContent = document.getElementById('content-cheatsheet');
+
+            if (tabName === 'practice') {
+                practiceBtn.classList.add('tab-active');
+                sheetBtn.classList.remove('tab-active');
+                practiceContent.classList.remove('hidden');
+                sheetContent.classList.add('hidden');
+                setTimeout(() => { if(editor) editor.refresh(); }, 50);
+            } else {
+                sheetBtn.classList.add('tab-active');
+                practiceBtn.classList.remove('tab-active');
+                sheetContent.classList.remove('hidden');
+                practiceContent.classList.add('hidden');
+            }
+        }
+
+        async function fetchGeminiValidation(prompt, systemInstruction) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: systemInstruction }] },
+                generationConfig: {
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            correct: { type: "BOOLEAN" },
+                            reason: { type: "STRING" }
+                        },
+                        required: ["correct", "reason"]
+                    }
+                }
+            };
+            
+            const maxRetries = 3;
+            for (let i = 0; i < maxRetries; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+                    return JSON.parse(data.candidates[0].content.parts[0].text);
+                } catch (error) {
+                    if (i === maxRetries - 1) throw error;
+                    await new Promise(res => setTimeout(res, 1000 * Math.pow(2, i)));
+                }
+            }
+        }
+
+        async function executePython() {
+            if (!pyodide || levels.length === 0) return;
+            exitDebug(); 
+
+            const runBtn = document.getElementById('btn-run');
+            const debugBtn = document.getElementById('btn-debug');
+            const runText = document.getElementById('run-text');
+            const terminal = document.getElementById('terminal-output');
+            const code = editor.getValue();
+            const stdinBox = document.getElementById('stdin-input');
+            const stdinVal = stdinBox.value;
+            const currentLevel = levels[currentLevelIndex];
+            
+            currentLevel.userCode = code;
+
+            if (code.trim() === '') {
+                showFeedback(false, "Write some Python code first!");
+                return;
+            }
+
+            if (code.includes('input(') && stdinVal.trim() === '') {
+                if (!currentLevel.hasPromptedForInput) {
+                    currentLevel.hasPromptedForInput = true;
+                    document.getElementById('stdin-container').classList.add('ring-2', 'ring-red-500', 'border-red-500');
+                    showFeedback(false, "Your code requires input. Please enter some text in the Standard Input box and click Run Code again.");
+                    return; 
+                }
+            }
+            
+            document.getElementById('stdin-container').classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+
+            runBtn.disabled = true;
+            debugBtn.disabled = true;
+            runText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            terminal.innerHTML = `<span class="txt-sys">>>> Executing script...</span>\n`;
+            pythonStdout = ""; 
+            hideFeedback();
+
+            await pyodide.runPythonAsync(`sys.stdout.clear()`);
+            window.pythonStdinLines = stdinVal.split('\n').filter(line => line.trim() !== '');
+
+            try {
+                await pyodide.runPythonAsync(code);
+                
+                let output = pythonStdout;
+                if (output === "") {
+                    terminal.innerHTML += `<span class="txt-sys italic">(Script executed successfully but printed no output)</span>`;
+                } else {
+                    terminal.innerHTML += `<span class="txt-success tracking-[0.2em]">${escapeHTML(output)}</span>`;
+                }
+                
+                currentLevel.lastOutput = output;
+                
+                runText.innerHTML = '<i class="fa-solid fa-robot fa-spin"></i>';
+                await validateAnswerAI(output, code, false);
+
+            } catch (err) {
+                let errMsg = err.message || err.toString();
+                terminal.innerHTML += `<span class="txt-error font-bold block mb-1">Python Error:</span><span class="txt-error block whitespace-pre-wrap opacity-90">${escapeHTML(errMsg)}</span>`;
+                currentLevel.lastOutput = errMsg;
+                await validateAnswerAI(errMsg, code, true);
+            } finally {
+                runBtn.disabled = false;
+                debugBtn.disabled = false;
+                runText.innerText = 'Run';
+            }
+        }
+
+        async function getTraceData(code) {
+            if (!pyodide) return [];
+            try {
+                const stdinBox = document.getElementById('stdin-input');
+                window.pythonStdinLines = stdinBox.value.split('\n').filter(line => line.trim() !== '');
+                pyodide.globals.set("__debug_code__", code);
+                const traceJson = await pyodide.runPythonAsync(`_run_debug(__debug_code__)`);
+                return JSON.parse(traceJson);
+            } catch(e) {
+                console.error("Trace helper failed", e);
+                return [];
+            }
+        }
+
+        async function startDebug() {
+            if (!pyodide || levels.length === 0) return;
+
+            const code = editor.getValue();
+            const stdinBox = document.getElementById('stdin-input');
+            const stdinVal = stdinBox.value;
+            const terminal = document.getElementById('terminal-output');
+            const runBtn = document.getElementById('btn-run');
+            const debugBtn = document.getElementById('btn-debug');
+            const debugText = document.getElementById('debug-text');
+
+            if (code.trim() === '') {
+                showFeedback(false, "Write some Python code first!");
+                return;
+            }
+
+            if (code.includes('input(') && stdinVal.trim() === '') {
+                document.getElementById('stdin-container').classList.add('ring-2', 'ring-red-500', 'border-red-500');
+                showFeedback(false, "Your code requires input. Please enter some text before debugging.");
+                return;
+            }
+
+            document.getElementById('stdin-container').classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+            
+            runBtn.disabled = true;
+            debugBtn.disabled = true;
+            debugText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
+            
+            terminal.innerHTML = `<span class="txt-sys">>>> Starting Debugger...</span>\n`;
+            hideFeedback();
+            
+            window.pythonStdinLines = stdinVal.split('\n').filter(line => line.trim() !== '');
+
+            try {
+                traceData = await getTraceData(code);
+                
+                if(traceData.length === 0) {
+                    terminal.innerHTML += `<span class="txt-error">Debugger failed: No executable lines traced. Check syntax.</span>`;
+                    return;
+                }
+
+                document.getElementById('debugger-container').classList.remove('hidden');
+                editor.setOption("readOnly", true);
+                currentTraceStep = 0;
+                
+                updateLayout();
+                renderDebugStep();
+
+            } catch (err) {
+                terminal.innerHTML += `<span class="txt-error font-bold block mb-1">Debugger Error:</span><span class="txt-error block whitespace-pre-wrap opacity-90">${escapeHTML(err.toString())}</span>`;
+            } finally {
+                runBtn.disabled = false;
+                debugBtn.disabled = false;
+                debugText.innerText = 'Debug';
+            }
+        }
+
+        function renderDebugStep() {
+            if (lastHighlightedLine >= 0) {
+                editor.removeLineClass(lastHighlightedLine, 'background', 'cm-debug-line');
+            }
+            
+            const trace = traceData[currentTraceStep];
+            
+            if (trace.line > 0) {
+                editor.addLineClass(trace.line - 1, 'background', 'cm-debug-line');
+                lastHighlightedLine = trace.line - 1;
+                editor.scrollIntoView({line: trace.line - 1, ch: 0});
+            }
+            
+            document.getElementById('debug-step-text').innerText = `${currentTraceStep + 1}/${traceData.length}`;
+            
+            let varsHtml = "";
+            
+            varsHtml += renderVarGroup("GLOBAL VARIABLES", trace.after_globals, trace.before_globals);
+            varsHtml += renderVarGroup("LOCAL VARIABLES", trace.after_locals, trace.before_locals);
+            
+            if (trace.condition) {
+                varsHtml += `<div class="text-[10px] font-bold txt-sys mt-4 mb-1 tracking-widest border-b pb-1" style="border-color: var(--coding-border);">CONDITION CHECKED</div>`;
+                varsHtml += `<div class="mb-1 txt-var-name font-mono bg-slate-700/30 px-1 rounded inline-block">${escapeHTML(trace.condition)}</div>`;
+            }
+
+            if (trace.return_val) {
+                varsHtml += `<div class="text-[10px] font-bold txt-sys mt-4 mb-1 tracking-widest border-b pb-1" style="border-color: var(--coding-border);">RETURN VALUE</div>`;
+                varsHtml += `<div class="mb-1 var-changed-row font-mono"><span class="text-green-500 font-bold ml-2 text-[10px] float-right mt-1.5"><i class="fa-solid fa-right-from-bracket"></i> returned</span>${escapeHTML(trace.return_val)}</div>`;
+            }
+
+            document.getElementById('debug-vars').innerHTML = varsHtml;
+            
+            let fullOutputHtml = `<span class="txt-debug">>>> Debugging Step ${currentTraceStep + 1}...</span>\n`;
+            for (let i = 0; i <= currentTraceStep; i++) {
+                const t = traceData[i];
+                const isCurrent = (i === currentTraceStep);
+                
+                let stepHtml = "";
+                
+                if (t.output) {
+                    stepHtml += `<span class="txt-success tracking-[0.2em]">${escapeHTML(t.output)}</span>`;
+                }
+                if (t.error) {
+                    stepHtml += `\n<span class="txt-error font-bold block mb-1">Python Error:</span><span class="txt-error block whitespace-pre-wrap opacity-90">${escapeHTML(t.error)}</span>`;
+                }
+                
+                if (stepHtml) {
+                    if (isCurrent) {
+                        fullOutputHtml += `<strong class="active-output-step">${stepHtml}</strong>`;
+                    } else {
+                        fullOutputHtml += `<span class="opacity-70">${stepHtml}</span>`;
+                    }
+                }
+            }
+            
+            document.getElementById('terminal-output').innerHTML = fullOutputHtml;
+        }
+
+        function debugStep(delta) {
+            if (delta === 'last') {
+                currentTraceStep = traceData.length - 1;
+            } else {
+                currentTraceStep += delta;
+            }
+            if (currentTraceStep < 0) currentTraceStep = 0;
+            if (currentTraceStep >= traceData.length) currentTraceStep = traceData.length - 1;
+            renderDebugStep();
+        }
+
+        function exitDebug() {
+            document.getElementById('debugger-container').classList.add('hidden');
+            if(lastHighlightedLine >= 0) {
+                editor.removeLineClass(lastHighlightedLine, 'background', 'cm-debug-line');
+                lastHighlightedLine = -1;
+            }
+            if (editor) editor.setOption("readOnly", false);
+            updateLayout();
+            document.getElementById('terminal-output').innerHTML = '<span class="txt-sys">>>> Ready to run...</span>';
+        }
+
+        function exportCurrentTracePDF() {
+            if (!traceData || traceData.length === 0) {
+                alert("No trace data available. Please run the debugger first.");
+                return;
+            }
+            
+            const level = levels[currentLevelIndex];
+            
+            let traceTable = `
+                <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; font-size: 14px; margin-top: 15px;">
+                <tr style="background-color: #e9ecef;">
+                    <th style="border: 1px solid #dee2e6; padding: 6px; width: 50px;">Line</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px; width: 30%;">Code Executed</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px; width: 80px;">Input</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px;">Output</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px;">Variable Changed</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px;">Condition</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px;">Return Value</th>
+                </tr>
+            `;
+            
+            traceData.forEach(t => {
+                let outOrErr = t.error ? `<span class="status-fail">ERROR: ${escapeHTMLPDF(t.error)}</span>` : escapeHTMLPDF(t.output || '');
+                let pluggedCode = plugVariables(t.source, t.before_locals);
+
+                traceTable += `
+                    <tr>
+                        <td class="center" style="border: 1px solid #dee2e6; padding: 6px;">${t.line || '-'}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #0000ff;">${escapeHTMLPDF(pluggedCode || '-')}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #8b5cf6;">${escapeHTMLPDF(t.input || '')}</td>
+                        <td class="status-pass" style="border: 1px solid #dee2e6; padding: 6px; white-space: pre-wrap;">${outOrErr}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #d97706; white-space: pre-wrap;">${escapeHTMLPDF(t.var_changed || '')}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #db2777;">${escapeHTMLPDF(t.condition || '')}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #059669; font-weight: bold;">${escapeHTMLPDF(t.return_val || '')}</td>
+                    </tr>
+                `;
+            });
+            traceTable += `</table>`;
+
+            const htmlContent = `
+                <h1 style="color: #2c3e50; text-align: center;">Single Trace Export: ${escapeHTMLPDF(level.title)}</h1>
+                <p style="color: #495057; font-size: 16px;"><strong>Question:</strong> ${formatBlanksPDF(level.question)}</p>
+                <div class="code-block">${highlightPythonForPDFWithLines(editor.getValue())}</div>
+                ${traceTable}
+            `;
+            
+            printHTML(`Trace_${level.title}`, htmlContent);
+        }
+
+        function plugVariables(source, locals) {
+            if (!source) return "";
+            if (!locals || Object.keys(locals).length === 0) return source;
+            let plugged = source;
+            Object.keys(locals).sort((a,b) => b.length - a.length).forEach(k => {
+                const regex = new RegExp(`\\b${k}\\b`, 'g');
+                plugged = plugged.replace(regex, locals[k]);
+            });
+            return plugged;
+        }
+
+        async function validateAnswerAI(actualOutput, userCode, isError) {
+            const level = levels[currentLevelIndex];
+            analysisNeedsUpdate = true;
+            
+            if (isError) {
+                level.status = 'failed';
+                showFeedback(false, "Your code threw an error. Please read the Terminal Output to debug!");
+                await logMistake(level, userCode, actualOutput, isError);
+                saveCurrentProgressToHistory();
+                return;
+            }
+
+            const systemPrompt = "You are a Python code evaluator acting as a friendly teacher for a 12-year-old ESL student (A1 level English). Evaluate the code, but make sure your 'reason' is extremely simple and encouraging.";
+            const userPrompt = `
+Task: Evaluate the student's Python code.
+
+Exercise Title: ${level.title}
+Skill Focus: ${level.skill}
+Question: ${level.question}
+Expected Target Output: ${level.expectedOutput}
+
+Student's Submitted Code:
+${userCode}
+
+Student's Actual Terminal Output:
+${actualOutput}
+
+Evaluation Rules:
+1. Does the script actually solve the problem dynamically or does it just hardcode the final answer? If the student just printed the expected string directly (e.g. \`print("***")\`) instead of using logic/loops requested in the "Question", they FAIL.
+2. If the prompt relies on input() functionality, standard exact string matching fails. Judge whether the logic is sound given the student's output format.
+3. Be lenient on trailing newlines or slight spacing variations, but STRICT on logic.
+
+Return a JSON with {"correct": boolean, "reason": "1-sentence short reason"}.
+IMPORTANT: The 'reason' MUST be in VERY SIMPLE English. Use words like "Good job!", "Oops!", "Try using a loop.", "You just printed the answer directly."
+`;
+            try {
+                const validation = await fetchGeminiValidation(userPrompt, systemPrompt);
+                
+                if (validation.correct) {
+                    level.status = 'passed';
+                    showFeedback(true, validation.reason || "Correct! Great job.");
+                    completedLevels.add(level.id);
+                    renderLevelList();
+                    lastFailedAttempt = null;
+                } else {
+                    level.status = 'failed';
+                    showFeedback(false, validation.reason || "Output doesn't match expected result or logic is hardcoded.");
+                    await logMistake(level, userCode, actualOutput, isError);
+                }
+            } catch (e) {
+                const cleanActual = actualOutput.split('\n').map(l => l.trimEnd()).join('\n').trim();
+                const cleanExpected = (level.expectedOutput || "").split('\n').map(l => l.trimEnd()).join('\n').trim();
+
+                if (cleanActual === cleanExpected) {
+                    level.status = 'passed';
+                    showFeedback(true, "Good job! Correct! (Fallback check)");
+                    completedLevels.add(level.id);
+                    renderLevelList();
+                    lastFailedAttempt = null;
+                } else {
+                    level.status = 'failed';
+                    showFeedback(false, "Oops! The output doesn't match. Try again! (Fallback check)");
+                    await logMistake(level, userCode, actualOutput, isError);
+                }
+            }
+            saveCurrentProgressToHistory();
+        }
+
+        async function logMistake(level, userCode, actualOutput, isError) {
+            let trace = await getTraceData(userCode);
+            
+            const mistake = {
+                levelId: level.id,
+                levelTitle: level.title,
+                skill: level.skill,
+                question: level.question,
+                userCode: userCode,
+                expectedOutput: level.expectedOutput,
+                actualOutput: actualOutput,
+                isError: isError,
+                trace: trace
+            };
+            mistakeLog.push(mistake);
+            lastFailedAttempt = mistake;
+        }
+
+        function showFeedback(isSuccess, message) {
+            const fb = document.getElementById('feedback-msg');
+            const fbText = document.getElementById('feedback-text');
+            const aiBtn = document.getElementById('btn-ask-ai');
+            const simBtn = document.getElementById('btn-similar');
+            
+            fb.classList.remove('hidden', 'border-green-500', 'bg-green-50', 'text-green-800', 'border-red-500', 'bg-red-50', 'text-red-800');
+            simBtn.classList.remove('hidden'); 
+            
+            if (isSuccess) {
+                fb.classList.add('border-green-500', 'bg-green-50', 'text-green-800');
+                fbText.innerHTML = `<i class="fa-solid fa-circle-check mr-2 text-green-600 text-xl"></i> <span>${message}</span>`;
+                aiBtn.classList.add('hidden');
+            } else {
+                fb.classList.add('border-red-500', 'bg-red-50', 'text-red-800');
+                fbText.innerHTML = `<i class="fa-solid fa-circle-xmark mr-2 text-red-600 text-xl"></i> <span>${message}</span>`;
+                aiBtn.classList.remove('hidden'); 
+            }
+        }
+
+        function hideFeedback() {
+            document.getElementById('feedback-msg').classList.add('hidden');
+            document.getElementById('btn-ask-ai').classList.add('hidden');
+            document.getElementById('btn-similar').classList.add('hidden');
+        }
+
+        function resetEditor() {
+            if(levels.length > 0) {
+                const level = levels[currentLevelIndex];
+                
+                exitDebug(); 
+                
+                suppressChange = true;
+                level.userCode = level.initialCode || "";
+                level.status = 'not_attempted';
+                level.lastOutput = "";
+                level.hasPromptedForInput = false;
+                completedLevels.delete(level.id); 
+                
+                editor.setValue(level.userCode);
+                suppressChange = false;
+                
+                toggleStdinContainer();
+                
+                hideFeedback();
+                document.getElementById('terminal-output').innerHTML = `<span class="txt-sys">>>> Ready to run...</span>`;
+                document.getElementById('stdin-input').value = "";
+                document.getElementById('stdin-container').classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+                
+                editor.focus();
+                saveCurrentProgressToHistory();
+                renderLevelList();
+            }
+        }
+
+        function openDownloadModal() {
+            document.getElementById('download-modal').classList.remove('hidden');
+        }
+
+        function closeDownloadModal() {
+            document.getElementById('download-modal').classList.add('hidden');
+            document.getElementById('student-id-input').value = "";
+        }
+
+        async function confirmDownloadPDF() {
+            const studentIdInputVal = document.getElementById('student-id-input').value.trim();
+            if (!studentIdInputVal || isNaN(studentIdInputVal)) {
+                alert("Please enter a valid numeric Student ID.");
+                return;
+            }
+            
+            const sidNum = parseInt(studentIdInputVal);
+            closeDownloadModal();
+            
+            flushEditorToLevel();
+            
+            const expQ = document.getElementById('export-q-toggle').checked;
+            const expP = document.getElementById('export-p-toggle').checked;
+            const expH = document.getElementById('export-h-toggle').checked;
+            
+            let delay = 0;
+            if (expQ) { exportQuestions(); delay += 500; }
+            if (expP) { setTimeout(() => { exportProgress(); }, delay); delay += 500; }
+            if (expH) { setTimeout(() => { exportHistory(); }, delay); delay += 500; }
+
+            const exerciseName = currentPresetName ? currentPresetName.replace(/\.json$/i, '') : 'Custom';
+            const score = completedLevels.size;
+            const max_score = levels.length;
+            const trial = mistakeLog.length + completedLevels.size;
+            
+            try {
+                const sb = await initSupabase();
+                if(sb) {
+                    const qArray = levels.map(l => l.status === 'passed');
+                    await sb.from('pyOnline').insert([{
+                        exercise: exerciseName,
+                        sid: sidNum,
+                        score: score,
+                        max_score: max_score,
+                        trial: trial,
+                        q: qArray
+                    }]);
+                }
+            } catch (e) {
+                console.error("Failed to save to Supabase during PDF generation:", e);
+            }
+
+            const d = new Date();
+            const yy = String(d.getFullYear()).slice(-2);
+            const mm = String(d.getMonth() + 1).padStart(2, '0');
+            const dd = String(d.getDate()).padStart(2, '0');
+            const hh = String(d.getHours()).padStart(2, '0');
+            const min = String(d.getMinutes()).padStart(2, '0');
+            const timestamp = `${yy}${mm}${dd}${hh}${min}`;
+
+            const studentIdStr = String(sidNum);
+            let hexHash = "";
+            for(let i=0; i<studentIdStr.length; i++) {
+                let charCode = studentIdStr.charCodeAt(i) ^ timestamp.charCodeAt(i % timestamp.length);
+                hexHash += ("0" + charCode.toString(16)).slice(-2);
+            }
+            const hashId = hexHash.toUpperCase();
+
+            const completionRate = Math.round((completedLevels.size / levels.length) * 100);
+            const presetDisplay = currentPresetName ? `<p style="color: #adb5bd; font-size: 14px; margin: 5px 0 0 0;">Exercise Set: ${escapeHTMLPDF(currentPresetName)}</p>` : '';
+            
+            let tocHtml = `
+            <div style="margin-top: 30px;">
+                <h2 style="color: #2c3e50; border-bottom: 2px solid #dee2e6; padding-bottom: 5px; margin-bottom: 15px;">Summary Table</h2>
+                <table>
+                    <tr><th style="width: 50px; text-align: center;">No.</th><th>Title (Topic)</th><th>Skill (Concept)</th><th style="width: 150px;">Status</th></tr>
+            `;
+            levels.forEach((l, idx) => {
+                let statusClass = l.status === 'passed' ? 'status-pass' : (l.status === 'failed' ? 'status-fail' : (l.status === 'changed' ? 'status-pending' : 'status-none'));
+                let statusText = l.status === 'passed' ? 'Passed' : (l.status === 'failed' ? 'Failed' : (l.status === 'changed' ? 'Attempted' : 'Not Attempted'));
+                tocHtml += `<tr><td style="text-align: center;">${idx+1}</td><td><strong>${escapeHTMLPDF(l.title)}</strong></td><td style="color:#6c757d;">${escapeHTMLPDF(l.skill)}</td><td class="${statusClass}">${statusText}</td></tr>`;
+            });
+            tocHtml += `</table></div>`;
+
+            let drillsHtml = '<div class="page-break"><h2 style="color: #2c3e50; border-bottom: 2px solid #dee2e6; padding-bottom: 5px; margin-top: 30px;">Detailed Drill Responses</h2>';
+            
+            levels.forEach((lvl, idx) => {
+                const status = lvl.status || 'not_attempted';
+                let statusColor = "#6c757d"; 
+                let statusText = "Not Attempted";
+                let numberStyle = "color: #2c3e50;"; 
+                
+                if (status === 'passed') {
+                    statusColor = "#28a745"; statusText = "Passed";
+                } else if (status === 'failed') {
+                    statusColor = "#dc3545"; statusText = "Failed"; numberStyle = "color: #dc3545; font-weight: bold;"; 
+                } else if (status === 'changed') {
+                    statusColor = "#f59e0b"; statusText = "Changed (Not Submitted)"; numberStyle = "color: #f59e0b; font-weight: bold;"; 
+                }
+
+                const displayCode = lvl.userCode !== undefined ? lvl.userCode : (lvl.initialCode || "No code recorded");
+
+                let actualOutputHtml = "";
+                if (lvl.lastOutput !== undefined && lvl.lastOutput.trim() !== '') {
+                    let label = status === 'passed' ? 'Your Output (Matched)' : 'Your Output (Unmatched/Error)';
+                    let color = status === 'passed' ? '#28a745' : '#dc3545';
+                    actualOutputHtml = `<div style="margin-top: 10px; font-size: 14px; color: ${color};"><strong>${label}:</strong> <br><pre style="margin: 5px 0 0 0; background: #f8f9fa; padding: 10px; border-radius: 3px; border: 1px solid #dee2e6; font-family: 'Courier New', Courier, monospace; color: ${color}; white-space: pre-wrap;">${escapeHTMLPDF(lvl.lastOutput)}</pre></div>`;
+                }
+
+                drillsHtml += `
+                    <div class="box-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                            <h3 style="margin: 0; font-size: 18px;"><span style="${numberStyle}">Drill ${idx + 1}</span>: ${escapeHTMLPDF(lvl.title)}</h3>
+                            <span style="color: ${statusColor}; font-weight: bold; font-size: 16px;">[${statusText}]</span>
+                        </div>
+                        <p style="margin: 0 0 10px 0; font-size: 16px; color: #495057;"><strong>Question:</strong> ${formatBlanksPDF(escapeHTMLPDF(lvl.question))}</p>
+                        <div class="code-block">${highlightPythonForPDFWithLines(displayCode)}</div>
+                        <div style="margin-top: 10px; font-size: 14px; color: #6c757d;"><strong>Expected Target:</strong> <br><pre style="margin: 5px 0 0 0; background: #e9ecef; padding: 10px; border-radius: 3px; font-family: 'Courier New', Courier, monospace; color: #495057; white-space: pre-wrap;">${escapeHTMLPDF(lvl.expectedOutput || "")}</pre></div>
+                        ${actualOutputHtml}
+                    </div>
+                `;
+            });
+            drillsHtml += '</div>';
+
+            let mistakeLogHtml = '';
+            if (mistakeLog.length === 0) {
+                mistakeLogHtml = '<div class="page-break"><h2 style="color: #2c3e50; border-bottom: 2px solid #dee2e6; padding-bottom: 5px; margin-top: 30px;">Error History Log</h2><p style="color: #6c757d; font-size: 16px;">No errors recorded. Perfect run!</p></div>';
+            } else {
+                mistakeLogHtml = '<div class="page-break"><h2 style="color: #2c3e50; border-bottom: 2px solid #dee2e6; padding-bottom: 5px; margin-top: 30px;">Error History Log</h2>';
+                mistakeLog.forEach((m, idx) => {
+                    let traceTable = '';
+                    if (m.trace && m.trace.length > 0) {
+                        traceTable = `
+                            <h4 style="margin: 15px 0 5px 0; font-size: 16px; color: #495057;">Execution Trace:</h4>
+                            <table>
+                            <tr>
+                                <th style="width: 50px;">Line</th>
+                                <th>Code Executed</th>
+                                <th style="width: 80px;">Input</th>
+                                <th>Output</th>
+                                <th>Variable Changed</th>
+                                <th>Condition Checked &rarr; T/F</th>
+                                <th>Return Value</th>
+                            </tr>
+                        `;
+                        
+                        const displayTrace = m.trace.slice(0, 30);
+                        displayTrace.forEach(t => {
+                            let outOrErr = t.error ? `<span class="status-fail">ERROR: ${escapeHTMLPDF(t.error)}</span>` : escapeHTMLPDF(t.output || '');
+                            let pluggedCode = plugVariables(t.source, t.before_locals);
+
+                            traceTable += `
+                                <tr>
+                                    <td class="center">${t.line || '-'}</td>
+                                    <td style="color: #0000ff;">${escapeHTMLPDF(pluggedCode || '-')}</td>
+                                    <td style="color: #8b5cf6;">${escapeHTMLPDF(t.input || '')}</td>
+                                    <td class="status-pass" style="white-space: pre-wrap;">${outOrErr}</td>
+                                    <td style="color: #d97706; white-space: pre-wrap;">${escapeHTMLPDF(t.var_changed || '')}</td>
+                                    <td style="color: #db2777;">${escapeHTMLPDF(t.condition || '')}</td>
+                                    <td style="color: #059669; font-weight: bold;">${escapeHTMLPDF(t.return_val || '')}</td>
+                                </tr>
+                            `;
+                        });
+                        if (m.trace.length > 30) {
+                            traceTable += `<tr><td colspan="7" class="center" style="font-style: italic;">... (${m.trace.length - 30} more steps hidden) ...</td></tr>`;
+                        }
+                        traceTable += `</table>`;
+                    }
+
+                    mistakeLogHtml += `
+                        <div class="error-box">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <h3 style="margin: 0; font-size: 18px; color: #2c3e50;">Error #${idx + 1}: Drill ${m.levelId} - ${escapeHTMLPDF(m.levelTitle)}</h3>
+                            </div>
+                            <p style="margin: 0 0 10px 0; font-size: 16px; color: #495057;"><strong>Question:</strong> ${formatBlanksPDF(escapeHTMLPDF(m.question))}</p>
+                            <div class="code-block">${highlightPythonForPDFWithLines(m.userCode)}</div>
+                            <div style="margin-top: 10px; font-size: 14px; color: #dc3545;"><strong>Final Output/Error:</strong> <br><pre style="margin: 5px 0 0 0; background: #e9ecef; padding: 10px; border-radius: 3px; border: 1px solid #dee2e6; font-family: 'Courier New', Courier, monospace; color: #721c24; white-space: pre-wrap;">${escapeHTMLPDF(m.actualOutput)}</pre></div>
+                            ${traceTable}
+                        </div>
+                    `;
+                });
+                mistakeLogHtml += '</div>';
+            }
+
+            const htmlContent = `
+                <div style="text-align: center; border-bottom: 3px solid #007bff; padding-bottom: 15px; margin-bottom: 20px;">
+                    <h1 style="color: #2c3e50; margin: 0; font-size: 32px;">Python Mastery</h1>
+                    <h2 style="color: #6c757d; margin: 5px 0 0 0; font-size: 20px; border:none;">Student Progress & Analysis Report</h2>
+                    <p style="color: #adb5bd; font-size: 14px; margin-top: 10px; margin-bottom: 0;">Generated on: ${timestamp}</p>
+                    <p style="color: #adb5bd; font-size: 14px; margin: 5px 0 0 0;">Student Signature: ${hashId}</p>
+                    ${presetDisplay}
+                </div>
+                
+                <table style="width: 100%; border: none; text-align: center;">
+                    <tr style="background-color: transparent;">
+                        <td style="border: none; padding: 15px;">
+                            <div class="metrics-box">
+                                <h3 style="margin: 0 0 5px 0; font-size: 16px;">Curriculum Progress</h3>
+                                <p style="font-size: 32px; color: #007bff; margin: 0; font-weight: bold;">${completedLevels.size} / ${levels.length}</p>
+                                <p style="margin: 0; color: #6c757d; font-size: 14px;">Drills Completed (${completionRate}%)</p>
+                            </div>
+                        </td>
+                        <td style="border: none; padding: 15px;">
+                            <div class="metrics-box">
+                                <h3 style="margin: 0 0 5px 0; font-size: 16px;">Error Frequency</h3>
+                                <p style="font-size: 32px; color: #dc3545; margin: 0; font-weight: bold;">${mistakeLog.length}</p>
+                                <p style="margin: 0; color: #6c757d; font-size: 14px;">Incorrect Executions Logged</p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="margin-bottom: 20px;">
+                    <h2 style="color: #2c3e50; border-bottom: 2px solid #dee2e6; padding-bottom: 5px; margin-bottom: 10px; font-size: 24px;">AI Weakness Analysis</h2>
+                    <div style="line-height: 1.6; color: #495057; font-size: 16px;">
+                        ${currentAnalysisHtml}
+                    </div>
+                </div>
+
+                ${tocHtml}
+                ${drillsHtml}
+                ${mistakeLogHtml}
+
+                <div style="margin-top: 30px; text-align: center; color: #adb5bd; font-size: 12px; border-top: 1px solid #dee2e6; padding-top: 15px;">
+                    <p>Keep going! by AK :)</p>
+                </div>
+            `;
+            
+            let c = currentPresetName ? currentPresetName.replace(/\.json$/i, '') : 'Custom';
+            setTimeout(() => { printHTML("Py_Prog_Report_" + timestamp + "_" + c + "_" + hashId  + "_" + completedLevels.size + "_" + levels.length + "_" + trial, htmlContent); }, delay);
+        }
+
+    </script>
+</body>
+</html>
