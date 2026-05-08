@@ -76,7 +76,7 @@
     "title": "Advanced: print inline stars",
     "skill": "Loops, end parameter",
     "difficulty": "Beginner",
-    "question": "Use nested loops and print(..., end='') to produce three lines with 3, 2 and 1 stars respectively.",
+    "question": "Use for loop and print(..., end='') to produce three lines with 3, 2 and 1 stars respectively.",
     "initialCode": "for i in range(___):\n    print(\"*\" ___ ___, end=\"\")\n",
     "expectedOutput": "***\n**\n*"
   },
