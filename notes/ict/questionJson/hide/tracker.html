@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Class Monitor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        
+        .status-cell { 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+            min-width: 54px; 
+            height: 44px;
+            text-align: center; 
+            font-weight: 800; 
+            font-size: 14px;
+            border-bottom: 1px solid #eef2f6;
+            border-left: 1px solid #eef2f6;
+        }
+        
+        .status-pass { background-color: #059669; color: white; transform: scale(1.05); z-index: 1; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); } 
+        .status-fail { background-color: #dc2626; color: white; } 
+        .status-fallback { background-color: #d97706; color: white; } 
+        .status-none { background-color: #ffffff; color: #f1f5f9; } 
+        
+        .sticky-col-1 { position: sticky; left: 0; background: white; z-index: 10; width: 100px; border-right: 1px solid #e2e8f0; }
+        .sticky-col-2 { position: sticky; left: 100px; background: white; z-index: 10; width: 220px; border-right: 1px solid #e2e8f0; }
+        .sticky-col-3 { position: sticky; left: 320px; background: white; z-index: 10; width: 120px; border-right: 2px solid #cbd5e1; }
+        
+        .table-container { max-height: calc(100vh - 250px); overflow: auto; border-radius: 12px; }
+        
+        .sort-active { background-color: #4f46e5 !important; color: white !important; }
+        
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-[#f8fafc] text-slate-900">
+
+<div class="max-w-[1600px] mx-auto p-6">
+    <header class="mb-8 flex flex-col xl:flex-row xl:items-end justify-between gap-6">
+        <div>
+            <div class="flex items-center gap-3 mb-2">
+                <div class="bg-indigo-600 p-2 rounded-lg shadow-lg shadow-indigo-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-[800] text-slate-900 tracking-tight">Analytics Dashboard</h1>
+            </div>
+            <div id="connectionStatus" class="flex items-center gap-2">
+                <span id="statusIndicator" class="w-3 h-3 rounded-full bg-slate-300 animate-pulse"></span>
+                <span id="statusText" class="text-xs font-bold text-slate-500 uppercase tracking-widest">Initialising...</span>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-4">
+            <div class="flex flex-col gap-1">
+                <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Current Exercise</label>
+                <select id="exerciseSelect" class="bg-white border-2 border-slate-200 rounded-xl px-4 py-2.5 text-sm font-semibold outline-none focus:border-indigo-500 transition-all min-w-[300px] shadow-sm">
+                    <option value="">Fetching live data...</option>
+                </select>
+            </div>
+
+            <div class="flex flex-col gap-1">
+                <label class="text-[10px] font-bold text-slate-400 uppercase ml-1">Sort By</label>
+                <div class="flex bg-white rounded-xl p-1 border-2 border-slate-200 shadow-sm">
+                    <button id="sortByClass" class="px-4 py-1.5 text-xs font-bold rounded-lg transition-all sort-active">CLASS</button>
+                    <button id="sortByScore" class="px-4 py-1.5 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-slate-600">SCORE</button>
+                </div>
+            </div>
+
+            <button id="exportCsv" class="mt-5 bg-slate-900 hover:bg-black text-white px-6 py-3 rounded-xl text-sm font-bold transition-all flex items-center gap-2 shadow-lg hover:-translate-y-0.5 active:translate-y-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Export
+            </button>
+        </div>
+    </header>
+
+    <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 border border-slate-200 overflow-hidden">
+        <div class="table-container">
+            <table class="w-full text-left border-separate border-spacing-0" id="mainTable">
+                <thead class="bg-slate-50 sticky top-0 z-20">
+                    <tr id="tableHeaderRow">
+                        <th class="px-6 py-4 sticky-col-1 border-b-2 border-slate-200 bg-slate-50 text-xs font-black text-slate-500 uppercase">Class/No</th>
+                        <th class="px-6 py-4 sticky-col-2 border-b-2 border-slate-200 bg-slate-50 text-xs font-black text-slate-500 uppercase">English Name</th>
+                        <th class="px-6 py-4 sticky-col-3 border-b-2 border-slate-200 bg-slate-50 text-xs font-black text-slate-500 uppercase">Nickname</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getFirestore, collection, onSnapshot, query } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+    const supabaseUrl = 'https://ndjodjiuydlsysltawwu.supabase.co';
+    const supabaseKey = 'sb_publishable_MmpFp2Aymzj0-VorP1Sh6Q_68HA-PGZ';
+    const firebaseConfig = {
+        apiKey: "AIzaSyCXFvwwRsJIAEZ5BravKpyCBJUqGs7e5aE",
+        authDomain: "pyjudgedb.firebaseapp.com",
+        projectId: "pyjudgedb",
+        storageBucket: "pyjudgedb.firebasestorage.app",
+        messagingSenderId: "800188954716",
+        appId: "1:800188954716:web:389112a43ef5dceb220e99"
+    };
+
+    let students = [];
+    let questions = [];
+    let recordsMap = {}; 
+    let currentExerciseName = "";
+    let sortMode = 'class';
+    let unsubscribeRecords = null;
+
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    const fbApp = initializeApp(firebaseConfig);
+    const db = getFirestore(fbApp);
+    const auth = getAuth(fbApp);
+
+    async function init() {
+        try {
+            await signInAnonymously(auth);
+            // Load students from local cache (monthly) to avoid fetching every load
+            const cacheKey = 'students_cache_v1';
+            const cached = localStorage.getItem(cacheKey);
+            let useCache = false;
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    if (parsed && parsed.timestamp && parsed.data) {
+                        const ts = new Date(parsed.timestamp);
+                        const now = new Date();
+                        // refresh when month or year changes
+                        if (ts.getFullYear() === now.getFullYear() && ts.getMonth() === now.getMonth()) {
+                            students = parsed.data;
+                            useCache = true;
+                        }
+                    }
+                } catch (e) {
+                    console.warn('students cache parse failed', e);
+                }
+            }
+
+            if (!useCache) {
+                const { data, error } = await supabase.from('student').select('*');
+                if (error) throw error;
+                students = data.map(s => {
+                    const sid = s.mail ? s.mail.split('@')[0].replace('s', '') : '';
+                    return {
+                        ...s,
+                        sid: sid, // Stripping 's' if present to match Firestore numeric-style strings
+                        classNoFormatted: `${s.class}${String(s.classno).padStart(2, '0')}`,
+                        score: 0
+                    };
+                });
+                try {
+                    localStorage.setItem(cacheKey, JSON.stringify({ timestamp: new Date().toISOString(), data: students }));
+                } catch (e) { console.warn('failed to write students cache', e); }
+            }
+
+            await fetchGitHubExercises();
+            updateStatus('Syncing Supabase', 'green');
+        } catch (err) {
+            console.error(err);
+            updateStatus('Connection Error', 'red');
+        }
+    }
+
+    async function fetchGitHubExercises() {
+        const dirUrl = 'https://api.github.com/repos/Iketsuki/know/contents/notes/ict/questionJson?ref=Python';
+        try {
+            const response = await fetch(dirUrl);
+            const files = await response.json();
+            const select = document.getElementById('exerciseSelect');
+            select.innerHTML = '<option value="">-- Choose Module --</option>';
+            
+            files.filter(f => f.name.endsWith('.json')).forEach(file => {
+                const name = file.name.replace('.json', '');
+                const opt = new Option(name, file.download_url);
+                opt.dataset.name = name;
+                select.add(opt);
+            });
+
+            select.onchange = (e) => {
+                const url = e.target.value;
+                const name = e.target.options[e.target.selectedIndex].dataset.name;
+                if (url) syncExercise(url, name);
+            };
+        } catch (err) {
+            updateStatus('GitHub Error', 'red');
+        }
+    }
+
+    async function syncExercise(url, name) {
+        currentExerciseName = name;
+        recordsMap = {};
+        updateStatus('Loading Questions...', 'yellow');
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            
+            // Determine question IDs. If JSON is an array and last item has an id/qid,
+            // assume questions are numbered 1..N where N is that last id.
+            if (Array.isArray(data) && data.length > 0) {
+                const last = data[data.length - 1];
+                const lastId = parseInt(last?.qid || last?.id || last?.qid_raw || last?.number);
+                if (!isNaN(lastId) && lastId > 0) {
+                    questions = Array.from({ length: lastId }, (_, i) => i + 1);
+                } else {
+                    // fallback: extract any ids present
+                    questions = data.map(q => parseInt(q.qid || q.id)).filter(id => !isNaN(id)).sort((a,b)=>a-b);
+                }
+            } else {
+                const arr = Array.isArray(data) ? data : (data.questions || []);
+                questions = arr.map(q => parseInt(q.qid || q.id)).filter(id => !isNaN(id)).sort((a,b)=>a-b);
+            }
+            
+            startLiveJoin(name);
+        } catch (err) {
+            updateStatus('JSON Error', 'red');
+        }
+    }
+
+    function startLiveJoin(githubName) {
+        // Support listening to both 'records' and 'pyPass' collections and merge results
+        if (unsubscribeRecords) unsubscribeRecords();
+        updateStatus('Listening Firestore...', 'yellow');
+
+        const collNames = ['records', 'pyPass'];
+        const unsubscribers = [];
+
+        collNames.forEach(collName => {
+            try {
+                const q = query(collection(db, collName));
+                const unsub = onSnapshot(q, (snapshot) => {
+                    snapshot.docs.forEach(doc => {
+                        const data = doc.data();
+                        const recordExercise = (data.exercise || "").toString();
+
+                        // Normalize and perform tolerant substring match (both directions)
+                        const normalize = s => String(s || '').toLowerCase().replace(/\.json$/i, '').replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+                        const recNorm = normalize(recordExercise);
+                        const githubNorm = normalize(githubName);
+                        const directMatch = recordExercise.toLowerCase().includes(githubName.toLowerCase());
+                        const reverseMatch = githubName.toLowerCase().includes(recordExercise.toLowerCase());
+                        const normMatch = recNorm && githubNorm && (recNorm.includes(githubNorm) || githubNorm.includes(recNorm));
+                        if (!(directMatch || reverseMatch || normMatch)) return;
+
+                        // Normalize SID: prefer digits from data.sid, otherwise try doc.id prefix
+                        const sidRaw = data.sid !== undefined && data.sid !== null ? String(data.sid) : '';
+                        let normalized = (sidRaw.match(/\d+/) || [sidRaw.replace(/[^\d]/g, '') || ''])[0] || '';
+                        if (!normalized) {
+                            // try to extract from document id pattern like '350_exercise_1'
+                            const docId = doc.id || '';
+                            normalized = (docId.match(/\d+/) || [''])[0];
+                        }
+                        if (!normalized) return; // cannot determine sid
+
+                        const qid = parseInt(data.qid);
+                        if (isNaN(qid)) return;
+
+                        const recordTime = (() => {
+                            if (data.created_at && data.created_at.seconds) return data.created_at.seconds;
+                            if (data.created_at && data.created_at._seconds) return data.created_at._seconds;
+                            // sometimes created_at stored as ISO string
+                            if (typeof data.created_at === 'string') return Math.floor(new Date(data.created_at).getTime() / 1000) || 0;
+                            return 0;
+                        })();
+
+                        let status = 'none';
+                        if (data.fallback === true || String(data.fallback) === 'true') status = 'fallback';
+                        else if (data.passed === true || String(data.passed) === 'true') status = 'passed';
+                        else if (data.passed === false || String(data.passed) === 'false') status = 'failed';
+
+                        // create both key variants so matching is tolerant
+                        const keys = [`${normalized}-${qid}`, `s${normalized}-${qid}`];
+                        keys.forEach(key => {
+                            const existing = recordsMap[key];
+                            if (!existing || recordTime >= existing.timestamp) {
+                                recordsMap[key] = {
+                                    status,
+                                    timestamp: recordTime,
+                                    rawSid: normalized,
+                                    srcCollection: collName,
+                                    docId: doc.id
+                                };
+                            }
+                        });
+                        console.debug('record mapped', { sid: normalized, qid, status, docId: doc.id, exercise: recordExercise });
+                    });
+
+                    calculateScores();
+                    renderTable();
+                    updateStatus('Live Tracking', 'green');
+                }, (err) => {
+                    console.error(`Firestore error on ${collName}:`, err);
+                    updateStatus('Sync Error', 'red');
+                });
+
+                unsubscribers.push(unsub);
+            } catch (e) {
+                console.warn('startLiveJoin subscribe failed for', collName, e);
+            }
+        });
+
+        unsubscribeRecords = () => unsubscribers.forEach(u => u && u());
+    }
+
+    function calculateScores() {
+        students.forEach(student => {
+            let passedCount = 0;
+            questions.forEach(qid => {
+                // Try matching with both "350" and "s350" styles
+                const record = recordsMap[`${student.sid}-${qid}`] || recordsMap[`s${student.sid}-${qid}`];
+                if (record && (record.status === 'passed' || record.status === 'fallback')) {
+                    passedCount++;
+                }
+            });
+            student.score = passedCount;
+        });
+    }
+
+    function renderTable() {
+        const sortedStudents = [...students].sort((a, b) => {
+            if (sortMode === 'score') {
+                if (b.score !== a.score) return b.score - a.score;
+            }
+            return a.classNoFormatted.localeCompare(b.classNoFormatted);
+        });
+
+        const header = document.getElementById('tableHeaderRow');
+        const body = document.getElementById('tableBody');
+        
+        header.innerHTML = `
+            <th class="px-6 py-4 sticky-col-1 border-b-2 border-slate-200 bg-slate-50 text-[11px] font-black text-slate-400 uppercase">Class/No</th>
+            <th class="px-6 py-4 sticky-col-2 border-b-2 border-slate-200 bg-slate-50 text-[11px] font-black text-slate-400 uppercase">English Name</th>
+            <th class="px-6 py-4 sticky-col-3 border-b-2 border-slate-200 bg-slate-50 text-[11px] font-black text-slate-400 uppercase">Nickname</th>
+        `;
+
+        questions.forEach(qid => {
+            const th = document.createElement('th');
+            th.className = "px-2 py-4 text-center border-b-2 border-l border-slate-100 text-[10px] font-black text-slate-400 bg-slate-50";
+            th.innerHTML = `Q${qid}`;
+            header.appendChild(th);
+        });
+
+        body.innerHTML = '';
+        sortedStudents.forEach(student => {
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-slate-50 transition-colors group";
+            
+            let cells = `
+                <td class="px-6 py-3 sticky-col-1 border-b border-slate-100 text-sm font-black text-indigo-600 bg-white group-hover:bg-slate-50">${student.classNoFormatted}</td>
+                <td class="px-6 py-3 sticky-col-2 border-b border-slate-100 text-[15px] font-bold text-slate-700 bg-white group-hover:bg-slate-50 truncate">${student.ename}</td>
+                <td class="px-6 py-3 sticky-col-3 border-b border-slate-100 text-sm font-semibold text-slate-400 italic bg-white group-hover:bg-slate-50">${student.nickname || '-'}</td>
+            `;
+
+            questions.forEach(qid => {
+                const record = recordsMap[`${student.sid}-${qid}`] || recordsMap[`s${student.sid}-${qid}`];
+                const status = record ? record.status : 'none';
+                let content = '-';
+                let cssClass = 'status-none';
+                
+                if (status === 'passed') { content = '✓'; cssClass = 'status-pass'; }
+                else if (status === 'fallback') { content = 'FB'; cssClass = 'status-fallback'; }
+                else if (status === 'failed') { content = '✕'; cssClass = 'status-fail'; }
+
+                cells += `<td class="status-cell ${cssClass}">${content}</td>`;
+            });
+
+            tr.innerHTML = cells;
+            body.appendChild(tr);
+        });
+    }
+
+    function exportToCsv() {
+        if (questions.length === 0) return;
+        let csv = "ClassNo,EnglishName,Nickname,Score," + questions.map(q => `Q${q}`).join(",") + "\n";
+        
+        students.forEach(student => {
+            const rowStatus = questions.map(qid => {
+                const record = recordsMap[`${student.sid}-${qid}`] || recordsMap[`s${student.sid}-${qid}`];
+                return (record ? record.status : '-').toUpperCase();
+            });
+            csv += `${student.classNoFormatted},"${student.ename}","${student.nickname || ''}",${student.score},${rowStatus.join(",")}\n`;
+        });
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = `Results_${currentExerciseName}.csv`;
+        link.click();
+    }
+
+    function updateStatus(text, color) {
+        const indicator = document.getElementById('statusIndicator');
+        const statusText = document.getElementById('statusText');
+        statusText.innerText = text;
+        const colors = { green: 'bg-emerald-500', yellow: 'bg-amber-400', red: 'bg-rose-500' };
+        indicator.className = `w-3 h-3 rounded-full ${colors[color] || 'bg-slate-300'}`;
+        if (color === 'green') indicator.classList.remove('animate-pulse');
+    }
+
+    document.getElementById('sortByClass').onclick = () => {
+        sortMode = 'class';
+        document.getElementById('sortByClass').classList.add('sort-active');
+        document.getElementById('sortByScore').classList.remove('sort-active');
+        document.getElementById('sortByScore').classList.add('text-slate-400');
+        renderTable();
+    };
+
+    document.getElementById('sortByScore').onclick = () => {
+        sortMode = 'score';
+        document.getElementById('sortByScore').classList.add('sort-active');
+        document.getElementById('sortByClass').classList.remove('sort-active');
+        document.getElementById('sortByClass').classList.add('text-slate-400');
+        renderTable();
+    };
+
+    document.getElementById('exportCsv').addEventListener('click', exportToCsv);
+    init();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Mastery: Loop Logic & Patterns (AI Edition)</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Pyodide for Browser-based Python Execution -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+
+    <!-- CodeMirror for syntax highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/python/python.min.js"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- html2pdf for Direct Mobile PDF Downloads -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        /* Theme Variables */
+        :root {
+            --app-bg: #0f172a;
+            --app-text: #f8fafc;
+            --panel-bg: #1e293b;
+            --panel-border: #334155;
+            
+            --sidebar-bg: #0f172a;
+            --sidebar-border: #334155;
+            --sidebar-text: #94a3b8;
+            --sidebar-active-bg: #1e293b;
+            --sidebar-active-text: #eab308;
+            --sidebar-active-border: #eab308;
+            
+            --header-bg: #020617;
+            --header-border: #eab308;
+            --header-text: #ffffff;
+            
+            --coding-bg: #0f172a;
+            --coding-text: #cbd5e1;
+            --coding-border: #334155;
+            --target-bg: rgba(30, 41, 59, 0.5);
+            --target-text: #facc15;
+            --sys-msg: #94a3b8;
+            --success-msg: #4ade80;
+            --error-msg: #f87171;
+            --debug-msg: #c084fc;
+            --var-name: #93c5fd;
+            --var-val: #fde047;
+        }
+
+        .theme-light {
+            --app-bg: #f8fafc;
+            --app-text: #0f172a;
+            --panel-bg: #ffffff;
+            --panel-border: #e2e8f0;
+            
+            --sidebar-bg: #ffffff;
+            --sidebar-border: #e2e8f0;
+            --sidebar-text: #475569;
+            --sidebar-active-bg: #eff6ff;
+            --sidebar-active-text: #1d4ed8;
+            --sidebar-active-border: #3b82f6;
+            
+            --header-bg: #ffffff;
+            --header-border: #3b82f6;
+            --header-text: #0f172a;
+            
+            --coding-bg: #ffffff;
+            --coding-text: #334155;
+            --coding-border: #cbd5e1;
+            --target-bg: #f8fafc;
+            --target-text: #2563eb;
+            --sys-msg: #64748b;
+            --success-msg: #16a34a;
+            --error-msg: #dc2626;
+            --debug-msg: #9333ea;
+            --var-name: #2563eb;
+            --var-val: #d97706;
+        }
+
+        .txt-sys { color: var(--sys-msg); }
+        .txt-success { color: var(--success-msg); }
+        .txt-error { color: var(--error-msg); }
+        .txt-debug { color: var(--debug-msg); }
+        .txt-var-name { color: var(--var-name); }
+        .txt-var-val { color: var(--var-val); }
+
+        /* Resizable Workspace Containers */
+        .resize-vertical { resize: vertical; overflow: auto; }
+        .resize-horizontal { resize: horizontal; overflow: auto; }
+        .resize-both { resize: both; overflow: auto; }
+        
+        .sidebar-container { min-width: 250px; max-width: 85vw; }
+        
+        /* Fixed base heights to ensure resize works */
+        .editor-container { min-height: 150px; height: 350px; flex: none; }
+        .debugger-container { min-height: 150px; height: 350px; flex: none; }
+        .terminal-container { min-height: 150px; height: 350px; flex: none; }
+
+        .cm-wrapper {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            min-height: 100px;
+        }
+        
+        .CodeMirror {
+            position: absolute;
+            top: 0; bottom: 0; left: 0; right: 0;
+            height: 100% !important;
+            border-radius: 0 0 0.5rem 0.5rem;
+            font-size: 24px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        .CodeMirror-gutters {
+            border-right: 1px solid #475569;
+            background-color: #1e293b;
+            z-index: 3;
+        }
+        
+        /* VS Code Light Theme Customization for CodeMirror */
+        .theme-light .CodeMirror { background-color: #ffffff; color: #000000; }
+        .theme-light .CodeMirror-gutters { background-color: #f3f3f3; border-right: 1px solid #d4d4d4; }
+        .theme-light .CodeMirror-linenumber { color: #237893; }
+        .theme-light .cm-keyword { color: #0000ff; font-weight: normal; }
+        .theme-light .cm-operator { color: #000000; }
+        .theme-light .cm-variable, .theme-light .cm-variable-2, .theme-light .cm-variable-3 { color: #001080; }
+        .theme-light .cm-builtin, .theme-light .cm-def, .theme-light .cm-property { color: #795e26; }
+        .theme-light .cm-string, .theme-light .cm-string-2 { color: #a31515; }
+        .theme-light .cm-number { color: #098658; }
+        .theme-light .cm-comment { color: #008000; font-style: italic; }
+        .theme-light .cm-meta { color: #ff0000; }
+        .theme-light .CodeMirror-cursor { border-left: 2px solid #000000; }
+        .theme-light .CodeMirror-selected { background: #add6ff !important; }
+        .theme-light .CodeMirror-line::selection, .theme-light .CodeMirror-line > span::selection, .theme-light .CodeMirror-line > span > span::selection { background: #add6ff; }
+
+        .cm-fill-in-blank { background-color: #fde047; color: #854d0e !important; font-weight: bold; border-radius: 2px; }
+        .cm-debug-line { background-color: rgba(168, 85, 247, 0.4) !important; border-left: 4px solid #a855f7; }
+        .blank-highlight { background-color: #fde047; color: #854d0e; font-weight: bold; padding: 0 4px; border-radius: 4px; font-family: monospace; }
+
+        /* UI Variable Highlighting for Debugger */
+        .var-changed-row {
+            font-weight: bold;
+            background-color: rgba(51, 65, 89, 0.8);
+            color: #f8fafc;
+            padding: 4px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        .theme-light .var-changed-row {
+            background-color: #fef08a; /* Yellow 200 */
+            color: #0f172a;
+        }
+        .active-output-step {
+            background-color: rgba(51, 65, 89, 0.5); 
+            color: inherit;
+            display: block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .theme-light .active-output-step {
+            background-color: #fef08a; 
+            color: #0f172a; 
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--panel-bg); }
+        ::-webkit-scrollbar-thumb { background: var(--panel-border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--sys-msg); }
+        .theme-light ::-webkit-scrollbar-track { background: #f1f5f9; }
+        .theme-light ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+        .theme-light ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        
+        .tab-active { border-bottom: 2px solid var(--header-border); color: var(--sidebar-active-text) !important; background-color: var(--sidebar-active-bg) !important; }
+        
+        /* Typography alignment for code elements */
+        #terminal-output, #expected-preview, #stdin-input, #debug-vars {
+            font-family: 'Courier New', Courier, monospace; font-size: 24px; line-height: 1.2;
+        }
+        #terminal-output, #expected-preview { white-space: pre-wrap; word-wrap: break-word; }
+        
+        /* Loading Spinner */
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #3b82f6; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .markdown-body p { margin-bottom: 0.75rem; }
+        .markdown-body code { background: #f1f5f9; padding: 2px 4px; border-radius: 4px; font-family: monospace; color: #db2777; }
+        .markdown-body pre { background: #1e293b; color: #e2e8f0; padding: 10px; border-radius: 6px; overflow-x: auto; margin-bottom: 1rem; }
+        .markdown-body pre code { background: transparent; color: inherit; padding: 0; }
+        .markdown-body h2 { font-size: 1.25rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #1e293b; border-bottom: 1px solid #e2e8f0; padding-bottom: 4px; }
+        .markdown-body h3 { font-size: 1.1rem; font-weight: bold; margin-top: 1rem; margin-bottom: 0.5rem; color: #334155; }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; }
+        .markdown-body li { margin-bottom: 0.25rem; }
+    </style>
+</head>
+<body class="h-screen flex flex-col font-sans overflow-hidden theme-light transition-colors duration-300" style="background-color: var(--app-bg); color: var(--app-text);">
+
+    <!-- Initial Login Overlay -->
+    <div id="login-modal" class="absolute inset-0 z-[110] bg-slate-900 flex items-center justify-center backdrop-blur-sm p-6 fixed hidden">
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center border-t-8 border-blue-500">
+            <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fa-solid fa-user-graduate text-blue-600 text-3xl"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-2">Welcome to Python Mastery</h2>
+            <p class="text-slate-600 mb-6 text-sm">Please enter your numeric Student ID to load your history and start practicing.</p>
+            
+            <input type="number" id="login-sid" placeholder="e.g. 12345678" class="w-full px-4 py-3 rounded border border-slate-300 mb-4 focus:ring-2 focus:ring-blue-500 outline-none text-center font-bold text-lg" onkeypress="return event.charCode >= 48 && event.charCode <= 57">
+            
+            <button onclick="submitLogin()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors shadow-md">
+                Start Learning
+            </button>
+        </div>
+    </div>
+
+    <!-- Drag & Drop Overlay -->
+    <div id="drag-drop-overlay" class="absolute inset-0 z-[100] bg-blue-900/90 hidden flex-col items-center justify-center text-white backdrop-blur-sm transition-all pointer-events-none">
+        <i class="fa-solid fa-file-import text-6xl mb-4 animate-bounce"></i>
+        <h2 class="text-3xl font-bold tracking-wider">Drop JSON file here</h2>
+        <p class="text-blue-200 mt-2 text-lg">Automatically parses Progress Logs or Question Data.</p>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="absolute inset-0 z-50 bg-slate-900 flex flex-col items-center justify-center text-white transition-opacity duration-500">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python Logo" class="w-24 h-24 mb-6 animate-pulse">
+        <div class="loader mb-4"></div>
+        <h2 class="text-2xl font-bold tracking-wider mb-2">Initializing Python Engine...</h2>
+        <div id="loading-status" class="text-slate-400 text-sm max-w-lg text-center leading-relaxed">
+            Downloading WebAssembly CPython <br>(This takes a moment on first load)
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="p-3 md:p-4 shadow-md flex justify-between items-center shrink-0 border-b-4 z-20 relative transition-colors duration-300" style="background-color: var(--header-bg); color: var(--header-text); border-color: var(--header-border);">
+        <div class="flex items-center gap-3">
+            <button onclick="toggleSidebar()" class="text-inherit opacity-70 hover:opacity-100 transition mr-1" title="Toggle Sidebar">
+                <i id="sidebar-toggle-icon" class="fa-solid fa-bars text-xl"></i>
+            </button>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python" class="w-8 h-8 hidden md:block">
+            <h1 class="text-xl font-bold tracking-wide hidden lg:block">Python Mastery <span class="text-sm font-normal ml-2 opacity-70">AI-Assisted Learning</span></h1>
+        </div>
+
+        <!-- TOP CONTROLS (ALWAYS VISIBLE) -->
+        <div class="flex items-center gap-1 md:gap-2 mx-auto lg:mx-0">
+             <button onclick="executePython()" id="btn-run-top" class="bg-green-600 hover:bg-green-500 text-white px-3 py-1.5 rounded shadow text-xs font-bold transition flex items-center gap-1 disabled:opacity-50">
+                 <i class="fa-solid fa-play"></i> <span class="hidden sm:inline">Run</span>
+             </button>
+             <button onclick="startDebug()" id="btn-debug-top" class="bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded shadow text-xs font-bold transition flex items-center gap-1 disabled:opacity-50">
+                 <i class="fa-solid fa-bug"></i> <span class="hidden sm:inline">Debug</span>
+             </button>
+             <button onclick="resetEditor()" class="bg-slate-500 hover:bg-red-500 text-white px-3 py-1.5 rounded shadow text-xs font-bold transition flex items-center gap-1">
+                 <i class="fa-solid fa-rotate-left"></i> <span class="hidden sm:inline">Reset</span>
+             </button>
+        </div>
+
+        <div class="flex items-center gap-2 sm:gap-4">
+            <button onclick="openWeaknessModal()" class="text-sm bg-indigo-600 hover:bg-indigo-500 text-white px-3 sm:px-4 py-1.5 rounded-lg shadow font-medium transition flex items-center gap-2">
+                <i class="fa-solid fa-cloud-arrow-up"></i> <span class="hidden md:inline-block">SAVE & Analysis</span><span class="md:hidden">Save</span>
+            </button>
+            <div class="text-sm font-medium px-3 sm:px-4 py-1.5 rounded-full border transition-colors duration-300 hidden sm:block" style="background-color: var(--panel-bg); border-color: var(--panel-border);">
+                <span id="progress-text" class="font-bold" style="color: var(--header-border);">0/1</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex flex-1 overflow-hidden relative">
+        
+        <!-- Mobile Sidebar Overlay -->
+        <div id="mobile-overlay" class="fixed inset-0 bg-slate-900/50 z-30 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar (Responsive & Resizable) -->
+        <aside id="sidebar" class="absolute z-40 inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 w-[85%] sm:w-96 md:w-96 md:resize-horizontal sidebar-container border-r flex flex-col shrink-0 shadow-2xl md:shadow-lg transition-transform duration-300" style="background-color: var(--sidebar-bg); border-color: var(--sidebar-border); color: var(--sidebar-text);">
+            <!-- Tabs -->
+            <div class="flex border-b shrink-0" style="border-color: var(--sidebar-border);">
+                <button onclick="switchTab('practice')" id="tab-practice" class="flex-1 py-3 text-sm font-bold transition-colors tab-active" style="color: var(--sidebar-text);">
+                    <i class="fa-solid fa-list-check mr-2"></i> Drills
+                </button>
+                <button onclick="switchTab('cheatsheet')" id="tab-cheatsheet" class="flex-1 py-3 text-sm font-bold transition-colors" style="color: var(--sidebar-text);">
+                    <i class="fa-solid fa-book mr-2"></i> AI Cheatsheet
+                </button>
+            </div>
+
+            <!-- Practice List Tab Content -->
+            <div id="content-practice" class="flex-1 flex flex-col relative overflow-hidden">
+                <div class="p-3 border-b shrink-0 z-10 shadow-sm transition-colors duration-300" style="background-color: var(--panel-bg); border-color: var(--panel-border);">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <i class="fa-solid fa-magnifying-glass text-slate-400 text-sm"></i>
+                        </div>
+                        <input type="text" id="drill-search" oninput="renderLevelList()" class="border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-9 py-2 transition-colors duration-300" style="background-color: var(--app-bg); color: var(--app-text); border-color: var(--panel-border);" placeholder="Search drills...">
+                    </div>
+                </div>
+
+                <!-- Levels injected via JS -->
+                <div id="level-list-container" class="flex-1 space-y-1 overflow-y-auto p-2 pb-4"></div>
+                
+                <!-- Bottom Sticky Buttons for Drill Management -->
+                <div class="shrink-0 p-3 border-t flex flex-wrap gap-2 sticky bottom-0 transition-colors duration-300" style="background-color: var(--sidebar-bg); border-color: var(--sidebar-border);">
+                    <button onclick="openPresetsModal()" class="flex-1 bg-blue-600 text-white text-xs font-bold py-2.5 rounded shadow hover:bg-blue-500 transition flex justify-center items-center gap-1 min-w-[28%]">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Presets
+                    </button>
+                    <button onclick="openCustomQuestionModal()" class="flex-1 bg-indigo-600 text-white text-xs font-bold py-2.5 rounded shadow hover:bg-indigo-500 transition flex justify-center items-center gap-1 min-w-[28%]">
+                        <i class="fa-solid fa-plus"></i> Custom
+                    </button>
+                    <button onclick="toggleDataModal()" class="flex-1 border text-xs font-bold py-2.5 rounded shadow-sm transition flex justify-center items-center gap-1 min-w-[28%]" style="background-color: var(--panel-bg); border-color: var(--panel-border); color: var(--app-text);">
+                        <i class="fa-solid fa-file-import"></i> Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cheatsheet Content -->
+            <div id="content-cheatsheet" class="flex-1 overflow-y-auto p-4 hidden flex flex-col relative" style="background-color: var(--app-bg);">
+                <div class="text-center mb-4">
+                    <button onclick="generateAICheatsheet()" id="btn-generate-cheatsheet" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 rounded-lg transition shadow-md flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Custom Cheatsheet
+                    </button>
+                    <p class="text-xs mt-2" style="color: var(--sys-msg);">AI will analyze all current drills and write a guide just for you!</p>
+                </div>
+                <div id="cheatsheet-content" class="markdown-body text-sm rounded-lg border shadow-sm min-h-[200px] p-4 transition-colors duration-300" style="background-color: var(--panel-bg); border-color: var(--panel-border); color: var(--app-text);">
+                    <div class="text-center italic py-10" style="color: var(--sys-msg);">
+                        <i class="fa-solid fa-book-open text-4xl mb-3 opacity-20 block"></i>
+                        No cheatsheet generated yet.
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace (Scrollable) -->
+        <main class="flex-1 min-w-0 overflow-y-auto overflow-x-hidden relative flex flex-col transition-colors duration-300" style="background-color: var(--app-bg);">
+            
+            <!-- Question Area -->
+            <div class="p-4 md:p-6 border-b shadow-sm shrink-0 transition-colors duration-300" style="background-color: var(--panel-bg); border-color: var(--panel-border);">
+                <div class="flex justify-between items-start mb-2">
+                    <span class="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded uppercase tracking-wide" id="level-badge">Drill 1</span>
+                    <span class="text-xs font-mono px-2 py-1 rounded border transition-colors duration-300" id="skill-badge" style="background-color: var(--app-bg); border-color: var(--panel-border); color: var(--sys-msg);">#basics</span>
+                </div>
+                <h2 id="question-text" class="text-lg md:text-xl font-bold mt-2 leading-relaxed transition-colors duration-300" style="color: var(--app-text);">Loading environment...</h2>
+            </div>
+
+            <!-- Dynamic Editor / Debugger Section -->
+            <div id="editor-debug-section" class="p-4 md:p-6 border-b flex flex-col gap-4 shrink-0 transition-all duration-300" style="border-color: var(--panel-border);">
+                
+                <!-- Left Wrapper (Code Space & Input) -->
+                <div id="editor-left-pane" class="flex flex-col gap-4 transition-all w-full flex-none overflow-hidden pb-2 md:pb-0">
+                    
+                    <!-- Editor Container -->
+                    <div class="shadow-md rounded-lg border flex flex-col transition-colors resize-vertical editor-container" style="border-color: var(--coding-border); background-color: var(--coding-bg);">
+                        <!-- Editor Header -->
+                        <div class="px-3 md:px-4 py-2 flex items-center justify-between border-b shrink-0 transition-colors" style="background-color: var(--panel-bg); border-color: var(--coding-border);">
+                            
+                            <div class="flex items-center gap-2">
+                                <div class="w-3 h-3 rounded-full bg-red-500 hidden sm:block"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500 hidden sm:block"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500 hidden sm:block"></div>
+                                <span class="ml-1 md:ml-2 text-xs font-mono txt-sys">main.py</span>
+                            </div>
+                            
+                            <div class="flex items-center gap-1 md:gap-2">
+                                <button onclick="executePython()" id="btn-run" class="bg-green-600 hover:bg-green-500 text-white px-2 py-1 rounded shadow text-xs font-bold transition flex items-center gap-1 disabled:opacity-50">
+                                    <i class="fa-solid fa-play"></i> <span id="run-text" class="hidden sm:inline">Run</span>
+                                </button>
+                                <button onclick="startDebug()" id="btn-debug" class="bg-purple-600 hover:bg-purple-500 text-white px-2 py-1 rounded shadow text-xs font-bold transition flex items-center gap-1 disabled:opacity-50">
+                                    <i class="fa-solid fa-bug"></i> <span id="debug-text" class="hidden sm:inline">Debug</span>
+                                </button>
+                                <button onclick="resetEditor()" class="bg-slate-500 hover:bg-red-500 text-white px-2 py-1 rounded shadow text-xs font-bold transition flex items-center gap-1">
+                                    <i class="fa-solid fa-rotate-left"></i> <span class="hidden sm:inline">Reset</span>
+                                </button>
+                                
+                                <div class="w-px h-4 mx-1" style="background-color: var(--coding-border);"></div>
+                                
+                                <button onclick="changeFontSize(-1)" class="txt-sys hover:text-blue-500 transition" title="Decrease Font Size"><i class="fa-solid fa-minus text-[10px]"></i></button>
+                                <span class="txt-sys text-xs font-mono w-6 text-center" id="font-size-display">24</span>
+                                <button onclick="changeFontSize(1)" class="txt-sys hover:text-blue-500 transition" title="Increase Font Size"><i class="fa-solid fa-plus text-[10px]"></i></button>
+                                <div class="w-px h-4 mx-1" style="background-color: var(--coding-border);"></div>
+                                <button onclick="toggleTheme()" class="txt-sys hover:text-yellow-500 transition" title="Switch Theme"><i id="theme-icon" class="fa-solid fa-moon"></i></button>
+                            </div>
+                        </div>
+                        <div class="cm-wrapper">
+                            <textarea id="python-editor"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Input area for python input() function -->
+                    <div class="hidden shadow-md rounded-lg border transition-colors shrink-0 resize-vertical flex flex-col" id="stdin-container" style="border-color: var(--coding-border); background-color: var(--coding-bg); min-height: 100px;">
+                        <div class="px-4 py-1.5 border-b shrink-0" style="background-color: var(--panel-bg); border-color: var(--coding-border);">
+                            <span class="text-xs font-mono txt-sys"><i class="fa-solid fa-keyboard mr-2"></i>Standard Input (Required by script)</span>
+                        </div>
+                        <textarea id="stdin-input" class="w-full flex-1 px-4 py-2 focus:outline-none border-none resize-none" placeholder="Your code requires input(). Provide values here (one per line)..." style="background-color: transparent; color: var(--coding-text); height: calc(100% - 30px);"></textarea>
+                    </div>
+                </div>
+
+                <!-- Right Wrapper (Debugger Panel) -->
+                <div id="debugger-container" class="hidden shadow-md rounded-lg border transition-colors flex flex-col shrink-0 debugger-container w-full md:min-w-[300px] resize-vertical md:resize-both overflow-auto" style="border-color: var(--coding-border); background-color: var(--coding-bg); flex: none;">
+                    <div class="px-4 py-2 border-b flex justify-between items-center shrink-0" style="background-color: var(--panel-bg); border-color: var(--coding-border);">
+                        <span class="text-xs font-bold uppercase tracking-wider txt-sys hidden sm:inline"><i class="fa-solid fa-bug mr-2"></i>Debugger Active</span>
+                        <div class="flex gap-1 sm:gap-2 items-center w-full sm:w-auto justify-between sm:justify-end">
+                            <button onclick="exportCurrentTracePDF('html2pdf')" class="bg-emerald-600 hover:bg-emerald-500 px-2 py-1 rounded text-white text-[10px] font-bold transition mr-1 sm:mr-1" title="Download (Mobile)"><i class="fa-solid fa-mobile-screen"></i> <span class="hidden lg:inline">Mobile</span></button>
+                            <button onclick="exportCurrentTracePDF('native')" class="bg-blue-600 hover:bg-blue-500 px-2 py-1 rounded text-white text-[10px] font-bold transition mr-1 sm:mr-2" title="Print PDF (PC)"><i class="fa-solid fa-print"></i> <span class="hidden lg:inline">Print</span></button>
+                            <div class="flex items-center">
+                                <button onclick="debugStep(-1)" class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-white text-[10px] font-bold transition"><i class="fa-solid fa-arrow-left"></i> Prev</button>
+                                <span id="debug-step-text" class="text-[10px] font-mono w-10 text-center txt-sys">0/0</span>
+                                <button onclick="debugStep(1)" class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-white text-[10px] font-bold transition">Next <i class="fa-solid fa-arrow-right"></i></button>
+                                <button onclick="debugStep('last')" class="bg-blue-600 hover:bg-blue-700 px-2 py-1 rounded text-white text-[10px] font-bold transition ml-1" title="Skip to Last Step">Last <i class="fa-solid fa-forward-fast"></i></button>
+                            </div>
+                            <button onclick="exitDebug()" class="bg-red-500 hover:bg-red-600 px-2 py-1 rounded text-white text-[10px] font-bold sm:ml-2 transition"><i class="fa-solid fa-xmark"></i> Exit</button>
+                        </div>
+                    </div>
+                    <div class="p-4 overflow-auto flex-1" id="debug-vars" style="color: var(--coding-text); height: calc(100% - 45px);">
+                        <!-- Variables listed here dynamically -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Terminal Output Area Wrapper -->
+            <div class="p-4 md:p-6 pb-10 flex flex-col flex-none min-h-[250px] resize-vertical terminal-container">
+                <!-- Status/Feedback Message -->
+                <div id="feedback-msg" class="hidden mb-4 p-4 rounded-lg border shadow-sm font-medium flex flex-col sm:flex-row justify-between items-start sm:items-center transition-all shrink-0 gap-3">
+                    <div id="feedback-text" class="flex items-center"></div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button id="btn-ask-ai" onclick="requestAIAnalysis()" class="hidden bg-purple-600 hover:bg-purple-500 text-white px-3 py-1.5 rounded-md shadow text-sm font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-robot"></i> Ask AI
+                        </button>
+                        <button id="btn-similar" onclick="generateSimilarDrill()" class="hidden bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-md shadow text-sm font-bold flex items-center gap-2 transition">
+                            <i class="fa-solid fa-clone"></i> Similar Drill
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Resizable Split Console -->
+                <div id="terminal-container" class="flex-1 rounded-xl shadow-inner border relative flex flex-col transition-colors w-full overflow-hidden" style="background-color: var(--coding-bg); border-color: var(--coding-border);">
+                    <div class="px-4 py-2 border-b flex justify-between items-center text-sm shrink-0" style="background-color: var(--panel-bg); border-color: var(--coding-border);">
+                        <span class="font-mono txt-sys"><i class="fa-solid fa-terminal mr-2"></i>Terminal Output</span>
+                        <div class="text-xs txt-sys flex gap-4 hidden md:flex">
+                            <span>Expected Target:</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-1 min-h-0 flex-col md:flex-row w-full overflow-hidden">
+                        <!-- User Output -->
+                        <div id="terminal-output-pane" class="p-4 md:border-r border-b md:border-b-0 w-full md:w-1/2 overflow-auto md:resize-horizontal hover:border-slate-500 transition-colors flex-none min-h-[100px]" style="border-color: var(--coding-border);">
+                            <div id="terminal-output" style="color: var(--coding-text);"><span class="txt-sys">>>> Ready to run...</span></div>
+                        </div>
+                        <!-- Target Preview -->
+                        <div id="target-container" class="flex-1 w-full md:w-1/2 p-4 flex flex-col overflow-auto transition-colors min-h-[100px]" style="background-color: var(--target-bg); color: var(--target-text);">
+                            <span class="text-xs mb-2 border-b pb-1 shrink-0 md:hidden" style="color: var(--sys-msg); border-color: var(--coding-border);">TARGET:</span>
+                            <div id="expected-preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Tutor Modal -->
+            <div id="ai-modal" class="absolute inset-0 z-50 bg-slate-900/80 hidden flex items-center justify-center backdrop-blur-sm p-4 md:p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-full flex flex-col border-t-8 border-purple-500 overflow-hidden">
+                    <div class="p-4 md:p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 text-xl md:text-2xl shadow-inner">
+                                <i class="fa-solid fa-robot"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">AI Python Professor</h3>
+                                <p class="text-[10px] md:text-xs text-slate-500 font-medium tracking-wide uppercase">Feedback & Guidance</p>
+                            </div>
+                        </div>
+                        <button onclick="closeAIModal()" class="text-slate-400 hover:text-slate-600 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="p-4 md:p-6 overflow-y-auto flex-1 bg-white markdown-body text-slate-700 text-sm md:text-base" id="ai-response-content">
+                        <!-- AI content injected here -->
+                    </div>
+
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col md:flex-row justify-between items-center shrink-0 gap-3">
+                        <p class="text-xs text-slate-500 italic text-center md:text-left">Need more practice on this specific concept?</p>
+                        <button onclick="generateRemedialDrill()" id="btn-generate-remedial" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-5 rounded-lg transition shadow-md flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Remedial Drill
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weakness Analysis Modal -->
+            <div id="weakness-modal" class="absolute inset-0 z-50 bg-slate-900/80 hidden flex items-center justify-center backdrop-blur-sm p-4 md:p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-full flex flex-col border-t-8 border-indigo-500 overflow-hidden">
+                    <div class="p-4 md:p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 text-xl md:text-2xl shadow-inner">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">Weakness Analysis & Saving</h3>
+                                <p class="text-[10px] md:text-xs text-slate-500 font-medium tracking-wide uppercase">Progress & Recommendations</p>
+                            </div>
+                        </div>
+                        <button onclick="closeWeaknessModal()" class="text-slate-400 hover:text-slate-600 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="p-4 md:p-6 overflow-y-auto flex-1 bg-white markdown-body text-slate-700 text-sm md:text-base" id="weakness-response-content">
+                        <!-- AI Analysis injected here -->
+                    </div>
+
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex flex-col gap-4 shrink-0">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                            <div class="flex flex-col gap-2 w-full md:w-auto">
+                                <span class="text-sm font-bold text-slate-700">Export Options:</span>
+                                <div class="flex flex-wrap gap-4">
+                                    <label class="flex items-center text-sm text-slate-600 font-medium cursor-pointer">
+                                        <input type="checkbox" id="chk-exp-q" class="mr-1"> Questions
+                                    </label>
+                                    <label class="flex items-center text-sm text-slate-600 font-medium cursor-pointer">
+                                        <input type="checkbox" id="chk-exp-prog" class="mr-1"> Progress
+                                    </label>
+                                    <label class="flex items-center text-sm text-slate-600 font-medium cursor-pointer">
+                                        <input type="checkbox" id="chk-exp-hist" class="mr-1" checked> Overall History
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-2 w-full md:w-auto justify-end mt-2 md:mt-0">
+                                <button onclick="generateExtraDrill()" id="btn-extra-drill" class="w-full sm:w-auto bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded-lg transition shadow-md flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-forward-step"></i> Extra Drill
+                                </button>
+                                <button onclick="openDownloadModal()" id="btn-download-pdf" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2 px-4 rounded-lg transition shadow-md flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-file-pdf"></i> Generate PDF
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student ID Download Modal -->
+            <div id="download-modal" class="absolute inset-0 z-[70] bg-slate-900/90 hidden flex items-center justify-center backdrop-blur-sm p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center border-t-8 border-blue-500">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-file-pdf text-blue-600 text-3xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-slate-800 mb-2">Export Progress Report</h2>
+                    <p class="text-slate-600 mb-6 text-sm">Please choose a method to generate your PDF report.</p>
+                    
+                    <div class="flex flex-col gap-3 w-full mt-4">
+                        <div class="flex gap-2 w-full">
+                            <button onclick="confirmDownloadPDF('html2pdf')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg transition-colors shadow-md text-sm flex justify-center items-center gap-2">
+                                <i class="fa-solid fa-mobile-screen"></i> Mobile/Pad PDF
+                            </button>
+                            <button onclick="confirmDownloadPDF('native')" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition-colors shadow-md text-sm flex justify-center items-center gap-2">
+                                <i class="fa-solid fa-print"></i> PC Print PDF
+                            </button>
+                        </div>
+                        <button onclick="closeDownloadModal()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold py-3 rounded-lg transition-colors mt-2">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Preset Questions Modal -->
+            <div id="presets-modal" class="absolute inset-0 z-[60] bg-slate-900/90 hidden flex items-center justify-center backdrop-blur-sm p-4 md:p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[80vh] flex flex-col border-t-8 border-blue-500 overflow-hidden">
+                    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-cloud-arrow-down text-blue-500 mr-2"></i>Preset Exercises</h3>
+                            <button onclick="openPresetsModal(true)" class="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded hover:bg-blue-200 transition ml-2" title="Refetch Presets"><i class="fa-solid fa-rotate"></i> Refetch</button>
+                        </div>
+                        <button onclick="closePresetsModal()" class="text-slate-400 hover:text-slate-600 transition text-xl"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="p-4 md:p-6 overflow-y-auto flex-1 text-sm bg-slate-50 max-h-[60vh]" id="presets-list-container">
+                        <!-- Presets list injected here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Management Modal -->
+            <div id="data-modal" class="absolute inset-0 z-50 bg-slate-900/80 hidden flex items-center justify-center backdrop-blur-sm p-4 md:p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-full flex flex-col border-t-8 border-slate-800 overflow-hidden">
+                    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-700 text-xl shadow-inner">
+                                <i class="fa-solid fa-database"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg md:text-xl font-bold text-slate-800">Manage Data</h3>
+                                <p class="text-[10px] md:text-xs text-slate-500 font-medium tracking-wide uppercase">Import & Export Setup</p>
+                            </div>
+                        </div>
+                        <button onclick="toggleDataModal()" class="text-slate-400 hover:text-slate-600 transition text-2xl"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    
+                    <div class="p-4 md:p-6 overflow-y-auto flex-1 space-y-6">
+                        <!-- JSON Import/Export -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                                <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-200 pb-1"><i class="fa-solid fa-layer-group text-blue-500 mr-2"></i>Question Data</h4>
+                                <div class="flex gap-2 mt-3">
+                                    <button onclick="exportQuestions()" class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-download mr-1"></i> Export</button>
+                                    <button onclick="triggerFileSelect('questions')" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-upload mr-1"></i> Import</button>
+                                </div>
+                            </div>
+                            <div class="p-4 border border-slate-200 rounded-lg bg-slate-50">
+                                <h4 class="font-bold text-slate-700 mb-2 border-b border-slate-200 pb-1"><i class="fa-solid fa-chart-pie text-green-500 mr-2"></i>Progress Data</h4>
+                                <div class="flex gap-2 mt-3">
+                                    <button onclick="exportProgress(false)" class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-download mr-1"></i> Export</button>
+                                    <button onclick="triggerFileSelect('progress')" class="flex-1 bg-green-600 hover:bg-green-500 text-white py-1.5 rounded text-sm font-medium transition"><i class="fa-solid fa-upload mr-1"></i> Import</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Question Modal -->
+            <div id="custom-question-modal" class="absolute inset-0 z-[60] bg-slate-900/90 hidden flex items-center justify-center backdrop-blur-sm p-4 md:p-6 fixed">
+                <div class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-full flex flex-col border-t-8 border-yellow-500 overflow-hidden">
+                    <div class="p-4 border-b border-slate-200 flex justify-between items-center bg-slate-50 shrink-0">
+                        <div class="flex items-center gap-2">
+                            <h3 class="text-lg font-bold text-slate-800"><i class="fa-solid fa-pen-to-square text-yellow-500 mr-2"></i>New Custom Drill</h3>
+                        </div>
+                        <div class="flex items-center gap-2 md:gap-3">
+                            <button id="btn-ai-autofill" onclick="aiAutoFillCustomDrill()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold py-1.5 px-3 rounded shadow transition flex items-center gap-1">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> <span class="hidden md:inline">AI Auto Fill</span>
+                            </button>
+                            <button onclick="closeCustomQuestionModal()" class="text-slate-400 hover:text-slate-600 transition text-xl"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 md:p-6 overflow-y-auto flex-1 space-y-4 text-sm">
+                        <div class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-2 rounded text-xs mb-2">
+                            <i class="fa-solid fa-lightbulb mr-1"></i> <strong>Tip:</strong> Type a simple "Title" or "Question Prompt" and click <strong>AI Auto Fill</strong> to let the AI build the rest of the drill!
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Title</label>
+                                <input type="text" id="cq-title" placeholder="e.g. Triangle Maker" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block font-bold text-slate-700 mb-1">Skill Tag</label>
+                                <input type="text" id="cq-skill" placeholder="e.g. Nested Loops" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Difficulty</label>
+                            <select id="cq-difficulty" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500">
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                                <option value="Mastery">Mastery</option>
+                                <option value="Boss">Boss</option>
+                                <option value="Custom">Custom</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Question Prompt</label>
+                            <textarea id="cq-question" rows="2" placeholder="Instructions for the student (Use ___ for blanks)..." class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Initial Code (Starter Code)</label>
+                            <textarea id="cq-initial" rows="4" placeholder="for i in range(3):&#10;    print('___')" class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500 font-mono"></textarea>
+                        </div>
+
+                        <div>
+                            <label class="block font-bold text-slate-700 mb-1">Expected Output</label>
+                            <textarea id="cq-expected" rows="3" placeholder="Exact output string to match..." class="w-full p-2 border border-slate-300 rounded focus:outline-none focus:border-blue-500 font-mono"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-t border-slate-200 bg-slate-50 flex justify-end shrink-0">
+                        <button onclick="saveCustomQuestion()" class="bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-6 rounded-lg transition shadow flex items-center gap-2">
+                            <i class="fa-solid fa-save"></i> Save & Add to Drills
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PDF Generating Overlay -->
+            <div id="pdf-overlay" class="absolute inset-0 z-[120] bg-slate-900/90 hidden flex flex-col items-center justify-center text-white backdrop-blur-sm fixed">
+                <div class="loader mb-4"></div>
+                <h2 class="text-2xl font-bold tracking-wider mb-2 text-center">Analyzing & Compiling...</h2>
+                <p class="text-slate-300 text-center px-4">The AI Professor is generating your personalized full report.</p>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Hidden Input for File Dialogs -->
+    <input type="file" id="file-input-hidden" accept=".json" class="hidden">
+
+    <script>
+        // --- 1. GLOBALS & INITIALIZATION ---
+        const apiKey = ""; // Gemini API Key injected by environment
+        let pyodide;
+        let pythonStdout = "";
+        let currentLevelIndex = 0;
+        let editor;
+        let completedLevels = new Set();
+        let suppressChange = false;
+        let isInitialLoad = true;
+        let currentFontSize = 24;
+        let isDarkMode = false;
+        let isImporting = false; 
+        let cachedPresetsList = null;
+        let currentPresetName = "Default Set"; 
+        
+        let analysisNeedsUpdate = true;
+        let studentId = null;
+        let overallHistory = {};
+        let hasEditedCode = false;
+        let hasSubmitted = false;
+        let autoSaveTimer = null;
+        
+        // Supabase Setup
+        const supabaseUrl = 'https://ndjodjiuydlsysltawwu.supabase.co';
+        const supabaseKey = 'sb_publishable_MmpFp2Aymzj0-VorP1Sh6Q_68HA-PGZ';
+        
+        // Debugger State Variables
+        let traceData = [];
+        let currentTraceStep = -1;
+        let lastHighlightedLine = -1;
+
+        // Track mistakes for AI Analysis and PDF report
+        let mistakeLog = []; 
+        let lastFailedAttempt = null;
+        
+        // Cache the weakness analysis HTML for PDF rendering
+        let currentAnalysisHtml = "";
+
+        // Store STDIN input array globally
+        window.pythonStdinLines = [];
+        
+        window.getPythonInput = function() {
+            if (window.pythonStdinLines.length > 0) return window.pythonStdinLines.shift();
+            return "";
+        };
+
+        window.capturePythonOutput = function(text) {
+            pythonStdout += text;
+        };
+
+        async function submitLogin() {
+            const val = document.getElementById('login-sid').value.trim();
+            if (!val || isNaN(val)) {
+                alert("Please enter a valid numeric Student ID.");
+                return;
+            }
+            studentId = parseInt(val);
+            document.getElementById('login-modal').classList.add('hidden');
+            
+            const overlay = document.getElementById('pdf-overlay');
+            overlay.classList.remove('hidden');
+            overlay.querySelector('h2').innerText = "Loading History...";
+            overlay.querySelector('p').innerText = "Retrieving your data from the cloud.";
+
+            await fetchHistoryFromDB();
+            
+            overlay.classList.add('hidden');
+            overlay.querySelector('h2').innerText = "Analyzing & Compiling..."; 
+            overlay.querySelector('p').innerText = "The AI Professor is generating your personalized full report.";
+
+            applyHistoryToCurrentExercise();
+            
+            // Start Auto-Save background timer
+            resetAutoSaveTimer();
+            
+            // Fix: ensure the first question loads properly instead of hanging
+            if (levels.length > 0) {
+                loadLevel(0);
+            }
+        }
+
+        async function fetchHistoryFromDB() {
+            try {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+                const supabase = createClient(supabaseUrl, supabaseKey);
+                const { data, error } = await supabase.from('pyHist').select('histJson').eq('sid', studentId).single();
+                
+                if (data && data.histJson) {
+                    overallHistory = data.histJson;
+                } else {
+                    const localHist = localStorage.getItem(`pyHist_${studentId}`);
+                    if (localHist) overallHistory = JSON.parse(localHist);
+                }
+            } catch (e) {
+                console.error("Error fetching history", e);
+                const localHist = localStorage.getItem(`pyHist_${studentId}`);
+                if (localHist) overallHistory = JSON.parse(localHist);
+            }
+        }
+
+        function applyHistoryToCurrentExercise() {
+            const exerciseName = currentPresetName ? currentPresetName.replace(/\.json$/i, '') : 'Custom';
+            
+            // For non-custom presets, we assume `levels` is already loaded with the clean questions. We just reset progress fields.
+            if (exerciseName !== 'Custom' && exerciseName !== 'Default Set') {
+                levels.forEach(l => {
+                    l.status = 'not_attempted';
+                    l.userCode = l.initialCode;
+                    l.lastOutput = "";
+                });
+            }
+
+            completedLevels.clear();
+            mistakeLog = [];
+
+            if (overallHistory && overallHistory[exerciseName]) {
+                const data = overallHistory[exerciseName];
+                mistakeLog = data.mistakeLog || [];
+                
+                if(data.levels && Array.isArray(data.levels)) {
+                    if (exerciseName === 'Custom' || exerciseName === 'Default Set') {
+                        levels = data.levels;
+                        levels.forEach(l => {
+                            if (l.status === 'passed') completedLevels.add(l.id);
+                        });
+                    } else {
+                        data.levels.forEach(p => {
+                            let lvl = levels.find(l => l.id === p.id);
+                            if(lvl) {
+                                lvl.status = p.status || 'not_attempted';
+                                lvl.userCode = p.userCode;
+                                lvl.lastOutput = p.lastOutput;
+                                if(lvl.status === 'passed') completedLevels.add(lvl.id);
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        function saveLocalProgress() {
+            if (!studentId) return;
+            
+            if (editor && levels[currentLevelIndex]) {
+                levels[currentLevelIndex].userCode = editor.getValue();
+            }
+
+            const exerciseName = currentPresetName ? currentPresetName.replace(/\.json$/i, '') : 'Custom';
+            
+            let levelsToSave;
+            if (exerciseName === 'Custom' || exerciseName === 'Default Set') {
+                levelsToSave = levels.map(l => ({...l})); // Save everything just in case
+            } else {
+                // Only save progress data for regular sets to save space
+                levelsToSave = levels.filter(l => l.status !== 'not_attempted' || (l.userCode && l.userCode !== l.initialCode))
+                                     .map(l => ({id: l.id, status: l.status, userCode: l.userCode, lastOutput: l.lastOutput}));
+            }
+
+            overallHistory[exerciseName] = {
+                levels: levelsToSave,
+                mistakeLog: mistakeLog
+            };
+            localStorage.setItem(`pyHist_${studentId}`, JSON.stringify(overallHistory));
+        }
+
+        function resetAutoSaveTimer() {
+            if (autoSaveTimer) clearInterval(autoSaveTimer);
+            autoSaveTimer = setInterval(() => {
+                if (studentId && (hasEditedCode || hasSubmitted)) {
+                    console.log("Auto-saving in background...");
+                    saveToDatabase();
+                }
+            }, 10 * 60 * 1000); // 10 minutes
+        }
+
+        async function saveToDatabase() {
+            if (!studentId) return;
+            
+            saveLocalProgress(); // Syncs to overallHistory locally first
+            resetAutoSaveTimer(); // Reset timer upon successful save
+
+            if (!hasEditedCode && !hasSubmitted) {
+                return; // Nothing changed, no need for API hit
+            }
+
+            const exerciseName = currentPresetName ? currentPresetName.replace(/\.json$/i, '') : 'Custom';
+
+            try {
+                const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm');
+                const supabase = createClient(supabaseUrl, supabaseKey);
+                
+                let promises = [];
+
+                if (hasEditedCode || hasSubmitted) {
+                    promises.push(supabase.from('pyHist').upsert({
+                        sid: studentId,
+                        histJson: overallHistory
+                    }));
+                }
+
+                if (hasSubmitted) {
+                    const score = completedLevels.size;
+                    const max_score = levels.length;
+                    const trial = mistakeLog.length + score;
+                    const qArray = levels.map(l => l.status === 'passed');
+
+                    promises.push(supabase.from('pyOnline').insert([{
+                        exercise: exerciseName,
+                        sid: studentId,
+                        score: score,
+                        max_score: max_score,
+                        trial: trial,
+                        q: qArray
+                    }]));
+                }
+
+                await Promise.all(promises);
+                hasEditedCode = false;
+                hasSubmitted = false;
+
+            } catch (e) {
+                console.error("Failed to save to Supabase:", e);
+            }
+        }
+
+        async function fetchDailyDrill() {
+            const today = new Date();
+            const getYYMMDD = (d) => {
+                const yy = String(d.getFullYear()).slice(-2);
+                const mm = String(d.getMonth() + 1).padStart(2, '0');
+                const dd = String(d.getDate()).padStart(2, '0');
+                return `${yy}${mm}${dd}`;
+            };
+            
+            const todayStr = getYYMMDD(today);
+            
+            // 1. Check local cache
+            const cachedDate = localStorage.getItem('cachedDailyDrillDate');
+            const cachedData = localStorage.getItem('cachedDailyDrillData');
+            const cachedName = localStorage.getItem('cachedDailyDrillName');
+            
+            if (cachedDate === todayStr && cachedData) {
+                try {
+                    const parsedData = JSON.parse(cachedData);
+                    if(Array.isArray(parsedData) && parsedData.length > 0) {
+                        levels = parsedData;
+                        currentLevelIndex = 0;
+                        currentPresetName = cachedName || todayStr;
+                        return; // Successfully loaded from cache
+                    }
+                } catch(e) {
+                    console.log("Cached daily drill invalid", e);
+                }
+            }
+
+            // 2. Fetch from GitHub Repository if cache misses
+            try {
+                const dirUrl = 'https://api.github.com/repos/Iketsuki/know/contents/notes/ict/questionJson?ref=Python';
+                const response = await fetch(dirUrl);
+                if (response.ok) {
+                    const files = await response.json();
+                    const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+                    
+                    let targetFile = null;
+                    
+                    // Search up to 30 days back looking for the YYMMDD prefix
+                    for (let i = 0; i < 30; i++) {
+                        let targetDate = new Date(today);
+                        targetDate.setDate(today.getDate() - i);
+                        let prefix = getYYMMDD(targetDate);
+                        
+                        targetFile = jsonFiles.find(f => f.name.startsWith(prefix));
+                        if (targetFile) break;
+                    }
+                    
+                    if (targetFile) {
+                        const fileResponse = await fetch(targetFile.download_url);
+                        if (fileResponse.ok) {
+                            const data = await fileResponse.json();
+                            if(Array.isArray(data) && data.length > 0) {
+                                levels = data;
+                                currentLevelIndex = 0;
+                                currentPresetName = targetFile.name;
+                                // Save to local cache
+                                localStorage.setItem('cachedDailyDrillDate', todayStr);
+                                localStorage.setItem('cachedDailyDrillData', JSON.stringify(data));
+                                localStorage.setItem('cachedDailyDrillName', targetFile.name);
+                            }
+                        }
+                    }
+                }
+            } catch (e) {
+                console.log("No daily drill found or fetch failed:", e);
+            }
+        }
+
+        async function openPresetsModal(forceRefetch = false) {
+            document.getElementById('presets-modal').classList.remove('hidden');
+            const listContainer = document.getElementById('presets-list-container');
+            
+            if (cachedPresetsList && !forceRefetch) {
+                listContainer.innerHTML = cachedPresetsList;
+                return;
+            }
+
+            listContainer.innerHTML = '<div class="text-center py-10 text-slate-500"><i class="fa-solid fa-spinner fa-spin text-2xl mb-2"></i><br>Loading presets...</div>';
+            
+            try {
+                const response = await fetch('https://api.github.com/repos/Iketsuki/know/contents/notes/ict/questionJson?ref=Python');
+                if (!response.ok) throw new Error("Failed to fetch repository contents");
+                const files = await response.json();
+                
+                const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+                if (jsonFiles.length === 0) {
+                    listContainer.innerHTML = '<div class="text-center py-10 text-slate-500">No JSON files found in repository.</div>';
+                    return;
+                }
+                
+                let html = '<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-4">';
+                jsonFiles.forEach(f => {
+                    html += `
+                        <button onclick="loadPreset('${f.download_url}', event, '${f.name.replace(/'/g, "\\'")}', ${forceRefetch})" class="bg-white border border-slate-300 p-3 rounded-lg hover:border-blue-500 hover:shadow text-left transition break-all">
+                            <i class="fa-solid fa-file-code text-blue-500 mr-2"></i>
+                            <span class="font-bold text-slate-700">${escapeHTML(f.name)}</span>
+                        </button>
+                    `;
+                });
+                html += '</div>';
+                
+                cachedPresetsList = html;
+                listContainer.innerHTML = html;
+                
+            } catch(e) {
+                listContainer.innerHTML = `<div class="text-center py-10 text-red-500">Error loading presets: ${e.message}</div>`;
+            }
+        }
+
+        function closePresetsModal() {
+            document.getElementById('presets-modal').classList.add('hidden');
+        }
+
+        async function loadPreset(url, event, fileName, forceRefetch = false) {
+            try {
+                saveLocalProgress(); // SAVE CURRENT PROGRESS FIRST!
+                
+                const btn = event.currentTarget;
+                const originalHtml = btn.innerHTML;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2 text-blue-500"></i> Loading...';
+                
+                let data;
+                const cacheKey = 'preset_' + fileName;
+                
+                if (!forceRefetch && localStorage.getItem(cacheKey)) {
+                    data = JSON.parse(localStorage.getItem(cacheKey));
+                } else {
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error("Failed to fetch file");
+                    data = await response.json();
+                    localStorage.setItem(cacheKey, JSON.stringify(data));
+                }
+                
+                isImporting = true; // Protect editor.getValue() during load
+                currentPresetName = fileName;
+                levels = data;
+                currentLevelIndex = 0;
+                
+                applyHistoryToCurrentExercise(); // Restore state BEFORE loading level
+                
+                closePresetsModal();
+                renderLevelList();
+                if (levels.length > 0) loadLevel(0);
+                
+                isImporting = false;
+                
+            } catch(e) {
+                alert("Failed to load preset: " + e.message);
+                if(event && event.currentTarget) event.currentTarget.innerHTML = originalHtml;
+            }
+        }
+
+        // --- PDF GENERATION ENGINE ---
+        // Native Browser HTML to PDF Function using html2pdf.js
+        function generatePDFFromHTML(filename, htmlContent) {
+            const overlay = document.getElementById('pdf-overlay');
+            if(overlay) {
+                overlay.classList.remove('hidden');
+                overlay.querySelector('h2').innerText = "Generating PDF...";
+                overlay.querySelector('p').innerText = "Please wait while we assemble your report.";
+            }
+
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+                <style>
+                    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; font-family: 'Courier New', monospace; table-layout: fixed; }
+                    th, td { border: 1px solid #dee2e6; padding: 6px; text-align: left; word-wrap: break-word; overflow-wrap: break-word; }
+                    th { background-color: #e9ecef; text-align: center; font-weight: bold;}
+                    .page-break { page-break-before: always; padding-top: 20px; }
+                    .code-block { background-color: #ffffff; border: 1px solid #d4d4d4; padding: 15px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 14px; white-space: pre-wrap; color: #000; margin-bottom: 15px; }
+                    .status-pass { color: #28a745; font-weight: bold; }
+                    .status-fail { color: #dc3545; font-weight: bold; }
+                    .status-pending { color: #f59e0b; font-weight: bold; }
+                    .status-none { color: #6c757d; font-weight: bold; }
+                    .box-container { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 20px; border-radius: 5px; margin-bottom: 30px; page-break-inside: avoid; }
+                    .center { text-align: center; }
+                    .metrics-box { background: #e9ecef; padding: 20px; border-radius: 5px; text-align: center; }
+                </style>
+                <div style="width: 800px; max-width: 800px; padding: 30px; margin: 0 auto; box-sizing: border-box; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
+                    ${htmlContent}
+                </div>
+            `;
+            
+            const opt = {
+                margin:       0,
+                filename:     filename + '.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, letterRendering: true, logging: false },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: 'css', before: '.page-break' }
+            };
+
+            html2pdf().set(opt).from(wrapper).save().then(() => {
+                if(overlay) overlay.classList.add('hidden');
+            }).catch(err => {
+                console.error("PDF Generation failed:", err);
+                alert("PDF Generation failed. See console for details.");
+                if(overlay) overlay.classList.add('hidden');
+            });
+        }
+
+        async function initEnvironment() {
+            const statusText = document.getElementById('loading-status');
+            try {
+                if (typeof loadPyodide === 'undefined') {
+                    throw new Error("Failed to download Python engine. This is usually caused by an ad-blocker, firewall, or strict network restrictions. Please disable ad-blockers and reload.");
+                }
+
+                const timeout = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error("Python engine took too long to load (Timeout after 20s). Your network might be blocking WebAssembly files. Please refresh the page.")), 20000)
+                );
+
+                pyodide = await Promise.race([
+                    loadPyodide(),
+                    timeout
+                ]);
+                
+                // Initialize custom stdout, input, and trace debugger
+                await pyodide.runPythonAsync(`
+import sys
+import json
+import js
+import builtins
+import re
+
+_stdout_log = []
+_last_stdout_len = 0
+
+class CustomStdout:
+    def write(self, text): 
+        js.capturePythonOutput(text)
+        _stdout_log.append(text)
+    def flush(self): pass
+    def clear(self):
+        _stdout_log.clear()
+
+sys.stdout = CustomStdout()
+
+def custom_input(prompt=""):
+    if prompt:
+        js.capturePythonOutput(str(prompt))
+        _stdout_log.append(str(prompt))
+    val = js.getPythonInput()
+    _stdout_log.append(str(val) + "\\n")
+    if _trace_log:
+        _trace_log[-1]["input"] += str(val)
+    return val
+
+builtins.input = custom_input
+
+_trace_log = []
+_code_lines = []
+
+def _tracer(frame, event, arg):
+    global _last_stdout_len
+    
+    current_stdout = "".join(_stdout_log)
+    new_output = current_stdout[_last_stdout_len:]
+    if new_output and len(_trace_log) > 0:
+        _trace_log[-1]["output"] += new_output
+    _last_stdout_len = len(current_stdout)
+
+    if frame.f_code.co_filename == "<string>":
+        _locs = {k: repr(v) for k, v in frame.f_locals.items() if not k.startswith('__')}
+        _globs = {k: repr(v) for k, v in frame.f_globals.items() if not k.startswith('__') and k not in ['sys', 'js', 'json', 'builtins', 'CustomStdout', 'custom_input', '_tracer', '_run_debug', '_stdout_log', '_trace_log', '_code_lines', '_last_stdout_len', 're']}
+        
+        is_global = (frame.f_globals is frame.f_locals)
+        func_name = frame.f_code.co_name if frame.f_code.co_name != "<module>" else "global"
+
+        if _trace_log and not _trace_log[-1].get("completed"):
+            prev = _trace_log[-1]
+            prev["after_locals"] = _locs.copy()
+            prev["after_globals"] = _globs.copy()
+            prev["completed"] = True
+            
+            changes = []
+            
+            changed_g = []
+            for k, v in prev["after_globals"].items():
+                if k not in prev["before_globals"] or prev["before_globals"][k] != v:
+                    changed_g.append(f"{k}={v}")
+            if changed_g:
+                changes.append(f"[global] {', '.join(changed_g)}")
+                
+            if not prev["is_global"]:
+                changed_l = []
+                for k, v in prev["after_locals"].items():
+                    if k not in prev["before_locals"] or prev["before_locals"][k] != v:
+                        changed_l.append(f"{k}={v}")
+                if changed_l:
+                    changes.append(f"[{prev['func_name']}] {', '.join(changed_l)}")
+            
+            prev["var_changed"] = "\\n".join(changes)
+            
+            import re
+            if prev["source"].startswith("for ") and " in " in prev["source"]:
+                match = re.search(r'for\\s+([a-zA-Z_]\\w*)\\s+in', prev["source"])
+                if match:
+                    loop_var = match.group(1)
+                    if not prev["is_global"] and loop_var in prev["after_locals"]:
+                        prev["condition"] = f"{loop_var} -> {prev['after_locals'][loop_var]}"
+                    elif loop_var in prev["after_globals"]:
+                        prev["condition"] = f"{loop_var} -> {prev['after_globals'][loop_var]}"
+
+        if event in ("line", "return"):
+            line_no = frame.f_lineno
+            src_line = _code_lines[line_no - 1].strip() if 0 <= line_no - 1 < len(_code_lines) else ""
+            
+            # Skip docstrings/multiline string literals that act as comments
+            if event == "line":
+                if src_line == '"""' or src_line == "'''":
+                    return _tracer
+                if (src_line.startswith('"""') or src_line.startswith("'''")) and "=" not in src_line and "print" not in src_line and "return" not in src_line:
+                    return _tracer
+
+            cond_eval = ""
+            if event == "line":
+                if src_line.startswith("if ") or src_line.startswith("elif ") or src_line.startswith("while "):
+                    if src_line.startswith("if "): cond_str = src_line[3:]
+                    elif src_line.startswith("elif "): cond_str = src_line[5:]
+                    elif src_line.startswith("while "): cond_str = src_line[6:]
+                    cond_str = cond_str.split(":", 1)[0].strip()
+                    
+                    try:
+                        res = eval(cond_str, frame.f_globals, frame.f_locals)
+                        import re
+                        plugged_str = cond_str
+                        for k, v in sorted(frame.f_locals.items(), key=lambda x: -len(x[0])):
+                            plugged_str = re.sub(r'\\b' + re.escape(k) + r'\\b', str(v), plugged_str)
+                        if not is_global:
+                            for k, v in sorted(frame.f_globals.items(), key=lambda x: -len(x[0])):
+                                if k not in frame.f_locals:
+                                    plugged_str = re.sub(r'\\b' + re.escape(k) + r'\\b', str(v), plugged_str)
+                        cond_eval = f"{plugged_str} -> {res}"
+                    except:
+                        pass
+
+            return_val = ""
+            if event == "return":
+                return_val = f"[{func_name}] {repr(arg)}"
+
+            _trace_log.append({
+                "line": line_no,
+                "source": src_line if event == "line" else "(return)",
+                "before_locals": _locs.copy() if not is_global else {},
+                "before_globals": _globs.copy(),
+                "after_locals": _locs.copy() if not is_global else {},
+                "after_globals": _globs.copy(),
+                "is_global": is_global,
+                "func_name": func_name,
+                "var_changed": "",
+                "condition": cond_eval,
+                "return_val": return_val,
+                "event": event,
+                "input": "",
+                "output": "",
+                "error": "",
+                "completed": False
+            })
+            
+    return _tracer
+
+def _run_debug(code_str):
+    global _trace_log, _code_lines, _last_stdout_len
+    _trace_log = []
+    _code_lines = code_str.split('\\n')
+    _stdout_log.clear()
+    _last_stdout_len = 0
+    sys.stdout.clear()
+    
+    namespace = {}
+    sys.settrace(_tracer)
+    try:
+        exec(code_str, namespace, namespace)
+    except Exception as e:
+        tb = e.__traceback__
+        line = 0
+        while tb:
+            if tb.tb_frame.f_code.co_filename == "<string>":
+                line = tb.tb_lineno
+            tb = tb.tb_next
+        
+        current_stdout = "".join(_stdout_log)
+        new_output = current_stdout[_last_stdout_len:]
+        if new_output and len(_trace_log) > 0:
+            _trace_log[-1]["output"] += new_output
+            
+        if _trace_log:
+            _trace_log[-1]["error"] = type(e).__name__ + ": " + str(e)
+        else:
+            _trace_log.append({
+                "line": line,
+                "error": type(e).__name__ + ": " + str(e)
+            })
+    finally:
+        sys.settrace(None)
+        current_stdout = "".join(_stdout_log)
+        new_output = current_stdout[_last_stdout_len:]
+        if new_output and len(_trace_log) > 0:
+            _trace_log[-1]["output"] += new_output
+        
+    return json.dumps(_trace_log)
+                `);
+                
+                document.getElementById('loading-overlay').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('loading-overlay').style.display = 'none';
+                    document.getElementById('login-modal').classList.remove('hidden');
+                }, 500);
+            } catch (err) {
+                document.getElementById('loading-overlay').innerHTML = `<div class="text-red-500 text-xl font-bold mb-4 text-center max-w-lg leading-relaxed px-4"><i class="fa-solid fa-triangle-exclamation mr-2"></i><br>${escapeHTML(err.message)}</div><button onclick="window.location.reload()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded shadow font-bold transition">Reload Page</button>`;
+            }
+        }
+
+        // Standard HTML Escape (avoid escaping single quotes for UI rendering)
+        function escapeHTML(str) {
+            if (str === null || str === undefined) return "";
+            return String(str).replace(/[&<>]/g, tag => ({'&': '&amp;','<': '&lt;','>': '&gt;'}[tag]));
+        }
+
+        // Web UI Blanks + Markdown Backticks formatter
+        function formatBlanks(text) {
+            if (text === null || text === undefined) return "";
+            let html = escapeHTML(text).replace(/___/g, '<span class="blank-highlight">___</span>');
+            return html.replace(/`([^`]+)`/g, '<code class="bg-slate-200 text-pink-600 px-1 rounded font-mono">$1</code>');
+        }
+
+        // Strict PDF HTML Escape
+        function escapeHTMLPDF(str) {
+            if (str === null || str === undefined) return "";
+            return String(str).replace(/[&<>]/g, tag => ({'&': '&amp;','<': '&lt;','>': '&gt;'}[tag]));
+        }
+
+        // PDF Blanks + Markdown Backticks formatter
+        function formatBlanksPDF(text) {
+            if (text === null || text === undefined) return "";
+            let html = escapeHTMLPDF(text);
+            html = html.replace(/___/g, '<span style="background-color: #fde047; color: #854d0e; font-weight: bold; padding: 0 4px; border-radius: 4px; font-family: monospace;">___</span>');
+            return html.replace(/`([^`]+)`/g, '<span style="background-color: #f1f5f9; color: #db2777; padding: 2px 4px; border-radius: 4px; font-family: monospace;">$1</span>');
+        }
+
+        function highlightPythonForPDFWithLines(code) {
+            if (!code) return "";
+            
+            let tokens = [];
+            let tokenIndex = 0;
+            
+            let escaped = escapeHTMLPDF(code);
+            
+            // 1. Comments
+            escaped = escaped.replace(/(#.*)/g, match => {
+                tokens.push(`<span style="color: #008000; font-style: italic;">${match}</span>`);
+                return `__TOKEN_${tokenIndex++}__`;
+            });
+            
+            // 2. Strings
+            escaped = escaped.replace(/(".*?"|'.*?')/g, match => {
+                tokens.push(`<span style="color: #a31515;">${match}</span>`);
+                return `__TOKEN_${tokenIndex++}__`;
+            });
+            
+            // 3. Keywords
+            escaped = escaped.replace(/\b(def|for|in|if|else|elif|return|print|range|while|break|continue|import|from|as|class|pass|try|except|with|True|False|None|and|or|not)\b/g, '<span style="color: #0000ff;">$1</span>');
+            
+            // 4. Numbers
+            escaped = escaped.replace(/\b(\d+)\b/g, '<span style="color: #098658;">$1</span>');
+            
+            // 5. Restore tokens
+            for (let i = tokenIndex - 1; i >= 0; i--) {
+                escaped = escaped.replace(`__TOKEN_${i}__`, tokens[i]);
+            }
+            
+            // 6. Blanks
+            escaped = escaped.replace(/___/g, '<span style="background-color: #fde047; color: #854d0e; font-weight: bold; padding: 0 4px; border-radius: 4px; font-family: monospace;">___</span>');
+            
+            // 7. Inject Line Numbers
+            let lines = escaped.split('\n');
+            let numberedLines = lines.map((line, idx) => {
+                return `<span style="display:inline-block; width:25px; color:#94a3b8; border-right:1px solid #cbd5e1; margin-right:8px; padding-right:4px; text-align:right; user-select:none;">${idx + 1}</span>${line}`;
+            });
+            
+            return numberedLines.join('\n');
+        }
+
+        // Native Browser Print HTML to PDF Function
+        function printHTML(title, htmlContent) {
+            const printWindow = window.open('', '', 'width=1000,height=800');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${title}</title>
+                    <style>
+                        @media print {
+                            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        }
+                        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; line-height: 1.6; margin: 0 auto; padding: 40px; max-width: 900px; font-size: 16px;}
+                        h1 { font-size: 32px; color: #2c3e50; margin-top: 0; }
+                        h2 { font-size: 24px; color: #2c3e50; border-bottom: 2px solid #dee2e6; padding-bottom: 5px; margin-top: 30px; }
+                        h3 { font-size: 18px; margin: 0; }
+                        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; font-family: 'Courier New', monospace; }
+                        th, td { border: 1px solid #dee2e6; padding: 8px; text-align: left; }
+                        th { background-color: #e9ecef; text-align: center; font-weight: bold;}
+                        .page-break { page-break-before: always; padding-top: 20px; }
+                        .code-block { background-color: #ffffff; border: 1px solid #d4d4d4; padding: 15px; border-radius: 4px; font-family: 'Courier New', Courier, monospace; font-size: 14px; white-space: pre-wrap; color: #000; margin-bottom: 15px; }
+                        .status-pass { color: #28a745; font-weight: bold; }
+                        .status-fail { color: #dc3545; font-weight: bold; }
+                        .status-pending { color: #f59e0b; font-weight: bold; }
+                        .status-none { color: #6c757d; font-weight: bold; }
+                        .box-container { background-color: #f8f9fa; border: 1px solid #dee2e6; padding: 20px; border-radius: 5px; margin-bottom: 30px; page-break-inside: avoid; }
+                        .center { text-align: center; }
+                        .metrics-box { background: #e9ecef; padding: 20px; border-radius: 5px; text-align: center; }
+                    </style>
+                </head>
+                <body>
+                    ${htmlContent}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+
+        function simpleHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(36).toUpperCase();
+        }
+
+        function renderVarGroup(title, curr, prev) {
+            curr = curr || {};
+            prev = prev || {};
+            let html = `<div class="text-[10px] font-bold txt-sys mt-4 mb-1 tracking-widest border-b pb-1" style="border-color: var(--coding-border);">${title}</div>`;
+            if (Object.keys(curr).length > 0) {
+                for (const [k, v] of Object.entries(curr)) {
+                    let isChanged = (prev[k] !== v);
+                    let rowClass = isChanged ? "var-changed-row" : "px-1 w-full inline-block";
+                    let indicator = isChanged ? `<span class="text-green-500 font-bold ml-2 text-[10px] float-right mt-1.5"><i class="fa-solid fa-arrow-left"></i> updated</span>` : "";
+                    html += `<div class="mb-1 ${rowClass}"><span class="txt-var-name font-bold">${escapeHTML(k)}</span> <span class="txt-sys">=</span> <span class="txt-var-val">${escapeHTML(v)}</span>${indicator}</div>`;
+                }
+            } else {
+                html += `<span class="txt-sys italic block mt-1 text-sm px-1">No variables in scope</span>`;
+            }
+            return html;
+        }
+
+        function toggleStdinContainer() {
+            if (!editor) return;
+            const code = editor.getValue();
+            const container = document.getElementById('stdin-container');
+            if (code.includes('input(')) {
+                container.classList.remove('hidden');
+            } else {
+                container.classList.add('hidden');
+            }
+        }
+
+        // Handles the responsive flex layout and resizing logic
+        function updateLayout() {
+            const sidebar = document.getElementById('sidebar');
+            const editorDebugSection = document.getElementById('editor-debug-section');
+            const editorLeftPane = document.getElementById('editor-left-pane');
+            const debugContainer = document.getElementById('debugger-container');
+            const toggleIcon = document.getElementById('sidebar-toggle-icon');
+            const overlay = document.getElementById('mobile-overlay');
+
+            const isSidebarHiddenDesktop = sidebar.classList.contains('hidden') && window.innerWidth >= 768;
+            const isSidebarHiddenMobile = sidebar.classList.contains('-translate-x-full') && window.innerWidth < 768;
+            const isSidebarHidden = isSidebarHiddenDesktop || isSidebarHiddenMobile;
+            const isDebuggerActive = !debugContainer.classList.contains('hidden');
+
+            if (isSidebarHidden) {
+                toggleIcon.className = 'fa-solid fa-bars-staggered text-xl';
+            } else {
+                toggleIcon.className = 'fa-solid fa-bars text-xl';
+            }
+
+            // Reset base classes to avoid conflicts
+            editorDebugSection.className = "p-4 md:p-6 border-b flex gap-4 shrink-0 transition-all duration-300";
+
+            if (isSidebarHidden && isDebuggerActive && window.innerWidth >= 768) {
+                // Side-by-side mode (Sidebar hidden + Debug ON + Desktop)
+                editorDebugSection.classList.add('md:flex-row');
+                editorLeftPane.style.width = "50%";
+                editorLeftPane.classList.add('md:resize-horizontal', 'md:border-r', 'md:pr-4');
+                if(document.body.classList.contains('theme-light')) editorLeftPane.classList.add('md:border-slate-300');
+            } else {
+                // Stacked mode OR Debug OFF
+                editorDebugSection.classList.add('flex-col');
+                editorLeftPane.style.width = "100%";
+                editorLeftPane.classList.remove('md:resize-horizontal', 'md:border-r', 'md:pr-4', 'md:border-slate-300');
+            }
+
+            // Force CodeMirror to recalculate size after DOM repaint
+            setTimeout(() => { if (editor) editor.refresh(); }, 50);
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('mobile-overlay');
+            const toggleIcon = document.getElementById('sidebar-toggle-icon');
+
+            if (window.innerWidth < 768) {
+                sidebar.classList.remove('hidden'); // Ensure not display:none
+                if (sidebar.classList.contains('-translate-x-full')) {
+                    sidebar.classList.remove('-translate-x-full');
+                    overlay.classList.remove('hidden');
+                    toggleIcon.className = 'fa-solid fa-xmark text-xl';
+                } else {
+                    sidebar.classList.add('-translate-x-full');
+                    overlay.classList.add('hidden');
+                    toggleIcon.className = 'fa-solid fa-bars text-xl';
+                }
+            } else {
+                sidebar.classList.toggle('hidden');
+            }
+            updateLayout();
+        }
+
+        window.addEventListener('resize', updateLayout);
+
+        function saveBackupToggle() {
+            localStorage.setItem('backupDataToggle', document.getElementById('backup-toggle').checked);
+        }
+
+        async function executePython() {
+            if (!pyodide || levels.length === 0) return;
+            exitDebug(); 
+
+            const runBtns = document.querySelectorAll('#btn-run, #btn-run-top');
+            const debugBtns = document.querySelectorAll('#btn-debug, #btn-debug-top');
+            const terminal = document.getElementById('terminal-output');
+            const code = editor.getValue();
+            const stdinBox = document.getElementById('stdin-input');
+            const stdinVal = stdinBox.value;
+            const currentLevel = levels[currentLevelIndex];
+            
+            hasEditedCode = true;
+            hasSubmitted = true;
+            currentLevel.userCode = code;
+
+            if (code.trim() === '') {
+                showFeedback(false, "Write some Python code first!");
+                return;
+            }
+
+            if (code.includes('input(') && stdinVal.trim() === '') {
+                if (!currentLevel.hasPromptedForInput) {
+                    currentLevel.hasPromptedForInput = true;
+                    document.getElementById('stdin-container').classList.add('ring-2', 'ring-red-500', 'border-red-500');
+                    showFeedback(false, "Your code requires input. Please enter some text in the Standard Input box and click Run Code again.");
+                    return; 
+                }
+            }
+            
+            document.getElementById('stdin-container').classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+
+            runBtns.forEach(btn => { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span class="hidden sm:inline">Run</span>'; });
+            debugBtns.forEach(btn => { btn.disabled = true; });
+            
+            terminal.innerHTML = `<span class="txt-sys">>>> Executing script...</span>\n`;
+            pythonStdout = ""; 
+            hideFeedback();
+
+            await pyodide.runPythonAsync(`sys.stdout.clear()`);
+            window.pythonStdinLines = stdinVal.split('\n').filter(line => line.trim() !== '');
+
+            try {
+                await pyodide.runPythonAsync(code);
+                
+                let output = pythonStdout;
+                if (output === "") {
+                    terminal.innerHTML += `<span class="txt-sys italic">(Script executed successfully but printed no output)</span>`;
+                } else {
+                    terminal.innerHTML += `<span class="txt-success tracking-[0.2em]">${escapeHTML(output)}</span>`;
+                }
+                
+                currentLevel.lastOutput = output;
+                await validateAnswerAI(output, code, false);
+
+            } catch (err) {
+                let errMsg = err.message || err.toString();
+                terminal.innerHTML += `<span class="txt-error font-bold block mb-1">Python Error:</span><span class="txt-error block whitespace-pre-wrap opacity-90">${escapeHTML(errMsg)}</span>`;
+                currentLevel.lastOutput = errMsg;
+                await validateAnswerAI(errMsg, code, true);
+            } finally {
+                runBtns.forEach(btn => { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-play"></i> <span class="hidden sm:inline">Run</span>'; });
+                debugBtns.forEach(btn => { btn.disabled = false; });
+            }
+        }
+
+        async function startDebug() {
+            if (!pyodide || levels.length === 0) return;
+
+            const code = editor.getValue();
+            const stdinBox = document.getElementById('stdin-input');
+            const stdinVal = stdinBox.value;
+            const terminal = document.getElementById('terminal-output');
+            const runBtns = document.querySelectorAll('#btn-run, #btn-run-top');
+            const debugBtns = document.querySelectorAll('#btn-debug, #btn-debug-top');
+
+            if (code.trim() === '') {
+                showFeedback(false, "Write some Python code first!");
+                return;
+            }
+
+            if (code.includes('input(') && stdinVal.trim() === '') {
+                document.getElementById('stdin-container').classList.add('ring-2', 'ring-red-500', 'border-red-500');
+                showFeedback(false, "Your code requires input. Please enter some text before debugging.");
+                return;
+            }
+
+            document.getElementById('stdin-container').classList.remove('ring-2', 'ring-red-500', 'border-red-500');
+            
+            runBtns.forEach(btn => { btn.disabled = true; });
+            debugBtns.forEach(btn => { btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span class="hidden sm:inline">Debug</span>'; });
+            
+            terminal.innerHTML = `<span class="txt-sys">>>> Starting Debugger...</span>\n`;
+            hideFeedback();
+            
+            window.pythonStdinLines = stdinVal.split('\n').filter(line => line.trim() !== '');
+
+            try {
+                traceData = await getTraceData(code);
+                
+                if(traceData.length === 0) {
+                    terminal.innerHTML += `<span class="txt-error">Debugger failed: No executable lines traced. Check syntax.</span>`;
+                    return;
+                }
+
+                document.getElementById('debugger-container').classList.remove('hidden');
+                editor.setOption("readOnly", true);
+                currentTraceStep = 0;
+                
+                updateLayout();
+                renderDebugStep();
+
+            } catch (err) {
+                terminal.innerHTML += `<span class="txt-error font-bold block mb-1">Debugger Error:</span><span class="txt-error block whitespace-pre-wrap opacity-90">${escapeHTML(err.toString())}</span>`;
+            } finally {
+                runBtns.forEach(btn => { btn.disabled = false; });
+                debugBtns.forEach(btn => { btn.disabled = false; btn.innerHTML = '<i class="fa-solid fa-bug"></i> <span class="hidden sm:inline">Debug</span>'; });
+            }
+        }
+        
+        function exportCurrentTracePDF(method) {
+            if (!traceData || traceData.length === 0) {
+                alert("No trace data available. Please run the debugger first.");
+                return;
+            }
+            
+            const level = levels[currentLevelIndex];
+            
+            let traceTable = `
+                <table style="width: 100%; border-collapse: collapse; font-family: 'Courier New', monospace; font-size: 14px; margin-top: 15px;">
+                <tr style="background-color: #e9ecef;">
+                    <th style="border: 1px solid #dee2e6; padding: 6px; width: 50px;">Line</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px; width: 30%;">Code Executed</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px; width: 80px;">Input</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px;">Output</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px;">Variable Changed</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px;">Condition</th>
+                    <th style="border: 1px solid #dee2e6; padding: 6px;">Return Value</th>
+                </tr>
+            `;
+            
+            traceData.forEach(t => {
+                let outOrErr = t.error ? `<span class="status-fail">ERROR: ${escapeHTMLPDF(t.error)}</span>` : escapeHTMLPDF(t.output || '');
+                let pluggedCode = plugVariables(t.source, t.before_locals);
+
+                traceTable += `
+                    <tr>
+                        <td class="center" style="border: 1px solid #dee2e6; padding: 6px;">${t.line || '-'}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #0000ff;">${escapeHTMLPDF(pluggedCode || '-')}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #8b5cf6;">${escapeHTMLPDF(t.input || '')}</td>
+                        <td class="status-pass" style="border: 1px solid #dee2e6; padding: 6px; white-space: pre-wrap;">${outOrErr}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #d97706; white-space: pre-wrap;">${escapeHTMLPDF(t.var_changed || '')}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #db2777;">${escapeHTMLPDF(t.condition || '')}</td>
+                        <td style="border: 1px solid #dee2e6; padding: 6px; color: #059669; font-weight: bold;">${escapeHTMLPDF(t.return_val || '')}</td>
+                    </tr>
+                `;
+            });
+            traceTable += `</table>`;
+
+            const htmlContent = `
+                <h1 style="color: #2c3e50; text-align: center;">Single Trace Export: ${escapeHTMLPDF(level.title)}</h1>
+                <p style="color: #495057; font-size: 16px;"><strong>Question:</strong> ${formatBlanksPDF(level.question)}</p>
+                <div class="code-block">${highlightPythonForPDFWithLines(editor.getValue())}</div>
+                ${traceTable}
+            `;
+            
+            if (method === 'native') {
+                printHTML(`Trace_${level.title}`, htmlContent);
+            } else {
+                generatePDFFromHTML(`Trace_${level.title}`, htmlContent);
+            }
+        }
+    </script>
+</body>
+</html>
