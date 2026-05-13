@@ -35,5 +35,18 @@
     "trials": 0,
     "hasPromptedForInput": false,
     "status": "not_attempted"
+  },
+  {
+    "id": 4,
+    "title": "Checker: Row + while",
+    "skill": "while loop",
+    "difficulty": "Beginner",
+    "question": "Use the while loop to check if any row in a 5x5 grid has been fully crossed (all values are True).",
+    "initialCode": "result = [[False, False, True, False, True],[True, False, True, True, False],[True, True, True, True, True],[False, True, True, False, False],[True, False, False, False, False]]\nwin = False\n# Hint: check main diagonal indexes (0,0) to (4,4) and set win if all True",
+    "context": "Based on a 5x5 result grid where result[i][j] stores True/False.",
+    "trials": 0,
+    "hasPromptedForInput": false,
+    "expectedOutput": "True",
+    "status": "not_attempted"
   }
 ]
