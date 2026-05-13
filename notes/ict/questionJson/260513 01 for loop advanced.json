@@ -1,0 +1,87 @@
+[
+  {
+    "id": 1,
+    "title": "Search: Row Search",
+    "skill": "Nested Loops & Strings",
+    "difficulty": "Intermediate",
+    "question": "David has written a program for a 10x10 'word search puzzle'. Complete the nested for loop to determine if the inputted word exists continuously in any row of the letter array.",
+    "initialCode": "puzzle = ['JGJGDDAOYD', 'IDGFHSPOSA', 'FGDIOSAFSC', 'INTERNETSO', 'FJKCOSAFSM', 'DJSGAPAHDP', 'HAUSTRFBFU', 'KDGFUCNSKT', 'WSJDYCFXDE', 'ODVFKXJVCR']\n\nword = input()  # type the word to find\nfound = False\n\n# Hint: loop rows and columns\nfor i in range(___, ___):\n    for j in range(___, ___):\n        # if first letter matches and not already found\n        if puzzle[i][j] == word[0] and found == False:\n            found = True\n            # check each letter of the word in the row\n            for k in range(0, ___):\n                # if column goes past end or letter does not match, set not found\n                if j + k >= 10 or ___:\n                    found = False\nprint(found)",
+    "trials": 0,
+    "hasPromptedForInput": false,
+    "status": "not_attempted"
+  },
+  {
+    "id": 2,
+    "title": "Search: Column Search",
+    "skill": "Grid Traversal",
+    "difficulty": "Intermediate",
+    "question": "Write a Python program that determines whether the inputted word (e.g., 'COMPUTER') is saved continuously in a column of the letter array.",
+    "initialCode": "puzzle = ['JGJGDDAOYD', 'IDGFHSPOSA', 'FGDIOSAFSC', 'INTERNETSO', 'FJKCOSAFSM', 'DJSGAPAHDP', 'HAUSTRFBFU', 'KDGFUCNSKT', 'WSJDYCFXDE', 'ODVFKXJVCR']\nword = input()  # type the word to find\nfound = False\n\n# Hint: check each column top to bottom\n    # if first letter matches and not found yet\n        # check letters going down the column\n\nprint(found)",
+    "expectedOutput": "True",
+    "trials": 0,
+    "hasPromptedForInput": false,
+    "status": "not_attempted"
+  },
+  {
+    "id": 3,
+    "title": "Search: Main Diagonal",
+    "skill": "Coordinate Geometry",
+    "difficulty": "Advanced",
+    "question": "Write a Python program that determines whether the inputted word is saved continuously in the diagonal that goes from the top-left corner to the bottom-right corner.",
+    "initialCode": "puzzle = ['JGJGDDAOYD', 'IDGFHSPOSA', 'FGDIOSAFSC', 'INTERNETSO', 'FJKCOSAFSM', 'DJSGAPAHDP', 'HAUSTRFBFU', 'KDGFUCNSKT', 'WSJDYCFXDE', 'ODVFKXJVCR']\nword = input()  # type the word to find\nfound = False\n# Hint: check the main diagonal (positions where row == column)\n\nprint(found)",
+    "expectedOutput": "True",
+    "trials": 0,
+    "hasPromptedForInput": false,
+    "status": "not_attempted"
+  },
+  {
+    "id": 4,
+    "title": "Checker: Row Algorithm",
+    "skill": "Boolean Logic",
+    "difficulty": "Beginner",
+    "question": "Complete the nest for loop to check if any row in a 5x5 grid has been fully crossed (all values are True).",
+    "initialCode": "result = [[False, False, True, False, True],[True, False, True, True, False],[True, True, True, True, True],[False, True, True, False, False],[True, False, False, False, False]]\n\nwin = False\n# Hint: check each row if all cells are True\nfor i in range(___):\n    row = True\n    for j in range(___):\n        # if any cell is ___, row is not fully crossed\n        if ___:\n            row = False\n    if row == ___:\n        win = True\nprint(win)",
+    "context": "Based on a 5x5 result grid where result[i][j] stores True/False.",
+    "trials": 0,
+    "hasPromptedForInput": false,
+    "expectedOutput": "True",
+    "status": "not_attempted"
+  },
+  {
+    "id": 5,
+    "title": "Checker: Column (While Loop)",
+    "skill": "Control Flow",
+    "difficulty": "Intermediate",
+    "question": "Help Sam complete the algorithm for checking if a column has been fully crossed using while loops.",
+    "initialCode": "result = [[False, False, True, False, True],[True, False, True, True, False],[True, True, True, True, True],[False, True, True, False, False],[True, False, False, False, False]]\n\nwin = False\n# Hint: check each column using while loops\nj = 0\nwhile j <= 4 and win == False:\n    win = ___\n    col = ___\n    i = 0\n    while i <= 4 and col == True:\n        if result[i][j] == False:\n            col = ___\n            win = ___\n        i += 1\n    j += 1\nprint(win)",
+    "trials": 0,
+    "hasPromptedForInput": false,
+    "expectedOutput": "False",
+    "status": "not_attempted"
+  },
+  {
+    "id": 6,
+    "title": "Checker: Diagonal (Python)",
+    "skill": "Python Lists",
+    "difficulty": "Intermediate",
+    "question": "Write a Python program to check if either diagonal (top-left to bottom-right or top-right to bottom-left) has been fully crossed in the 5x5 'result' list.",
+    "initialCode": "result = [[False, False, True, False, True],[True, False, True, True, False],[True, True, True, True, True],[False, True, True, False, False],[True, False, False, False, False]]\nwin = False\n# Hint: check main diagonal indexes (0,0) to (4,4) and set win if all True",
+    "expectedOutput": "False",
+    "trials": 0,
+    "hasPromptedForInput": false,
+    "status": "not_attempted"
+  },
+  {
+    "id": 7,
+    "title": "Checker: Row",
+    "skill": "while loop",
+    "difficulty": "Beginner",
+    "question": "Use the while loop to check if any row in a 5x5 grid has been fully crossed (all values are True).",
+    "initialCode": "result = [[False, False, True, False, True],[True, False, True, True, False],[True, True, True, True, True],[False, True, True, False, False],[True, False, False, False, False]]\nwin = False\n# Hint: check main diagonal indexes (0,0) to (4,4) and set win if all True",
+    "context": "Based on a 5x5 result grid where result[i][j] stores True/False.",
+    "trials": 0,
+    "hasPromptedForInput": false,
+    "expectedOutput": "True",
+    "status": "not_attempted"
+  }
+]
