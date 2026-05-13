@@ -2205,6 +2205,7 @@ IMPORTANT: The 'reason' MUST be in VERY SIMPLE English. Use words like "Good job
             try {
                 const validation = await fetchGeminiValidation(userPrompt, systemPrompt);
                 passed = validation.correct;
+                fallback = false;
                 
                 if (passed) {
                     level.status = 'passed';
@@ -2222,7 +2223,7 @@ IMPORTANT: The 'reason' MUST be in VERY SIMPLE English. Use words like "Good job
                 }
                 // Upsert pass record (best-effort, non-blocking)
                 if (studentId) {
-                    console.log('Attempting upsert (AI validation)', { sid: studentId, exercise: currentPresetName, qid: level.id, passed: passed, fallback: fallbackF });
+                    console.log('Attempting upsert (AI validation)', { sid: studentId, exercise: currentPresetName, qid: level.id, passed: passed, fallback: fallback });
                     // Optional Supabase upsert (uncomment to enable)
                     // upsertPyPass(studentId, currentPresetName, level.id).catch(e => console.warn('pyPass upsert failed', e));
                     if (window.upsertFirestorePass) window.upsertFirestorePass(studentId, currentPresetName, level.id, passed, fallback).then(ok => console.log('firestore upsert ok?', ok)).catch(e => console.warn('firestore upsert failed', e));

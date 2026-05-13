@@ -177,15 +177,36 @@
 
     async function fetchGitHubExercises() {
         const dirUrl = 'https://api.github.com/repos/Iketsuki/know/contents/notes/ict/questionJson?ref=Python';
+        const cacheKey = 'github_exercises_cache_v1';
         try {
-            const response = await fetch(dirUrl);
-            const files = await response.json();
             const select = document.getElementById('exerciseSelect');
             select.innerHTML = '<option value="">-- Choose Module --</option>';
             
-            files.filter(f => f.name.endsWith('.json')).forEach(file => {
+            // Try to load cached list (monthly)
+            let files = null;
+            const cached = localStorage.getItem(cacheKey);
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    if (parsed && parsed.timestamp && parsed.files) {
+                        const ts = new Date(parsed.timestamp);
+                        const now = new Date();
+                        if (ts.getFullYear() === now.getFullYear() && ts.getMonth() === now.getMonth()) {
+                            files = parsed.files;
+                        }
+                    }
+                } catch (e) { console.warn('github cache parse failed', e); }
+            }
+
+            if (!files) {
+                const response = await fetch(dirUrl);
+                files = await response.json();
+                try { localStorage.setItem(cacheKey, JSON.stringify({ timestamp: new Date().toISOString(), files })); } catch (e) { console.warn('failed to write github cache', e); }
+            }
+
+            files.filter(f => f.name && f.name.endsWith('.json')).forEach(file => {
                 const name = file.name.replace('.json', '');
-                const opt = new Option(name, file.download_url);
+                const opt = new Option(name, file.download_url || file.url || '');
                 opt.dataset.name = name;
                 select.add(opt);
             });
@@ -205,8 +226,28 @@
         recordsMap = {};
         updateStatus('Loading Questions...', 'yellow');
         try {
+            const cacheKey = `exercise_cache_${name}_v1`;
+            // Try cache first (monthly)
+            let data = null;
+            const cached = localStorage.getItem(cacheKey);
+            if (cached) {
+                try {
+                    const parsed = JSON.parse(cached);
+                    if (parsed && parsed.timestamp && parsed.data) {
+                        const ts = new Date(parsed.timestamp);
+                        const now = new Date();
+                        if (ts.getFullYear() === now.getFullYear() && ts.getMonth() === now.getMonth()) {
+                            data = parsed.data;
+                        }
+                    }
+                } catch (e) { console.warn('exercise cache parse failed', e); }
+            }
+
+            if (!data) {
             const res = await fetch(url);
-            const data = await res.json();
+                data = await res.json();
+                try { localStorage.setItem(cacheKey, JSON.stringify({ timestamp: new Date().toISOString(), data })); } catch (e) { console.warn('failed to write exercise cache', e); }
+            }
             
             // Determine question IDs. If JSON is an array and last item has an id/qid,
             // assume questions are numbered 1..N where N is that last id.
@@ -231,58 +272,31 @@
     }
 
     function startLiveJoin(githubName) {
-        // Support listening to both and 'pyPass' collections and merge results
+        // Support listening to both 'records' and 'pyPass' collections and merge results
         if (unsubscribeRecords) unsubscribeRecords();
         updateStatus('Listening Firestore...', 'yellow');
 
-        const collNames = ['pyPass'];
+        const collNames = ['records', 'pyPass'];
         const unsubscribers = [];
 
         collNames.forEach(collName => {
             try {
                 const q = query(collection(db, collName));
-                    const unsub = onSnapshot(q, (snapshot) => {
-                        // Debug: print all fetched documents for this collection
-                        const DEBUG_PRINT = true; // set false to disable
-                        if (DEBUG_PRINT) {
-                            try {
-                                console.groupCollapsed(`Firestore snapshot (${collName}) - ${new Date().toLocaleTimeString()}`);
-                                snapshot.docs.forEach(d => console.log(d.id, d.data()));
-                                console.groupEnd();
-                            } catch (e) { console.warn('Debug print failed', e); }
-                        }
-
-                        snapshot.docs.forEach(doc => {
+                const unsub = onSnapshot(q, (snapshot) => {
+                    snapshot.docs.forEach(doc => {
                         const data = doc.data();
                         const recordExercise = (data.exercise || "").toString();
 
                         // Normalize and perform tolerant substring match (both directions)
-                        // Robust normalize: remove quotes, trim, strip .json, collapse non-alnum to underscores
-                        const normalize = s => String(s || '').replace(/^\s+|\s+$/g, '').replace(/^"|"$/g, '').replace(/^'|'$/g, '').toLowerCase().replace(/\.json$/i, '').replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+                        const normalize = s => String(s || '').toLowerCase().replace(/\.json$/i, '').replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
                         const recNorm = normalize(recordExercise);
                         const githubNorm = normalize(githubName);
+                        const directMatch = recordExercise.toLowerCase().includes(githubName.toLowerCase());
+                        const reverseMatch = githubName.toLowerCase().includes(recordExercise.toLowerCase());
+                        const normMatch = recNorm && githubNorm && (recNorm.includes(githubNorm) || githubNorm.includes(recNorm));
+                        if (!(directMatch || reverseMatch || normMatch)) return;
 
-                        // Tokenize on underscores and hyphens
-                        const tokens = s => (s || '').split(/[_-]+/).filter(Boolean);
-                        const recTokens = tokens(recNorm);
-                        const gitTokens = tokens(githubNorm);
-
-                        // Direct raw substring checks (original behavior)
-                        const directMatch = String(recordExercise || '').toLowerCase().includes(String(githubName || '').toLowerCase());
-                        const reverseMatch = String(githubName || '').toLowerCase().includes(String(recordExercise || '').toLowerCase());
-
-                        // Token overlap: require at least 2 token matches or full normalized substring
-                        const overlap = recTokens.filter(t => gitTokens.includes(t));
-                        const tokenMatch = overlap.length >= 2;
-                        const normSub = recNorm && githubNorm && (recNorm.includes(githubNorm) || githubNorm.includes(recNorm));
-
-                        if (!(directMatch || reverseMatch || normSub || tokenMatch)) {
-                            // For debugging, occasionally log a non-match sample
-                            if (Math.random() < 0.02) console.debug('Skipping Firestore record (no filename match)', { recordExercise, recNorm, githubName, githubNorm, recTokens, gitTokens, overlap });
-                            return;
-                        }
-
-                        // Normalize SID: prefer digits from data.sid, otherwise try doc.id; also try to map to known students
+                        // Normalize SID: prefer digits from data.sid, otherwise try doc.id prefix
                         const sidRaw = data.sid !== undefined && data.sid !== null ? String(data.sid) : '';
                         let normalized = (sidRaw.match(/\d+/) || [sidRaw.replace(/[^\d]/g, '') || ''])[0] || '';
                         if (!normalized) {
@@ -290,30 +304,7 @@
                             const docId = doc.id || '';
                             normalized = (docId.match(/\d+/) || [''])[0];
                         }
-                        // If normalized is a long campus id (like 20211051), try to map down to student.sid by substring
-                        if (normalized && normalized.length > 4) {
-                            const found = students.find(s => {
-                                const sSid = String(s.sid || '');
-                                const sMail = String(s.mail || '').toLowerCase();
-                                return (sSid && normalized.includes(sSid)) || (sMail && sMail.includes(normalized)) || (sSid && (sidRaw && sidRaw.includes(sSid)));
-                            });
-                            if (found) {
-                                console.debug('mapped long sid to student', { from: normalized, to: found.sid });
-                                normalized = String(found.sid);
-                            }
-                        }
-                        // As a last-resort attempt, try to match any student whose sid appears inside sidRaw
-                        if ((!normalized || normalized === '') && sidRaw) {
-                            const found2 = students.find(s => {
-                                const sSid = String(s.sid || '');
-                                return sSid && (sidRaw.includes(sSid) || sSid.includes(sidRaw));
-                            });
-                            if (found2) normalized = String(found2.sid);
-                        }
-                        if (!normalized) {
-                            console.warn('Could not normalize SID for Firestore record', { sidRaw, docId: doc.id });
-                            return;
-                        }
+                        if (!normalized) return; // cannot determine sid
 
                         const qid = parseInt(data.qid);
                         if (isNaN(qid)) return;
