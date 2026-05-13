@@ -8,6 +8,7 @@
     "initialCode": "puzzle = ['JGJGDDAOYD', 'IDGFHSPOSA', 'FGDIOSAFSC', 'INTERNETSO', 'FJKCOSAFSM', 'DJSGAPAHDP', 'HAUSTRFBFU', 'KDGFUCNSKT', 'WSJDYCFXDE', 'ODVFKXJVCR']\n\nword = input()  # type the word to find\nfound = False\n\n# Hint: loop rows and columns\nfor i in range(___, ___):\n    for j in range(___, ___):\n        # if first letter matches and not already found\n        if puzzle[i][j] == word[0] and found == False:\n            found = True\n            # check each letter of the word in the row\n            for k in range(0, ___):\n                # if column goes past end or letter does not match, set not found\n                if j + k >= 10 or ___:\n                    found = False\nprint(found)",
     "trials": 0,
     "hasPromptedForInput": false,
+    "expectedOutput": "True",
     "status": "not_attempted"
   },
   {
@@ -20,6 +21,7 @@
     "expectedOutput": "True",
     "trials": 0,
     "hasPromptedForInput": false,
+    "expectedOutput": "True",
     "status": "not_attempted"
   },
   {
@@ -32,6 +34,7 @@
     "expectedOutput": "True",
     "trials": 0,
     "hasPromptedForInput": false,
+    "expectedOutput": "True",
     "status": "not_attempted"
   },
   {
