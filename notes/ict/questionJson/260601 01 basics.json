@@ -1,0 +1,110 @@
+[
+    {
+        "id": 1,
+        "title": "Print Hello",
+        "skill": "Input/Output",
+        "difficulty": "Beginner",
+        "question": "Write a program that prints Hello to the screen.",
+        "initialCode": "# print Hello\n___\n",
+        "expectedOutput": "Hello"
+    },
+    {
+        "id": 2,
+        "title": "Greet by Name",
+        "skill": "Input/Output, Strings",
+        "difficulty": "Beginner",
+        "question": "Read a name from input and print 'Hello, <name>'.",
+        "initialCode": "name = ___()\n# print greeting\n___\n",
+        "expectedOutput": "Hello, Ava"
+    },
+    {
+        "id": 3,
+        "title": "Sum Two Integers",
+        "skill": "Arithmetic, Input",
+        "difficulty": "Beginner",
+        "question": "Read two integers and print their sum.",
+        "initialCode": "a = ___(input())\nb = ___(input())\n# print sum\n___\n",
+        "expectedOutput": "7"
+    },
+    {
+        "id": 4,
+        "title": "Average of Three",
+        "skill": "Arithmetic, Input",
+        "difficulty": "Beginner",
+        "question": "Read three numbers and print their average (as float).",
+        "initialCode": "x = ___(input())\ny = ___(input())\nz = ___(input())\n# compute average\n___\n",
+        "expectedOutput": "4.0"
+    },
+    {
+        "id": 5,
+        "title": "Area of Circle",
+        "skill": "Arithmetic",
+        "difficulty": "Beginner",
+        "question": "Read radius (integer or float) and print area using pi=3.14159.",
+        "initialCode": "r = float(input())\npi = 3.14159\n# print area\n___\n",
+        "expectedOutput": "12.56636"
+    },
+    {
+        "id": 6,
+        "title": "Celsius to Fahrenheit",
+        "skill": "Arithmetic, Input",
+        "difficulty": "Beginner",
+        "question": "Convert Celsius to Fahrenheit: F = C * 9/5 + 32.",
+        "initialCode": "c = float(input())\n# convert and print\n___\n",
+        "expectedOutput": "77.0"
+    },
+    {
+        "id": 7,
+        "title": "Quotient and Remainder",
+        "skill": "Arithmetic",
+        "difficulty": "Beginner",
+        "question": "Read two integers a and b and print quotient and remainder of a and b separated by space. e.g. input 7 and 2 should print '3 1'.",
+        "initialCode": "a = int(input())\nb = int(input())\n# print quotient and remainder\n___\n",
+        "expectedOutput": "3 1"
+    },
+    {
+        "id": 8,
+        "title": "Seconds to HH:MM:SS",
+        "skill": "Arithmetic, Time",
+        "difficulty": "Intermediate",
+        "question": "Read total seconds and print it as HH:MM:SS (not zero-padded). e.g. input 3661 should print '1:1:1'.",
+        "initialCode": "t = int(input())\n# convert to hh:mm:ss\nh = t ___ 3600\nm = ___\ns = t ___ 60\n# format and print\n___\n",
+        "expectedOutput": "1:1:1"
+    },
+    {
+        "id": 9,
+        "title": "Swap Two Numbers",
+        "skill": "Variables, Input",
+        "difficulty": "Beginner",
+        "question": "Read two integers and print them swapped (b then a).",
+        "initialCode": "a = int(input())\nb = int(input())\n# swap and print\n___\n",
+        "expectedOutput": "20 10"
+    },
+    {
+        "id": 10,
+        "title": "Leap Year Check",
+        "skill": "Conditions",
+        "difficulty": "Intermediate",
+        "question": "Read year and print True if it's a leap year (Gregorian rules), else False.",
+        "initialCode": "y = int(input())\n# leap year: divisible by 4, but not by 100 unless by 400\n___\n",
+        "expectedOutput": "True"
+    },
+    {
+        "id": 11,
+        "title": "Sum of Digits",
+        "skill": "Loops, Arithmetic",
+        "difficulty": "Intermediate",
+        "question": "Read a non-negative integer and print the sum of its digits.",
+        "initialCode": "n = int(input())\n# compute sum of digits\n___\n",
+        "expectedOutput": "6"
+    },
+    {
+        "id": 12,
+        "title": "Reverse String",
+        "skill": "Strings",
+        "difficulty": "Beginner",
+        "question": "Read a string and print it reversed. e.g. input 'code' should print 'edoc'.",
+        "initialCode": "s = input()\n# print reversed string\n___\n",
+        "expectedOutput": "edoc"
+    }
+]

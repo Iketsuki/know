@@ -1,0 +1,92 @@
+[
+    {
+        "id": 1,
+        "title": "Sum of N Numbers",
+        "skill": "Loops, Input",
+        "difficulty": "Beginner",
+        "question": "Read an integer n, then read n integers and print their sum. Example: input 5 then 1 2 3 4 5 prints 15.",
+        "initialCode": "n = int(input())\ntotal = 0\n___",
+        "expectedOutput": "15"
+    },
+    {
+        "id": 2,
+        "title": "Average of N Numbers",
+        "skill": "Loops, Input, Arithmetic",
+        "difficulty": "Beginner",
+        "question": "Read an integer n, then n numbers; print their average. Example: inputs 3 then 2 3 4 -> 3.0",
+        "initialCode": "n = int(input())\ns = 0.0\n___",
+        "expectedOutput": "3.0"
+    },
+    {
+        "id": 3,
+        "title": "Find Maximum",
+        "skill": "Loops, Lists",
+        "difficulty": "Beginner",
+        "question": "Read n followed by n integers; print the maximum. Example: 3 then 3 7 2 -> 7",
+        "initialCode": "n = int(input())\narr = []\nfor _ in range(n):\n    arr.append(int(input()))\n# find max\n___",
+        "expectedOutput": "7"
+    },
+    {
+        "id": 4,
+        "title": "Find Minimum",
+        "skill": "Loops, Lists",
+        "difficulty": "Beginner",
+        "question": "Read n followed by n integers; print the minimum. Example: 3 then 3 7 2 -> 2",
+        "initialCode": "n = int(input())\narr = []\nfor _ in range(n):\n    arr.append(int(input()))\n# find min\n___",
+        "expectedOutput": "2"
+    },
+    {
+        "id": 5,
+        "title": "Find Second Maximum",
+        "skill": "Loops, Lists",
+        "difficulty": "Intermediate",
+        "question": "Read n followed by n integers; print the second largest distinct value. Example: 4 then 5 3 9 5 -> 5",
+        "initialCode": "n = int(input())\narr = [int(input()) for _ in range(n)]\n# find first and second max\n___",
+        "expectedOutput": "5"
+    },
+    {
+        "id": 6,
+        "title": "Find Item (Linear Search)",
+        "skill": "Loops, Lists",
+        "difficulty": "Beginner",
+        "question": "Read n, then n integers, then a target value; print the 0-based index of the first occurrence or -1 if not found. Example: 3 then 4 7 1 then 7 -> 1",
+        "initialCode": "n = int(input())\narr = [int(input()) for _ in range(n)]\n___",
+        "expectedOutput": "1"
+    },
+    {
+        "id": 7,
+        "title": "Check Descending Order",
+        "skill": "Loops, Conditions",
+        "difficulty": "Intermediate",
+        "question": "Read n and n integers; print True if the sequence is strictly non-increasing (each element ?? previous), else False. Example: 3 then 5 4 4 -> True",
+        "initialCode": "n = int(input())\narr = [int(input()) for _ in range(n)]\n___",
+        "expectedOutput": "True"
+    },
+    {
+        "id": 8,
+        "title": "Check Ascending Order",
+        "skill": "Loops, Conditions",
+        "difficulty": "Intermediate",
+        "question": "Read n and n integers; print True if the sequence is strictly non-decreasing (each element ?? previous), else False. Example: 3 then 2 4 4 -> True",
+        "initialCode": "n = int(input())\narr = [int(input()) for _ in range(n)]\n___",
+        "expectedOutput": "True"
+    },
+    {
+        "id": 9,
+        "title": "Count Occurrences",
+        "skill": "Loops, Lists",
+        "difficulty": "Beginner",
+        "question": "Read n, n integers, and a target; print how many times the target appears. Example: 5 then 2 3 2 2 1 then 2 -> 3",
+        "initialCode": "n = int(input())\narr = [int(input()) for _ in range(n)]\n___",
+        "expectedOutput": "3"
+    },
+    {
+        "id": 10,
+        "title": "Remove Duplicates (Preserve Order)",
+        "skill": "Lists, Loops",
+        "difficulty": "Intermediate",
+        "question": "Read n then n integers; print the list with duplicates removed, preserving first occurrences. Example: 6 then 1 2 2 3 1 4 -> 1 2 3 4",
+        "initialCode": "n = int(input())\narr = [int(input()) for _ in range(n)]\n___",
+        "expectedOutput": "1 2 3 4"
+    }
+]
