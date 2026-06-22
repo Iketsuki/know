@@ -1,0 +1,11 @@
+[
+    {
+        "id": 1,
+        "title": "Hexadecimal to Decimal",
+        "skill": "Loops, Strings, Conditionals, Conversion",
+        "difficulty": "Intermediate",
+        "question": "Read a string representing a hexadecimal number (digits 0-9 and A-E). Convert it to decimal and print the result. If the input contains any invalid character, print 'Invalid input'. Example: input '1A' -> 26.",
+        "initialCode": "s = input()\ntotal = -1\n# convert hex (0-9, A-E) to decimal; set total to -1 on invalid input\n# fill the blanks (___) to make the program work\n___\nfor i in range(___):\n    c = ___\n    multiple = 16 ___ ___\n\n    if '0' <= c <= '9':\n        total += int(c) * multiple\n    elif 'A' <= c <= 'E':\n        total += (ord(c) - ord('A') + 10) * multiple\n    else:\n        ___\n        ___\n\nif total > -1:\n    print(total)\nelse:\n    print(\"Invalid input\")",
+        "expectedOutput": "26"
+    }
+]
