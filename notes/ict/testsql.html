@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f31f; SQL Basics&colon; Find Information with SELECT&comma; FROM&comma; and WHERE&excl;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+/* From extension foam.foam-vscode */
+.foam-placeholder-link {
+  color: var(--vscode-editorWarning-foreground);
+  cursor: default;
+}
+
+.foam-note-link,
+.foam-attachment-link {
+  color: var(--vscode-textLink-foreground);
+}
+
+.foam-tag {
+  color: var(--vscode-editorLineNumber-foreground);
+}
+
+.foam-cyclic-link-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorError-foreground);
+  padding: 0.5em;
+}
+
+.foam-cyclic-link-warning__stack {
+  color: var(--vscode-editorWarning-foreground);
+}
+
+.foam-embed-not-supported-warning {
+  border: 1px solid var(--vscode-editorWarning-foreground);
+  background-color: var(--vscode-editorError-background);
+  color: var(--vscode-editorWarning-foreground);
+  padding: 0.5em;
+}
+
+.embed-container-note {
+  padding: 0.5em;
+  margin: 1.5em 0;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-attachment {
+  padding: 0.25em;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--vscode-editorLineNumber-foreground);
+}
+
+.embed-container-image {
+  margin: auto;
+  padding: 0.25em;
+  text-align: center;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        <style>
+.foam-tag{
+  color:#ffffff;
+  background-color: #000000;
+}
+
+</style>
+        </head>
+        <body class="vscode-body vscode-light">
+            <p>Here’s a <strong>clear, engaging, and scaffolded SQL worksheet</strong> designed specifically for <strong>14 ESL students</strong>. It focuses on <strong>SELECT FROM</strong> and <strong>WHERE</strong> basics with simple examples, minimal jargon, and a relatable table (school data). The worksheet includes <strong>fill-in-the-blanks</strong>, step-by-step hints, and teacher support notes to ensure success.</p>
+<hr>
+<h1 id="-sql-basics-find-information-with-select-from-and-where">🌟 SQL Basics: Find Information with SELECT, FROM, and WHERE!</h1>
+<p><em>Worksheet for ESL Students (Grade 10)</em></p>
+<p><strong>Teacher Tip</strong>:</p>
+<blockquote>
+<p><em>&quot;We’ll learn how to ask computers for specific information using simple English words. Think of it like asking your friend: ‘Tell me about the students who scored 90 or higher!’&quot;</em></p>
+</blockquote>
+<hr>
+<h2 id="-example-table-students-look-at-this-table-first">📊 Example Table: <code>Students</code> (Look at this table first!)</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Grade</th>
+<th>Subject</th>
+<th>Score</th>
+<th>Hobby</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Alex</td>
+<td>10</td>
+<td>Math</td>
+<td>85</td>
+<td>Sports</td>
+</tr>
+<tr>
+<td>Sarah</td>
+<td>11</td>
+<td>Science</td>
+<td>92</td>
+<td>Music</td>
+</tr>
+<tr>
+<td>David</td>
+<td>10</td>
+<td>English</td>
+<td>78</td>
+<td>Reading</td>
+</tr>
+<tr>
+<td>Maya</td>
+<td>11</td>
+<td>Math</td>
+<td>95</td>
+<td>Drawing</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>✅ <strong>Remember</strong>:</p>
+<ul>
+<li><strong><code>Name</code></strong> = Student’s name</li>
+<li><strong><code>Score</code></strong> = How well they did (higher = better)</li>
+<li><strong><code>Hobby</code></strong> = What they like to do in free time</li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="-part-1-practice-with-select-from-no-where-yet">🔍 Part 1: Practice with <code>SELECT FROM</code> (No WHERE Yet!)</h2>
+<p><strong>Goal</strong>: Find all student names.</p>
+<blockquote>
+<p><strong>Write the SQL command below</strong> (fill in the blanks):</p>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> [______] <span class="hljs-keyword">FROM</span> Students;  
+</code></pre>
+</blockquote>
+<p>👉 <strong>Hint</strong>: The word for &quot;names&quot; is <strong><code>Name</code></strong>.<br>
+👉 <strong>Answer</strong>: <code>SELECT Name FROM Students;</code></p>
+<p><strong>Why it works</strong>:</p>
+<blockquote>
+<p>This tells the computer: <em>&quot;Show me all the names from the <code>Students</code> table.&quot;</em></p>
+</blockquote>
+<hr>
+<h2 id="-part-2-add-where-to-find-specific-students">🔍 Part 2: Add <code>WHERE</code> to Find Specific Students!</h2>
+<p><strong>Goal</strong>: Find students with a <strong>score of 92 or higher</strong>.</p>
+<blockquote>
+<p><strong>Write the SQL command below</strong> (fill in the blanks):</p>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> Name <span class="hljs-keyword">FROM</span> Students <span class="hljs-keyword">WHERE</span> Score [______] <span class="hljs-number">92</span>;  
+</code></pre>
+</blockquote>
+<p>👉 <strong>Hint</strong>:</p>
+<blockquote>
+<ul>
+<li>We want students with <strong>92 or higher</strong> → Use <strong><code>&gt;</code></strong> (greater than) or <strong><code>&gt;=</code></strong> (greater than or equal to).</li>
+<li><strong><code>&gt;</code></strong> is simpler for beginners.</li>
+<li><strong>Answer</strong>: <code>SELECT Name FROM Students WHERE Score &gt; 92;</code></li>
+</ul>
+</blockquote>
+<p><strong>Why it works</strong>:</p>
+<blockquote>
+<p>This tells the computer: <em>&quot;Show me the names of students where their <code>Score</code> is <strong>greater than</strong> 92.&quot;</em></p>
+</blockquote>
+<blockquote>
+<p>💡 <strong>Teacher Note</strong>:</p>
+<ul>
+<li>Show students the table. Point to Sarah (Score=92) → <em>&quot;92 is <strong>not</strong> greater than 92, so Sarah won’t be shown.&quot;</em></li>
+<li>Point to Maya (Score=95) → <em>&quot;95 is greater than 92, so Maya will be shown.&quot;</em></li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="-part-3-your-turn-try-this-challenge">🧠 Part 3: Your Turn! Try This Challenge</h2>
+<p><strong>Goal</strong>: Find students who like <strong>Music</strong> as a hobby.</p>
+<blockquote>
+<p><strong>Write the SQL command below</strong> (fill in the blanks):</p>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> Name <span class="hljs-keyword">FROM</span> Students <span class="hljs-keyword">WHERE</span> Hobby [______] <span class="hljs-string">&#x27;Music&#x27;</span>;  
+</code></pre>
+</blockquote>
+<p>👉 <strong>Hint</strong>:</p>
+<blockquote>
+<ul>
+<li>We want students with <strong>Hobby = Music</strong> → Use <strong><code>=</code></strong> (equals).</li>
+<li><strong>Answer</strong>: <code>SELECT Name FROM Students WHERE Hobby = 'Music';</code></li>
+</ul>
+</blockquote>
+<p><strong>Why it works</strong>:</p>
+<blockquote>
+<p>This tells the computer: <em>&quot;Show me the names of students where their <code>Hobby</code> is exactly <strong>Music</strong>.&quot;</em></p>
+</blockquote>
+<blockquote>
+<p>✅ <strong>Check your answer</strong>: Sarah should be the only name shown!</p>
+</blockquote>
+<hr>
+<h2 id="-final-challenge-group-activity">✅ Final Challenge (Group Activity!)</h2>
+<p><strong>Work with a partner</strong>:</p>
+<blockquote>
+<p><em>Write a SQL command to find students in <strong>Grade 11</strong>.</em></p>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> Name <span class="hljs-keyword">FROM</span> Students <span class="hljs-keyword">WHERE</span> Grade [______] <span class="hljs-number">11</span>;  
+</code></pre>
+</blockquote>
+<p>👉 <strong>Answer</strong>: <code>SELECT Name FROM Students WHERE Grade = 11;</code></p>
+<hr>
+<h2 id="-teacher-support-tips-for-esl-classrooms">🎯 Teacher Support Tips (For ESL Classrooms)</h2>
+<ol>
+<li><strong>Start slow</strong>: Don’t jump to complex syntax. Focus on <strong><code>SELECT</code></strong> (show), <strong><code>FROM</code></strong> (table), <strong><code>WHERE</code></strong> (filter).</li>
+<li><strong>Use visuals</strong>: Point to the table while explaining. Show <strong>red</strong> for &quot;no&quot; (e.g., Sarah’s score isn’t &gt;92) and <strong>green</strong> for &quot;yes&quot; (Maya’s score is &gt;92).</li>
+<li><strong>Common mistakes to avoid</strong>:
+<ul>
+<li>❌ <code>WHERE Score = 92</code> → <em>This shows students with <strong>exactly</strong> 92 (Sarah)</em>.</li>
+<li>✅ <code>WHERE Score &gt; 92</code> → <em>Shows students with <strong>93+</strong></em>.</li>
+</ul>
+</li>
+<li><strong>Keep it real</strong>: Use school examples (grades, hobbies) – students will relate.</li>
+<li><strong>Praise effort</strong>: <em>&quot;Great job! You found Sarah’s name because she has Music!&quot;</em></li>
+</ol>
+<hr>
+<h2 id="-answer-key-for-teachers">📝 Answer Key for Teachers</h2>
+<table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Part 1</td>
+<td><code>SELECT Name FROM Students;</code></td>
+</tr>
+<tr>
+<td>Part 2</td>
+<td><code>SELECT Name FROM Students WHERE Score &gt; 92;</code></td>
+</tr>
+<tr>
+<td>Part 3</td>
+<td><code>SELECT Name FROM Students WHERE Hobby = 'Music';</code></td>
+</tr>
+<tr>
+<td>Final</td>
+<td><code>SELECT Name FROM Students WHERE Grade = 11;</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>Why this works for 14-year-old ESL learners</strong>:<br>
+✅ Uses <strong>concrete examples</strong> (school data) they know<br>
+✅ <strong>Scaffolded</strong> from simple → complex (no WHERE first)<br>
+✅ <strong>Fill-in-the-blanks</strong> with clear hints (no overwhelming jargon)<br>
+✅ <strong>Visual table</strong> with color-coding (no coding needed)<br>
+✅ <strong>Group activity</strong> for peer learning (builds confidence)<br>
+✅ <strong>Teacher tips</strong> for real ESL classrooms (no tech confusion)</p>
+<p>Print this as a <strong>one-page worksheet</strong> (A4 or Letter size). Students spend <strong>8-10 minutes</strong> completing it – perfect for a quick intro to SQL!</p>
+<p><strong>Bonus</strong>: For next class, add a &quot;Try This&quot; with <strong>real data</strong> (e.g., a class survey table) to keep it fresh!</p>
+<p>Let me know if you’d like a <strong>printable PDF version</strong> or a <strong>video demo</strong> for the teacher! 😊</p>
+
+            
+            
+        </body>
+        </html>
